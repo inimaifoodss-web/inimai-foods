@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>இனிமை ஃபுட்ஸ் – ஆன்லைன் ஆர்டர்</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@600;800&family=Noto+Sans+Tamil:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--maroon:#7A1532;--maroon2:#94203F;--cream:#FFF8EE;--ink:#22140C;--muted:#6B5446;--line:#EADBC8;--green:#1E7B34;--greenDark:#145A25}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:'Noto Sans Tamil',sans-serif;background:#fff;color:var(--ink);line-height:1.45;padding-bottom:76px}
+.top{background:var(--maroon);color:#fff;padding:14px 16px 16px;position:sticky;top:0;z-index:10}
+.toprow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.loc{display:flex;flex-direction:column;font-size:13px;opacity:.95}
+.loc b{font-size:16px}
+.lang{margin-left:auto;margin-right:4px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.8);border-radius:999px;padding:0 14px;min-height:40px;font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.logo{background:#fff;border-radius:10px;padding:2px 6px;display:flex;align-items:center}
+.logo img{display:block;height:64px;width:auto}
+.logo .w{font-family:'Baloo Thambi 2',sans-serif;font-weight:800;font-size:24px;color:var(--maroon);line-height:1.1}
+.logo .s{font-weight:700;font-size:9px;letter-spacing:.4em;color:#000;margin-top:-3px}
+.search{margin-top:12px;display:flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:0 12px;height:48px}
+.search input{border:0;outline:0;font:inherit;font-size:16px;flex:1;color:var(--ink);background:transparent;min-width:0}
+.cats{display:flex;gap:10px;overflow-x:auto;margin-top:14px;padding-bottom:2px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:0 0 auto;display:flex;align-items:center;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.7);border-radius:999px;color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer;padding:0 16px;min-height:44px;white-space:nowrap}
+.cat[aria-pressed=true]{background:#fff;color:var(--maroon);border-color:#fff}
+.banner{margin:14px 16px 0;border-radius:16px;background:#fff;border:1px solid var(--line);padding:16px;display:flex;align-items:center;gap:14px}
+.banner h2{margin:0;font-size:19px;color:var(--maroon)}
+.banner p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+.wrap{max-width:980px;margin:0 auto}
+.secttl{font-size:22px;font-weight:700;margin:20px 16px 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;padding:0 16px}
+.card{display:flex;flex-direction:column;gap:6px}
+.img{position:relative;border:1px solid var(--line);border-radius:14px;height:140px;background:var(--cream);display:flex;align-items:center;justify-content:center}
+.art{width:78%;height:92%;margin-bottom:10px}
+.photo{width:100%;height:100%;object-fit:cover;border-radius:13px}
+.ph{padding:10px 12px 26px;text-align:center;font-family:'Baloo Thambi 2',sans-serif;font-weight:800;font-size:19px;line-height:1.25;color:var(--maroon)}
+.add{position:absolute;right:8px;bottom:-14px;min-width:96px;height:44px;border-radius:12px;background:#fff;border:2px solid var(--maroon);color:var(--maroon);font:inherit;font-weight:700;font-size:17px;cursor:pointer;box-shadow:0 3px 0 var(--maroon)}
+.step{position:absolute;right:8px;bottom:-14px;display:flex;align-items:center;background:var(--maroon);border-radius:12px;height:44px;box-shadow:0 3px 0 #4E0D20}
+.step button{width:40px;height:44px;border:0;background:none;color:#fff;font-size:22px;font-weight:700;cursor:pointer}
+.step span{min-width:26px;text-align:center;color:#fff;font-weight:700}
+.price{margin-top:18px;display:flex;align-items:center;gap:8px}
+.chip{background:var(--green);color:#fff;font-weight:700;border-radius:8px;padding:2px 10px;font-size:18px;box-shadow:0 3px 0 var(--greenDark)}
+.chip.ask{background:#fff;color:var(--green);border:1px solid var(--green);box-shadow:none;font-size:13px;padding:4px 8px}
+.mrp{color:#8a7a70;text-decoration:line-through;font-size:15px}
+.name{font-size:16px}
+.unit{font-size:13px;color:var(--muted)}
+.empty{padding:20px 16px;color:var(--muted)}
+.view{display:none}
+.view.on{display:block}
+.panel{padding:0 16px 20px}
+.line{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+form{display:grid;gap:12px;margin-top:14px}
+label{font-weight:600;font-size:14px;display:grid;gap:4px}
+input[type=text],input[type=tel],input[type=date],textarea{font:inherit;font-size:16px;padding:10px 12px;border:1px solid #CDB9A3;border-radius:10px;color:var(--ink);background:#fff}
+textarea{min-height:64px}
+.btn{display:flex;align-items:center;justify-content:center;background:var(--green);color:#fff;text-decoration:none;font-weight:700;font-size:17px;border-radius:12px;min-height:52px;border:0;cursor:pointer;padding:0 16px}
+.btn[aria-disabled=true]{background:#9AA59B}
+.btn[hidden],.msg[hidden]{display:none}
+.payopts{display:grid;gap:10px}
+.payopt{display:flex;gap:12px;align-items:flex-start;border:2px solid var(--line);border-radius:12px;padding:12px;font-weight:400;cursor:pointer}
+.payopt:has(input:checked){border-color:var(--maroon);background:#FFF5F7}
+.payopt input{width:22px;height:22px;margin-top:2px;accent-color:var(--maroon)}
+.upibox{margin-top:14px;border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px;justify-items:center;text-align:center}
+.upibox label{justify-self:stretch;text-align:left}
+.payamt{font-size:16px}.payamt b{font-size:24px;color:var(--green);margin-left:6px}
+#qrImg{width:240px;height:240px;object-fit:contain;background:#fff;border-radius:8px}
+.steps{text-align:left;margin:0;padding-left:20px;font-size:14px;justify-self:stretch}
+.done{text-align:center;padding-top:40px;display:grid;justify-items:center;gap:6px}
+.done h2{color:var(--green);margin:8px 0 0}
+.btn[hidden],.msg[hidden],#paySec[hidden],[hidden]{display:none!important}
+.logoEn{display:none;flex-direction:column;align-items:center;width:104px;padding:2px 0}
+.logoEn .lt{width:42px;height:auto}
+.logoEn .lw{font-family:'Baloo Thambi 2',sans-serif;font-weight:800;font-size:24px;line-height:1;color:#7A1532;margin-top:-1px}
+.logoEn .lf{width:84px;height:auto;margin-top:1px}
+.logoEn .ls{align-self:flex-end;margin-right:6px;font-weight:800;font-size:8px;letter-spacing:.45em;color:#000}
+html[lang=en] .logoTa{display:none}
+html[lang=en] .logoEn{display:flex}
+.bannerLogo{flex:0 0 auto;width:120px;display:flex;justify-content:center}
+.bannerLogo .logoEn{width:120px}
+.bannerLogo .logoEn .lt{width:52px}.bannerLogo .logoEn .lw{font-size:28px}.bannerLogo .logoEn .lf{width:100px}.bannerLogo .logoEn .ls{font-size:9px}
+.btn2{background:#fff;color:var(--maroon);border:1px solid var(--maroon)}
+.msg{font-size:14px;min-height:20px;color:#A3122A}
+.msg.ok{color:var(--green)}
+nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:20}
+nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:68px;color:#6b6b6b;text-decoration:none;font-size:13px;position:relative}
+nav a[aria-current=page]{color:var(--maroon);font-weight:700}
+nav a[aria-current=page]::after{content:"";position:absolute;bottom:4px;width:44px;height:4px;border-radius:4px;background:var(--maroon)}
+.ticker{background:var(--cream);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:9px 0}
+.ticker-track{display:inline-flex;animation:tick 22s linear infinite}
+.ticker-track span{flex:0 0 auto;padding-right:64px;font-family:'Baloo Thambi 2','Noto Sans Tamil',sans-serif;font-weight:800;font-size:17px;color:var(--maroon)}
+.ticker-track span b{color:var(--green)}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ticker{text-align:center;white-space:normal}.ticker-track{animation:none;display:block}.ticker-track span{padding:0 16px}.ticker-track span+span{display:none}}
+.done .btn{justify-self:stretch}
+.upibtn{justify-self:stretch;font-size:18px;min-height:56px;gap:8px}
+.or{font-size:13px;color:var(--muted)}
+.addrpick{display:grid;gap:8px}
+.upihelp{justify-self:stretch;text-align:left;background:#FFF3D6;border:1px solid #F2B632;border-radius:12px;padding:12px;display:grid;gap:8px;font-size:14px}
+.upihelp b{font-size:15px;color:#5A3A00}
+.upihelp .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.upihelp .btn{min-height:44px;font-size:15px}
+.upihelp ol{margin:0;padding-left:20px}
+.upimsg{font-size:13px;color:var(--green);min-height:18px}
+.pkT{font-weight:600;font-size:14px}
+.addrpick .payopt span{white-space:pre-wrap;font-size:15px}
+.offer{margin-top:8px;display:inline-block;background:#E8F5EC;color:var(--green);font-weight:700;font-size:14px;border-radius:8px;padding:4px 10px}
+.dbox{border-radius:14px;padding:14px;margin:4px 0 12px;background:#FFF3D6;border:2px solid #F2B632;color:#5A3A00}
+.dbox .dt{font-weight:800;font-size:17px;line-height:1.35}
+.dbox .ds{font-size:13px;margin-top:4px;color:#6B5446}
+.dbox.mini{padding:10px 12px;margin:0}.dbox.mini .dt{font-size:15px}
+.dbar{height:10px;border-radius:99px;background:#fff;border:1px solid #EAD08A;margin-top:10px;overflow:hidden}
+.dbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#F2B632,#1E7B34);border-radius:99px;transition:width .4s}
+.dbox.free{background:#E8F5EC;border-color:#1E7B34;color:var(--green)}.dbox.free .dbar{border-color:#BFE3C8}
+.fbar{position:fixed;left:8px;right:8px;bottom:76px;z-index:19;display:flex;align-items:center;gap:10px;background:#FFF3D6;border:2px solid #F2B632;border-radius:14px;padding:10px 12px;color:#5A3A00;text-decoration:none;font-weight:700;font-size:14px;line-height:1.35;box-shadow:0 4px 14px rgba(0,0,0,.15);max-width:964px;margin:0 auto}
+.fbar.free{background:#E8F5EC;border-color:#1E7B34;color:var(--green)}
+.fbar .go{margin-left:auto;flex:0 0 auto;background:var(--maroon);color:#fff;border-radius:10px;padding:8px 12px;white-space:nowrap}
+body[data-view]:not([data-view=home]) .fbar{display:none!important}
+body.hasbar[data-view=home]{padding-bottom:150px}
+.deliv{font-size:14px;font-weight:600;padding:10px 12px;border-radius:10px;margin-top:10px;background:var(--cream);color:var(--maroon);border:1px solid var(--line)}
+.deliv.free{background:#E8F5EC;color:var(--green);border-color:#BFE3C8}
+.badge{position:absolute;top:8px;left:calc(50% + 6px);background:var(--maroon);color:#fff;border-radius:999px;font-size:11px;min-width:18px;height:18px;padding:0 5px;display:flex;align-items:center;justify-content:center}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="toprow">
+    <div class="loc"><span data-i18n="deliver">டெலிவரி</span><b id="locText">முகவரி சேர்க்கவும்</b></div>
+    <button type="button" class="lang" id="lang" aria-label="Language / மொழி">English</button>
+    <div class="logo"><img src="logo.png" alt="இனிமை ஃபுட்ஸ் லோகோ" width="105" height="70" class="logoTa"><div class="logoEn" role="img" aria-label="Inimai Foods logo"><svg viewBox="0 2 120 72" class="lt" aria-hidden="true"><path d="M60 70 C38 76 14 64 4 42 C26 38 48 50 60 70Z" fill="#F48FB1" stroke="#7A1532" stroke-width="1.6"/><path d="M60 70 C82 76 106 64 116 42 C94 38 72 50 60 70Z" fill="#F48FB1" stroke="#7A1532" stroke-width="1.6"/><path d="M60 68 C42 62 30 42 34 18 C50 28 58 46 60 68Z" fill="#EC407A" stroke="#7A1532" stroke-width="1.6"/><path d="M60 68 C78 62 90 42 86 18 C70 28 62 46 60 68Z" fill="#EC407A" stroke="#7A1532" stroke-width="1.6"/><path d="M60 4 C74 22 74 50 60 68 C46 50 46 22 60 4Z" fill="#C2185B" stroke="#7A1532" stroke-width="1.6"/><path d="M60 14 C65 28 65 46 60 58" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.2" stroke-linecap="round"/></svg><div class="lw">Inimai</div><svg viewBox="0 0 620 40" class="lf" aria-hidden="true"><path d="M10 6 Q310 50 610 6 Q310 26 10 6Z" fill="#2E7D32"/></svg><div class="ls">FOODS</div></div></div>
+  </div>
+  <div class="search">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+    <input id="q" type="search" placeholder="பிரெட், பன், ரஸ்க் தேடுங்கள்" aria-label="search" data-i18n-ph="searchPh">
+  </div>
+  <div class="cats" id="cats" role="group" aria-label="categories"></div>
+</div>
+<div class="ticker" role="marquee" aria-label="INIMAI FOODS – தரத்தின் அடையாளம், சுவையின் தனித்துவம்!"><div class="ticker-track" aria-hidden="true"><span>INIMAI FOODS – <b>தரத்தின் அடையாளம், சுவையின் தனித்துவம்!</b></span><span>INIMAI FOODS – <b>தரத்தின் அடையாளம், சுவையின் தனித்துவம்!</b></span><span>INIMAI FOODS – <b>தரத்தின் அடையாளம், சுவையின் தனித்துவம்!</b></span><span>INIMAI FOODS – <b>தரத்தின் அடையாளம், சுவையின் தனித்துவம்!</b></span></div></div>
+
+<div class="wrap">
+  <section class="view on" id="v-home">
+    <div class="banner">
+      <div class="bannerLogo"><img src="logo.png" alt="" width="120" height="80" class="logoTa"><div class="logoEn" aria-hidden="true"><svg viewBox="0 2 120 72" class="lt" aria-hidden="true"><path d="M60 70 C38 76 14 64 4 42 C26 38 48 50 60 70Z" fill="#F48FB1" stroke="#7A1532" stroke-width="1.6"/><path d="M60 70 C82 76 106 64 116 42 C94 38 72 50 60 70Z" fill="#F48FB1" stroke="#7A1532" stroke-width="1.6"/><path d="M60 68 C42 62 30 42 34 18 C50 28 58 46 60 68Z" fill="#EC407A" stroke="#7A1532" stroke-width="1.6"/><path d="M60 68 C78 62 90 42 86 18 C70 28 62 46 60 68Z" fill="#EC407A" stroke="#7A1532" stroke-width="1.6"/><path d="M60 4 C74 22 74 50 60 68 C46 50 46 22 60 4Z" fill="#C2185B" stroke="#7A1532" stroke-width="1.6"/><path d="M60 14 C65 28 65 46 60 58" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.2" stroke-linecap="round"/></svg><div class="lw">Inimai</div><svg viewBox="0 0 620 40" class="lf" aria-hidden="true"><path d="M10 6 Q310 50 610 6 Q310 26 10 6Z" fill="#2E7D32"/></svg><div class="ls">FOODS</div></div></div>
+      <div><h2 data-i18n="bannerH">தினமும் புதிதாகச் சுட்டது</h2><p data-i18n="bannerP">கடைகளுக்கும் வீடுகளுக்கும் நேரடி சப்ளை. ஆர்டர் WhatsApp-ல் வரும்.</p><div class="offer" data-i18n="offer">₹300க்கு மேல் ஆர்டருக்கு இலவச டோர் டெலிவரி (3 கி.மீ. வரை). மற்றவைக்கு ₹30.</div></div>
+    </div>
+    <div class="secttl" id="gridTitle">பொருட்கள்</div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="view" id="v-cart">
+    <div class="secttl" data-i18n="yourOrder">உங்கள் ஆர்டர்</div>
+    <div class="panel">
+      <div class="dbox" id="deliv" hidden></div>
+      <div id="lines"></div>
+      <div class="line"><b data-i18n="total">மொத்தம்</b><b id="total"></b></div>
+      <form id="form" novalidate>
+        <label><span data-i18n="name">கடை / உங்கள் பெயர்</span><input type="text" id="name" autocomplete="name"></label>
+        <label><span data-i18n="phone">மொபைல் எண்</span><input type="tel" id="phone" inputmode="numeric" autocomplete="tel"></label>
+        <div class="addrpick" id="addrPick" hidden></div>
+        <label><span data-i18n="address">முகவரி</span><textarea id="address"></textarea></label>
+        <label><span data-i18n="date">டெலிவரி தேதி</span><input type="date" id="date"></label>
+        <label><span data-i18n="note">குறிப்பு (விருப்பம்)</span><textarea id="note"></textarea></label>
+        <div class="msg" id="msg" role="alert"></div>
+        <div class="dbox mini" id="deliv2" hidden></div>
+        <button type="button" class="btn" id="place" data-i18n="place">ஆர்டர் செய்</button>
+        <button type="button" class="btn btn2" id="copy" data-i18n="copy">ஆர்டரை காப்பி செய்</button>
+      </form>
+      <div id="paySec" hidden>
+        <div class="secttl" style="margin:22px 0 10px" data-i18n="payTitle">பணம் செலுத்தும் முறை</div>
+        <div class="payopts" role="radiogroup">
+          <label class="payopt"><input type="radio" name="pay" value="upi" checked> <span><b data-i18n="payUpi">ஆன்லைன் பேமெண்ட் (UPI / QR)</b><br><small data-i18n="payUpiSub">GPay, PhonePe, Paytm மூலம்</small></span></label>
+          <label class="payopt"><input type="radio" name="pay" value="cod"> <span><b data-i18n="payCod">கேஷ் ஆன் டெலிவரி</b><br><small data-i18n="payCodSub">பொருள் வந்ததும் பணம் கொடுக்கலாம்</small></span></label>
+        </div>
+        <div id="upiBox" class="upibox">
+          <div class="payamt"><span data-i18n="payAmt">செலுத்த வேண்டிய தொகை</span> <b id="payAmt"></b></div>
+          <a class="btn upibtn" id="upiPay" href="#"></a>
+          <div class="upihelp" id="upiHelp">
+            <b data-i18n="hlpH">பட்டன் அழுத்தியும் UPI ஆப் திறக்கவில்லையா?</b>
+            <ol><li data-i18n="hlp1">கீழே "QR படத்தை சேமி" அழுத்துங்கள்.</li><li data-i18n="hlp2">GPay / PhonePe திறந்து, ஸ்கேனரில் "Upload from gallery" (படம்) ஐகானை அழுத்தி, சேமித்த QR படத்தைத் தேர்ந்தெடுங்கள்.</li><li data-i18n="hlp3">தொகை தானாக வரும் – PIN போட்டு செலுத்துங்கள்.</li></ol>
+            <button type="button" class="btn" id="saveQr" data-i18n="saveQr">QR படத்தை சேமி</button>
+            <div class="row"><button type="button" class="btn btn2" id="cpId" data-i18n="cpId">UPI ID காப்பி</button><button type="button" class="btn btn2" id="cpAmt" data-i18n="cpAmt">தொகை காப்பி</button></div>
+            <div class="upimsg" id="upiMsg" role="status"></div>
+          </div>
+          <div class="or" data-i18n="orScan">அல்லது வேறு போனில் இந்த QR கோடை ஸ்கேன் செய்யுங்கள் (தொகை தானாக வரும்)</div>
+          <img id="qrImg" src="qr.png" alt="UPI QR code" width="240" height="240">
+          <div id="qrMissing" class="unit" hidden data-i18n="qrMissing">QR கோடு விரைவில் சேர்க்கப்படும்.</div>
+          <div class="unit" id="upiIdLine"></div>
+          <ol class="steps"><li data-i18n="s1">உங்கள் UPI ஆப்பில் இந்த QR கோடை ஸ்கேன் செய்யுங்கள்.</li><li data-i18n="s2">மேலே உள்ள தொகையைச் செலுத்துங்கள்.</li><li data-i18n="s3">கீழே UTR / பரிவர்த்தனை எண்ணைப் போட்டு, WhatsApp-ல் அனுப்புங்கள்.</li></ol>
+          <label><span data-i18n="utr">UTR / பரிவர்த்தனை எண் (விருப்பம்)</span><input type="text" id="utr" inputmode="numeric"></label>
+        </div>
+        <a class="btn" id="wa" href="#" target="_blank" rel="noopener" data-i18n="sendPaid" style="margin-top:12px">பணம் செலுத்தினேன் – WhatsApp-ல் அனுப்பு</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="v-done">
+    <div class="panel done">
+      <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#1E7B34" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7 12.5l3.2 3.2L17 9"/></svg>
+      <h2 data-i18n="doneH">உங்கள் ஆர்டர் வெற்றிகரமாகப் பதிவானது!</h2>
+      <p><span data-i18n="doneId">ஆர்டர் எண்: </span><b id="doneId"></b></p>
+      <p class="unit" data-i18n="doneP">WhatsApp-ல் செய்தி திறந்திருக்கும். அங்கே <b>Send</b> அழுத்தினால்தான் ஆர்டர் எங்களுக்கு வரும். ஆர்டர் உறுதியானதும் WhatsApp-ல் பதில் அனுப்புவோம்.</p>
+      <button type="button" class="btn" id="pdfBtn" hidden data-i18n="pdf">PDF பில் டவுன்லோட்</button>
+      <div class="msg" id="pdfMsg" role="status"></div>
+      <a class="btn btn2" href="#home" id="again" data-i18n="again">மீண்டும் ஆர்டர் செய்</a>
+    </div>
+  </section>
+
+  <section class="view" id="v-profile">
+    <div class="secttl" data-i18n="myInfo">என் விவரம்</div>
+    <div class="panel">
+      <p class="unit" data-i18n="saveNote">பெயர், மொபைல், முகவரி இந்த போனில் மட்டும் சேமிக்கப்படும். அடுத்த ஆர்டரில் தானாக நிரம்பும்.</p>
+      <div class="line"><span data-i18n="help">ஆர்டர் உதவி (WhatsApp)</span><b id="helpNum"></b></div>
+      <button type="button" class="btn btn2" id="clear" style="margin-top:14px" data-i18n="clear">சேமித்த விவரத்தை அழி</button>
+      <div class="msg ok" id="pmsg"></div>
+    </div>
+  </section>
+</div>
+
+<a href="#cart" class="fbar" id="fbar" hidden><span id="fbarT"></span><span class="go" data-i18n="fGo">ஆர்டர் →</span></a>
+<nav aria-label="main">
+  <a href="#home" data-v="home" aria-current="page"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/></svg><span data-i18n="navHome">முகப்பு</span></a>
+  <a href="#cats" data-v="cats"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg><span data-i18n="navCats">வகைகள்</span></a>
+  <a href="#cart" data-v="cart"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 7h16l-1.5 12h-13z"/><path d="M9 7V5a3 3 0 016 0v2"/></svg><span data-i18n="navCart">ஆர்டர்</span><span class="badge" id="badge" hidden>0</span></a>
+  <a href="#profile" data-v="profile"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="9" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span data-i18n="navProfile">சுயவிவரம்</span></a>
+</nav>
+
+<script>
+// ===== உரிமையாளர் மாற்ற வேண்டியவை =====
+var ORDER_WHATSAPP = "917904050386";        // முதல் எண்
+var ORDER_WHATSAPP_2 = "";
+var UPI_NAME = "Inimai Foods";            // UPI ஆப்பில் தெரியும் பெயர்
+var DELIVERY_CHARGE = 30;                  // ₹300க்கு குறைவான ஆர்டருக்கு டெலிவரி கட்டணம்
+var FREE_DELIVERY_MIN = 300;                // இந்தத் தொகைக்கு மேல் இலவச டோர் டெலிவரி (3 கி.மீ. வரை)
+var UPI_ID = "karan.mp07@okicici";                            // உங்கள் UPI ID (விருப்பம்), QR படம்: qr.png      // இரண்டாவது எண்           // 91 + 10 இலக்க WhatsApp எண்
+var CATEGORIES = [
+  {id:"all", name:"எல்லாம்", en:"All"},
+  {id:"bread", name:"பிரெட் & பன்", en:"Bread & Buns"},
+  {id:"rusk", name:"ரஸ்க் & டோஸ்ட்", en:"Rusk & Toast"},
+  {id:"cake", name:"கேக்", en:"Cakes"},
+  {id:"puff", name:"பஃப்ஸ் & காரம்", en:"Puffs & Savouries"},
+  {id:"biscuit", name:"பிஸ்கட்", en:"Biscuits"}
+];
+// price: கடைகளுக்கு உங்கள் விலை (₹), mrp: சந்தை விலை (₹), img: புகைப்படக் கோப்பு (இல்லையெனில் null)
+var PRODUCTS = [
+  {id:"p1", cat:"bread", name:"பால் / ஸ்வீட் பிரெட்", en:"Milk / Sweet bread", unit:"400 கி", unitEn:"400 g", price:38, mrp:50, img:null},
+  {id:"p2", cat:"bread", name:"ஃபேமிலி பிரெட்", en:"Family bread (large)", unit:"600 கி", unitEn:"600 g", price:90, mrp:120, img:null},
+  {id:"p3", cat:"bread", name:"கோதுமை பிரெட்", en:"Whole wheat bread", unit:"350 கி", unitEn:"350 g", price:34, mrp:45, img:null},
+  {id:"p4", cat:"bread", name:"பிளெயின் பன்", en:"Plain bun", unit:"1 எண்ணம்", unitEn:"1 pc", price:8, mrp:10, img:null},
+  {id:"p5", cat:"bread", name:"ஸ்வீட் பன்", en:"Sweet (yellow) bun", unit:"1 எண்ணம்", unitEn:"1 pc", price:14, mrp:18, img:null},
+  {id:"p6", cat:"bread", name:"கிரீம் பன்", en:"Cream bun", unit:"1 எண்ணம்", unitEn:"1 pc", price:11, mrp:15, img:null},
+  {id:"p7", cat:"bread", name:"தேங்காய் பன்", en:"Coconut bun", unit:"1 எண்ணம்", unitEn:"1 pc", price:11, mrp:15, img:null},
+  {id:"p8", cat:"bread", name:"மசாலா பன்", en:"Masala bun", unit:"1 எண்ணம்", unitEn:"1 pc", price:11, mrp:15, img:null},
+  {id:"p9", cat:"bread", name:"பாவ் பன்", en:"Pav bun", unit:"6 எண்ணம்", unitEn:"Pack of 6", price:30, mrp:40, img:null},
+  {id:"p10", cat:"rusk", name:"ஏலக்காய் ரஸ்க்", en:"Elaichi rusk", unit:"1 கிலோ", unitEn:"1 kg", price:110, mrp:147, img:null},
+  {id:"p11", cat:"rusk", name:"லூஸ் ரஸ்க்", en:"Loose bakery rusk", unit:"1 கிலோ", unitEn:"1 kg", price:150, mrp:200, img:null},
+  {id:"p12", cat:"rusk", name:"மில்க் ரஸ்க்", en:"Milk rusk", unit:"200 கி", unitEn:"200 g", price:30, mrp:40, img:null},
+  {id:"p13", cat:"rusk", name:"நெய் ரஸ்க்", en:"Ghee rusk", unit:"200 கி", unitEn:"200 g", price:45, mrp:60, img:null},
+  {id:"p14", cat:"rusk", name:"ஸ்வீட் டோஸ்ட்", en:"Sweet toast", unit:"200 கி", unitEn:"200 g", price:30, mrp:40, img:null},
+  {id:"p15", cat:"cake", name:"டீ கேக் (துண்டு)", en:"Tea cake (piece)", unit:"1 எண்ணம்", unitEn:"1 pc", price:8, mrp:10, img:null},
+  {id:"p16", cat:"cake", name:"டீ கேக் / மடீரா கேக்", en:"Tea / Madeira cake", unit:"1 கிலோ", unitEn:"1 kg", price:338, mrp:450, img:null},
+  {id:"p17", cat:"cake", name:"பிளம் கேக்", en:"Plum cake", unit:"1 கிலோ", unitEn:"1 kg", price:450, mrp:600, img:null},
+  {id:"p18", cat:"cake", name:"ஃப்ரெஷ் கிரீம் கேக்", en:"Fresh cream cake", unit:"1 கிலோ", unitEn:"1 kg", price:300, mrp:400, img:null},
+  {id:"p19", cat:"cake", name:"கப் கேக்", en:"Cup cake", unit:"170 கி", unitEn:"170 g", price:36, mrp:48, img:null},
+  {id:"p20", cat:"cake", name:"மஃபின்", en:"Muffin", unit:"1 எண்ணம்", unitEn:"1 pc", price:22, mrp:30, img:null},
+  {id:"p21", cat:"cake", name:"ஹனி கேக்", en:"Honey cake", unit:"1 எண்ணம்", unitEn:"1 pc", price:15, mrp:20, img:null},
+  {id:"p22", cat:"cake", name:"ஸ்விஸ் ரோல்", en:"Swiss roll", unit:"1 எண்ணம்", unitEn:"1 pc", price:11, mrp:15, img:null},
+  {id:"p23", cat:"cake", name:"டோனட்", en:"Donut", unit:"1 எண்ணம்", unitEn:"1 pc", price:30, mrp:40, img:null},
+  {id:"p24", cat:"puff", name:"வெஜ் பஃப்ஸ்", en:"Veg puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:21, mrp:28, img:null},
+  {id:"p25", cat:"puff", name:"முட்டை பஃப்ஸ்", en:"Egg puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:26, mrp:35, img:null},
+  {id:"p26", cat:"puff", name:"காளான் பஃப்ஸ்", en:"Mushroom puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:33, mrp:44, img:null},
+  {id:"p27", cat:"puff", name:"பனீர் பஃப்ஸ்", en:"Paneer puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:38, mrp:50, img:null},
+  {id:"p28", cat:"puff", name:"சமோசா", en:"Samosa", unit:"1 எண்ணம்", unitEn:"1 pc", price:11, mrp:15, img:null},
+  {id:"p29", cat:"puff", name:"கட்லெட்", en:"Cutlet", unit:"1 எண்ணம்", unitEn:"1 pc", price:15, mrp:20, img:null},
+  {id:"p30", cat:"puff", name:"காரி / பஃப் பிஸ்கட்", en:"Khari / puff biscuit", unit:"200 கி", unitEn:"200 g", price:73, mrp:97, img:null},
+  {id:"p31", cat:"biscuit", name:"பட்டர் பிஸ்கட்", en:"Butter biscuit", unit:"1 கிலோ", unitEn:"1 kg", price:225, mrp:300, img:null},
+  {id:"p32", cat:"biscuit", name:"தேங்காய் குக்கீஸ்", en:"Coconut cookies", unit:"1 கிலோ", unitEn:"1 kg", price:225, mrp:300, img:null},
+  {id:"p33", cat:"biscuit", name:"உப்பு / மசாலா பிஸ்கட்", en:"Salt / masala biscuit", unit:"1 கிலோ", unitEn:"1 kg", price:225, mrp:300, img:null},
+  {id:"p34", cat:"biscuit", name:"ஒஸ்மானியா பிஸ்கட்", en:"Osmania biscuit", unit:"1 கிலோ", unitEn:"1 kg", price:240, mrp:320, img:null},
+  {id:"p35", cat:"biscuit", name:"தில்பசந்த்", en:"Dilpasand", unit:"1 எண்ணம்", unitEn:"1 pc", price:19, mrp:25, img:null}
+];
+// =========================================
+
+// ---- product pictures (drawn) ----
+const G='#e0a050',GD='#b8742e',GL='#f3c983',CR='#fffaf0';
+const S={
+loaf:(c=G)=>`<rect x="18" y="42" width="84" height="40" rx="6" fill="${GD}"/><path d="M18 50 Q18 22 40 24 Q60 14 80 24 Q102 22 102 50 Z" fill="${c}"/><rect x="18" y="48" width="84" height="34" rx="6" fill="${c}"/><g stroke="${GD}" stroke-width="2" fill="none"><path d="M38 30 q6 6 0 14"/><path d="M58 24 q6 6 0 14"/><path d="M78 30 q6 6 0 14"/></g>`,
+wheat:()=>S.loaf('#b97a43')+`<g fill="#8a5428">${[30,46,62,78,90].map((x,i)=>`<circle cx="${x}" cy="${60+(i%2)*10}" r="1.6"/>`).join('')}</g>`,
+bun:(top='')=>`<ellipse cx="60" cy="74" rx="40" ry="10" fill="${GD}"/><path d="M20 74 Q20 34 60 32 Q100 34 100 74 Z" fill="${G}"/><ellipse cx="50" cy="46" rx="16" ry="6" fill="${GL}" opacity=".6"/>${top}`,
+sweetbun:()=>`<ellipse cx="60" cy="74" rx="40" ry="10" fill="#c98a1e"/><path d="M20 74 Q20 34 60 32 Q100 34 100 74 Z" fill="#f2b632"/><ellipse cx="50" cy="46" rx="16" ry="6" fill="#ffe08a" opacity=".7"/><g fill="#fff">${[[44,42],[56,38],[68,44],[52,52],[74,54],[40,56]].map(p=>`<ellipse cx="${p[0]}" cy="${p[1]}" rx="2.4" ry="1.3"/>`).join('')}</g>`,
+creambun:()=>`<ellipse cx="60" cy="80" rx="38" ry="8" fill="${GD}"/><path d="M22 80 Q22 62 60 60 Q98 62 98 80Z" fill="${G}"/><path d="M24 58 Q30 48 40 54 Q48 44 58 52 Q68 44 76 54 Q86 46 94 58 Q96 64 60 64 Q24 64 24 58Z" fill="${CR}" stroke="#eadcc4"/><path d="M24 58 Q22 40 60 36 Q98 40 96 58Z" fill="${G}"/><ellipse cx="50" cy="44" rx="12" ry="4" fill="${GL}" opacity=".6"/>`,
+coconutbun:()=>S.bun(`<g stroke="#fff" stroke-width="2.4" stroke-linecap="round">${[[40,46],[52,40],[64,42],[76,48],[46,56],[60,52],[72,58],[84,60],[34,60]].map(p=>`<line x1="${p[0]}" y1="${p[1]}" x2="${p[0]+4}" y2="${p[1]+2}"/>`).join('')}</g>`),
+masalabun:()=>S.bun(`<g>${[[40,48,'#3c8d3c'],[54,42,'#d84a2a'],[68,46,'#3c8d3c'],[80,56,'#d84a2a'],[48,58,'#d84a2a'],[64,58,'#3c8d3c'],[34,62,'#3c8d3c']].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="2.4" fill="${p[2]}"/>`).join('')}</g>`),
+pav:()=>{let o='';for(let r=0;r<2;r++)for(let c=0;c<3;c++){const x=24+c*26,y=40+r*22;o+=`<rect x="${x}" y="${y}" width="26" height="24" rx="9" fill="${r?GD:G}" stroke="${GD}" stroke-width="1.5"/><ellipse cx="${x+11}" cy="${y+7}" rx="6" ry="2.5" fill="${GL}" opacity=".7"/>`}return o},
+rusk:(c='#d89a4c',dots='#a8662a')=>[0,1,2].map(i=>`<g transform="translate(${18+i*8},${58-i*14}) rotate(-6)"><rect width="70" height="22" rx="5" fill="${c}" stroke="${dots}" stroke-width="1.5"/><rect x="4" y="3" width="62" height="16" rx="4" fill="#efc589"/>${[12,24,36,48,58].map((x,j)=>`<circle cx="${x}" cy="${8+(j%2)*6}" r="1.4" fill="${dots}"/>`).join('')}</g>`).join(''),
+bag:(fill,label)=>`<path d="M30 26 L90 26 L96 90 L24 90Z" fill="#fff" stroke="#d8c3a8" stroke-width="2" opacity=".95"/><path d="M30 26 L90 26 L88 34 L32 34Z" fill="${fill}"/><g transform="translate(26,44) scale(.58)">${label}</g>`,
+toast:()=>[0,1].map(i=>`<g transform="translate(${26+i*18},${30+i*8})"><path d="M0 20 Q0 0 22 2 Q44 0 44 20 L44 52 L0 52Z" fill="#c9792f"/><path d="M5 22 Q5 7 22 8 Q39 7 39 22 L39 47 L5 47Z" fill="#eab06a"/></g>`).join(''),
+cakepiece:()=>`<path d="M22 56 L98 56 L98 80 L22 80Z" fill="#e6b469"/><path d="M22 56 Q60 40 98 56" fill="#c47e34"/><path d="M22 56 Q60 44 98 56 L98 60 Q60 50 22 60Z" fill="#a8652a"/><g fill="#c88f45">${[34,50,66,82].map(x=>`<circle cx="${x}" cy="70" r="1.6"/>`).join('')}</g>`,
+loafcake:(fruit=false)=>`<rect x="16" y="44" width="88" height="38" rx="5" fill="#e3ad60"/><path d="M16 50 Q16 32 60 30 Q104 32 104 50Z" fill="#b8692a"/><path d="M40 34 Q60 44 80 34" stroke="#8f4f1d" stroke-width="2" fill="none"/>${fruit?`<g>${[[28,58,'#c0272d'],[44,68,'#2e8b3a'],[60,56,'#6b2a14'],[76,70,'#c0272d'],[92,60,'#e9a21a'],[36,74,'#6b2a14'],[68,64,'#e9a21a'],[84,76,'#2e8b3a']].map(p=>`<rect x="${p[0]}" y="${p[1]}" width="5" height="4" rx="1" fill="${p[2]}"/>`).join('')}</g>`:''}`,
+creamcake:()=>`<ellipse cx="60" cy="80" rx="42" ry="9" fill="#e9d6bf"/><rect x="20" y="46" width="80" height="34" fill="#fff"/><ellipse cx="60" cy="80" rx="40" ry="8" fill="#fff"/><rect x="20" y="58" width="80" height="6" fill="#f5b8c4"/><ellipse cx="60" cy="46" rx="40" ry="10" fill="#fffdf8" stroke="#f1e3d2"/>${[30,45,60,75,90].map(x=>`<circle cx="${x}" cy="${44+(x==60?-2:0)}" r="5" fill="#fff" stroke="#f1e3d2"/><circle cx="${x}" cy="${39+(x==60?-2:0)}" r="3.4" fill="#d01f3c"/>`).join('')}`,
+cupcake:()=>`<path d="M34 58 L86 58 L78 90 L42 90Z" fill="#f3a6b8"/><g stroke="#e07f98" stroke-width="1.5">${[42,50,58,66,74].map(x=>`<line x1="${x}" y1="60" x2="${x+(x<60?2:-2)}" y2="89"/>`).join('')}</g><path d="M30 60 Q28 40 46 40 Q48 24 60 24 Q72 24 74 40 Q92 40 90 60Z" fill="#e3a957"/><ellipse cx="54" cy="36" rx="8" ry="3" fill="${GL}"/>`,
+muffin:()=>`<path d="M34 58 L86 58 L78 90 L42 90Z" fill="#8a2b2b"/><g stroke="#6a1d1d" stroke-width="1.5">${[42,50,58,66,74].map(x=>`<line x1="${x}" y1="60" x2="${x+(x<60?2:-2)}" y2="89"/>`).join('')}</g><path d="M28 60 Q24 30 60 26 Q96 30 92 60Z" fill="#b5343a"/>${[[44,44],[60,36],[74,46],[52,54],[68,56]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="2.6" fill="#fff"/>`).join('')}`,
+honeycake:()=>`<rect x="26" y="40" width="68" height="40" rx="3" fill="#d8923a"/><rect x="26" y="36" width="68" height="10" rx="3" fill="#c0202e"/><g stroke="#f5d06b" stroke-width="2">${[34,46,58,70,82].map(x=>`<line x1="${x}" y1="38" x2="${x}" y2="44"/>`).join('')}</g><g fill="#f6c86a" opacity=".8">${[34,50,66,82].map(x=>`<circle cx="${x}" cy="62" r="2"/>`).join('')}</g><path d="M26 46 L94 46" stroke="#fff" stroke-width="2.5" stroke-dasharray="4 4"/>`,
+swissroll:()=>`<rect x="40" y="38" width="60" height="44" rx="6" fill="#7a3d1e"/><circle cx="40" cy="60" r="22" fill="#8a4522"/><path d="M40 60 m0 0 a4 4 0 0 1 8 0 a8 8 0 0 1 -16 0 a12 12 0 0 1 24 0 a16 16 0 0 1 -32 0" stroke="#fff4e0" stroke-width="3.2" fill="none"/>`,
+donut:()=>`<ellipse cx="60" cy="64" rx="40" ry="26" fill="#d99a4e"/><path d="M22 58 Q22 34 60 34 Q98 34 98 58 Q98 66 90 70 Q80 66 74 72 Q62 66 52 72 Q40 66 30 70 Q22 66 22 58Z" fill="#fbf4e6"/><ellipse cx="60" cy="58" rx="12" ry="7" fill="#c78a40"/>${[[34,48,'#e84d6a'],[48,40,'#3aa0d8'],[74,42,'#f2c230'],[86,54,'#55b04a'],[40,60,'#f2c230'],[80,62,'#e84d6a']].map(p=>`<rect x="${p[0]}" y="${p[1]}" width="6" height="2" rx="1" fill="${p[2]}" transform="rotate(30 ${p[0]} ${p[1]})"/>`).join('')}`,
+puff:(fill='#7a9b3a',bits='#e0602e')=>`<path d="M20 74 L60 34 L100 74Z" fill="#e6a74f"/><path d="M20 74 L100 74 L96 82 L24 82Z" fill="#c5822f"/><g stroke="#f7d79a" stroke-width="2" fill="none"><path d="M30 70 L60 40 L90 70"/><path d="M38 72 L60 50 L82 72"/></g><path d="M48 74 Q60 60 72 74Z" fill="${fill}"/><circle cx="56" cy="70" r="2" fill="${bits}"/><circle cx="64" cy="69" r="2" fill="${bits}"/>`,
+eggpuff:()=>`<rect x="18" y="38" width="84" height="42" rx="6" fill="#e6a74f"/><g stroke="#f7d79a" stroke-width="2"><line x1="22" y1="46" x2="98" y2="46"/><line x1="22" y1="72" x2="98" y2="72"/></g><path d="M52 50 Q38 50 38 60 Q38 70 52 70 L68 70 Q82 70 82 60 Q82 50 68 50Z" fill="#fff"/><circle cx="60" cy="60" r="7" fill="#f5b30f"/>`,
+samosa:()=>`<path d="M60 22 L100 84 L20 84Z" fill="#e2a24a" stroke="#b9772c" stroke-width="2"/><path d="M60 22 L68 84" stroke="#b9772c" stroke-width="2"/><g fill="#c4802f">${[[46,64],[76,70],[58,50],[40,78],[84,80]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="1.6"/>`).join('')}</g>`,
+cutlet:()=>`<ellipse cx="60" cy="64" rx="42" ry="22" fill="#a8622a"/><ellipse cx="60" cy="60" rx="40" ry="20" fill="#c87d38"/><g fill="#e8b56c">${Array.from({length:22},(_,i)=>`<circle cx="${28+(i*13)%64}" cy="${48+(i*7)%24}" r="1.5"/>`).join('')}</g>`,
+khari:()=>[0,1,2].map(i=>`<g transform="translate(${16+i*4},${30+i*18}) rotate(-4)"><rect width="84" height="14" rx="4" fill="#e6b066"/><g stroke="#f8dda8" stroke-width="1.6"><line x1="4" y1="4" x2="80" y2="4"/><line x1="4" y1="9" x2="80" y2="9"/></g><g fill="#fff">${[14,34,54,72].map(x=>`<circle cx="${x}" cy="7" r="1.3"/>`).join('')}</g></g>`).join(''),
+biscuits:(c='#e8b468',dot='#c88a3a',type='round')=>{const pos=[[38,46],[78,46],[58,70]];return pos.map(p=>type==='round'?`<circle cx="${p[0]}" cy="${p[1]}" r="20" fill="${c}" stroke="${dot}" stroke-width="2"/>${[[-7,-6],[6,-7],[0,2],[-8,8],[8,7]].map(d=>`<circle cx="${p[0]+d[0]}" cy="${p[1]+d[1]}" r="1.6" fill="${dot}"/>`).join('')}`:type==='coconut'?`<circle cx="${p[0]}" cy="${p[1]}" r="20" fill="${c}"/>${[[-8,-6],[5,-9],[2,3],[-6,9],[9,6],[-10,2]].map(d=>`<rect x="${p[0]+d[0]}" y="${p[1]+d[1]}" width="5" height="2" rx="1" fill="#fff" transform="rotate(25 ${p[0]+d[0]} ${p[1]+d[1]})"/>`).join('')}`:type==='salt'?`<rect x="${p[0]-19}" y="${p[1]-15}" width="38" height="30" rx="3" fill="${c}" stroke="${dot}" stroke-width="2"/>${[[-10,-6],[0,-6],[10,-6],[-10,5],[0,5],[10,5]].map(d=>`<circle cx="${p[0]+d[0]}" cy="${p[1]+d[1]}" r="1.4" fill="${dot}"/>`).join('')}<g fill="#c0392b">${[[-5,0],[6,0]].map(d=>`<circle cx="${p[0]+d[0]}" cy="${p[1]+d[1]}" r="1.2"/>`).join('')}</g>`:`<circle cx="${p[0]}" cy="${p[1]}" r="20" fill="${c}"/><path d="M${p[0]-12} ${p[1]-4} q12 -10 24 0" stroke="#fff6e0" stroke-width="2" fill="none"/><path d="M${p[0]-10} ${p[1]+6} q10 -6 20 0" stroke="#fff6e0" stroke-width="2" fill="none"/>`).join('')},
+dilpasand:()=>`<rect x="20" y="40" width="80" height="40" rx="4" fill="#e3a650"/><rect x="20" y="36" width="80" height="12" rx="4" fill="#efc07a"/><g stroke="#c5862f" stroke-width="1.6">${[30,42,54,66,78,90].map(x=>`<line x1="${x-4}" y1="38" x2="${x+4}" y2="46"/>`).join('')}</g><rect x="20" y="56" width="80" height="8" fill="#d9493a"/><rect x="20" y="64" width="80" height="4" fill="#f2d07a"/>`
+};
+const svg=b=>`<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="90" rx="44" ry="5" fill="#000" opacity=".08"/>${b}</svg>`;
+var ART=[S.loaf(),S.loaf('#e8aa58'),S.wheat(),S.bun(),S.sweetbun(),S.creambun(),S.coconutbun(),S.masalabun(),S.pav(),S.rusk(),S.rusk('#c9853c','#8c5220'),S.bag('#f0d9b5',S.rusk('#e8bb78','#b98240')),S.bag('#f2c230',S.rusk('#dfa04e','#9a5c22')),S.toast(),S.cakepiece(),S.loafcake(),S.loafcake(true),S.creamcake(),S.cupcake(),S.muffin(),S.honeycake(),S.swissroll(),S.donut(),S.puff(),S.eggpuff(),S.puff('#8a6a4a','#d9c2a0'),S.puff('#f4eedf','#e0602e'),S.samosa(),S.cutlet(),S.khari(),S.biscuits(),S.biscuits('#d99a4e','#a8662a','coconut'),S.biscuits('#efc98a','#c08a44','salt'),S.biscuits('#e9b25c','#b07a34','osmania'),S.dilpasand()];
+PRODUCTS.forEach(function(p,i){ p.art = ART[i]; });
+
+var ICONS = {
+  all:'<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="13" cy="13" r="7" fill="#E9A94B"/><rect x="21" y="7" width="13" height="12" rx="3" fill="#C97A2B"/><rect x="6" y="23" width="13" height="11" rx="3" fill="#D98E3A"/><circle cx="28" cy="28" r="7" fill="#EC407A"/></svg>',
+  bread:'<svg width="44" height="40" viewBox="0 0 44 40" aria-hidden="true"><path d="M6 18c0-7 7-11 16-11s16 4 16 11c0 3-2 4-4 4v12H10V22c-2 0-4-1-4-4z" fill="#E3A14D" stroke="#7A4A16" stroke-width="2"/><path d="M14 14q2 4 0 8M22 13q2 5 0 9M30 14q2 4 0 8" stroke="#7A4A16" stroke-width="1.6" fill="none"/></svg>',
+  bun:'<svg width="44" height="40" viewBox="0 0 44 40" aria-hidden="true"><ellipse cx="22" cy="24" rx="17" ry="11" fill="#D9893A" stroke="#7A4A16" stroke-width="2"/><ellipse cx="22" cy="20" rx="13" ry="7" fill="#E9A94B"/><circle cx="16" cy="18" r="1.2" fill="#fff"/><circle cx="24" cy="16" r="1.2" fill="#fff"/><circle cx="28" cy="20" r="1.2" fill="#fff"/></svg>',
+  rusk:'<svg width="44" height="40" viewBox="0 0 44 40" aria-hidden="true"><rect x="5" y="12" width="12" height="20" rx="3" fill="#C97A2B" stroke="#7A4A16" stroke-width="2" transform="rotate(-12 11 22)"/><rect x="16" y="10" width="12" height="20" rx="3" fill="#D98E3A" stroke="#7A4A16" stroke-width="2"/><rect x="27" y="12" width="12" height="20" rx="3" fill="#E3A14D" stroke="#7A4A16" stroke-width="2" transform="rotate(12 33 22)"/></svg>',
+  cake:'<svg width="44" height="40" viewBox="0 0 44 40" aria-hidden="true"><rect x="7" y="20" width="30" height="14" rx="3" fill="#C97A2B" stroke="#7A4A16" stroke-width="2"/><rect x="11" y="10" width="22" height="11" rx="3" fill="#F48FB1" stroke="#7A1532" stroke-width="2"/><rect x="21" y="3" width="2.5" height="7" fill="#7A1532"/></svg>',
+  biscuit:'<svg width="44" height="40" viewBox="0 0 44 40" aria-hidden="true"><circle cx="22" cy="20" r="15" fill="#E3A14D" stroke="#7A4A16" stroke-width="2"/><circle cx="16" cy="15" r="1.8" fill="#7A4A16"/><circle cx="26" cy="13" r="1.8" fill="#7A4A16"/><circle cx="20" cy="22" r="1.8" fill="#7A4A16"/><circle cx="28" cy="24" r="1.8" fill="#7A4A16"/><circle cx="15" cy="26" r="1.8" fill="#7A4A16"/></svg>'
+};
+
+var $ = function(id){ return document.getElementById(id); };
+var qty = {}, cat = "all", query = "";
+PRODUCTS.forEach(function(p){ qty[p.id] = 0; });
+function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v);}catch(e){ return null; } }
+var LANG = store('inimai_lang') || 'ta';
+var T = {
+ ta:{place:"ஆர்டர் செய்",payTitle:"பணம் செலுத்தும் முறை",payUpi:"ஆன்லைன் பேமெண்ட் (UPI / QR)",payUpiSub:"GPay, PhonePe, Paytm மூலம்",payCod:"கேஷ் ஆன் டெலிவரி",payCodSub:"பொருள் வந்ததும் பணம் கொடுக்கலாம்",payAmt:"செலுத்த வேண்டிய தொகை",qrMissing:"QR கோடு விரைவில் சேர்க்கப்படும்.",s1:"மேலே உள்ள பச்சை பட்டனை அழுத்துங்கள். GPay / PhonePe / Paytm திறக்கும், தொகை தானாக நிரம்பியிருக்கும்.",s2:"தொகையைச் சரிபார்த்து UPI PIN போட்டு செலுத்துங்கள்.",s3:"திரும்பி வந்து UTR எண்ணைப் போட்டு, கீழே உள்ள பட்டனை அழுத்துங்கள். ஆர்டர் WhatsApp-ல் போகும், PDF பில் டவுன்லோட் ஆகும்.",utr:"UTR / பரிவர்த்தனை எண் (விருப்பம்)",sendPaid:"பணம் செலுத்தினேன் – WhatsApp-ல் அனுப்பு",sendCod:"WhatsApp-ல் ஆர்டர் அனுப்பு",doneH:"உங்கள் ஆர்டர் வெற்றிகரமாகப் பதிவானது!",doneId:"ஆர்டர் எண்: ",doneP:"WhatsApp-ல் செய்தி திறந்திருக்கும். அங்கே Send அழுத்தினால்தான் ஆர்டர் எங்களுக்கு வரும். ஆர்டர் உறுதியானதும் WhatsApp-ல் பதில் அனுப்புவோம்.",again:"மீண்டும் ஆர்டர் செய்",mPay:"பணம்: ",mPayUpi:"ஆன்லைன் (UPI) – செலுத்தப்பட்டது",mPayCod:"கேஷ் ஆன் டெலிவரி",mUtr:"UTR: ",upiId:"UPI ID: ",deliver:"டெலிவரி",addAddr:"முகவரி சேர்க்கவும்",searchPh:"பிரெட், பன், ரஸ்க் தேடுங்கள்",bannerH:"தினமும் புதிதாகச் சுட்டது",bannerP:"கடைகளுக்கும் வீடுகளுக்கும் நேரடி சப்ளை. ஆர்டர் WhatsApp-ல் வரும்.",products:"பொருட்கள்",yourOrder:"உங்கள் ஆர்டர்",total:"மொத்தம்",name:"கடை / உங்கள் பெயர்",phone:"மொபைல் எண்",address:"முகவரி",date:"டெலிவரி தேதி",note:"குறிப்பு (விருப்பம்)",send:"WhatsApp-ல் ஆர்டர் அனுப்பு",send2:"இரண்டாவது எண்ணுக்கும் அனுப்பு",step2:"அடுத்து, இரண்டாவது எண்ணுக்கும் அனுப்புங்கள்:",copy:"ஆர்டரை காப்பி செய்",myInfo:"என் விவரம்",saveNote:"பெயர், முகவரிகள் உங்கள் மொபைல் எண்ணுடன் இந்த போனில் மட்டும் சேமிக்கப்படும். அதே எண்ணைப் போட்டால் அடுத்த ஆர்டரில் தானாக நிரம்பும்.",savedAddr:"சேமித்த முகவரிகள் – ஒன்றைத் தேர்ந்தெடுங்கள்",newAddr:"+ புதிய முகவரிக்கு அனுப்பு",help:"ஆர்டர் உதவி (WhatsApp)",clear:"சேமித்த விவரத்தை அழி",navHome:"முகப்பு",navCats:"வகைகள்",navCart:"ஆர்டர்",navProfile:"சுயவிவரம்",none:"பொருள் எதுவும் கிடைக்கவில்லை.",ask:"விலை உறுதி செய்யப்படும்",emptyCart:"இன்னும் பொருள் எதுவும் சேர்க்கவில்லை. முகப்பில் \"ADD\" அழுத்துங்கள்.",rest:" + மீதி உறுதி செய்யப்படும்",dec:" குறை",inc:" கூட்டு",addL:" சேர்",errItem:"குறைந்தது ஒரு பொருளைச் சேர்க்கவும்.",errName:"பெயரை உள்ளிடவும்.",errPhone:"சரியான 10 இலக்க மொபைல் எண்ணை உள்ளிடவும்.",errAddr:"முகவரியை உள்ளிடவும்.",copied:"ஆர்டர் காப்பி ஆனது. WhatsApp-ல் ஒட்டி அனுப்பலாம்.",copyFail:"காப்பி செய்ய முடியவில்லை.",cleared:"அழிக்கப்பட்டது.",numMissing:"சேர்க்கப்பட வேண்டும்",mHead:"*இனிமை ஃபுட்ஸ் – புதிய ஆர்டர்*",mId:"ஆர்டர் எண்: ",mWhen:"ஆர்டர் தேதி: ",sentId:"உங்கள் ஆர்டர் எண்: ",mTotal:"மொத்தம்: ",mName:"பெயர்: ",mPhone:"மொபைல்: ",mAddr:"முகவரி: ",mDate:"டெலிவரி தேதி: ",mNote:"குறிப்பு: ",other:"English",tag:"தரத்தின் அடையாளம், சுவையின் தனித்துவம்!",pdf:"PDF பில் டவுன்லோட்",pdfWait:"பில் தயாராகிறது…",pdfOk:"பில் சேமிக்கப்பட்டது.",pdfFail:"பில் உருவாக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",pdfNo:"பில் சேமிக்கப்படவில்லை.",billTitle:"ஆர்டர் பில்",bItem:"பொருள்",bQty:"அளவு",bRate:"விலை",bAmt:"தொகை",thanks:"நன்றி! மீண்டும் வருக.",offer:"₹300க்கு மேல் ஆர்டருக்கு இலவச டோர் டெலிவரி (3 கி.மீ. வரை). மற்றவைக்கு ₹30.",delivFree:"🎉 உங்கள் ஆர்டருக்கு இலவச டோர் டெலிவரி! (3 கி.மீ. தூரத்திற்குள்)",delivMore:"₹300க்கு குறைவான ஆர்டருக்கு {f} டெலிவரி கட்டணம் சேர்க்கப்பட்டுள்ளது. இன்னும் {x} சேர்த்தால் இலவச டோர் டெலிவரி (3 கி.மீ. தூரத்திற்குள்)",delivCharge:"டெலிவரி கட்டணம்",free:"இலவசம்",dHead:"🚚 இன்னும் {x} சேர்த்தால் {f} டெலிவரி கட்டணம் இல்லை!",dSub:"{m}க்கு மேல் ஆர்டருக்கு 3 கி.மீ. வரை இலவச டோர் டெலிவரி. இப்போது உங்கள் ஆர்டர் {s}.",dFreeHead:"🎉 வாழ்த்துகள்! உங்களுக்கு இலவச டோர் டெலிவரி",dFreeSub:"{f} டெலிவரி கட்டணம் சேமித்தீர்கள் (3 கி.மீ. வரை).",fGo:"ஆர்டர் →",payBtn:"{x} UPI ஆப்பில் செலுத்து",hlpH:"பட்டன் அழுத்தியும் UPI ஆப் திறக்கவில்லையா?",hlp1:"கீழே \"QR படத்தை சேமி\" அழுத்துங்கள்.",hlp2:"GPay / PhonePe திறந்து, ஸ்கேனரில் \"Upload from gallery\" (படம்) ஐகானை அழுத்தி, சேமித்த QR படத்தைத் தேர்ந்தெடுங்கள்.",hlp3:"தொகை தானாக வரும் – PIN போட்டு செலுத்துங்கள்.",saveQr:"QR படத்தை சேமி",cpId:"UPI ID காப்பி",cpAmt:"தொகை காப்பி",copiedX:"காப்பி ஆனது: ",qrSaved:"QR படம் சேமிக்கப்பட்டது. இப்போது GPay-ல் திறங்கள்.",orScan:"அல்லது வேறு போனில் இந்த QR கோடை ஸ்கேன் செய்யுங்கள் (தொகை தானாக வரும்)",mDeliv:"டெலிவரி: ",mDelivFree:"இலவச டோர் டெலிவரி (₹300+, 3 கி.மீ. வரை)",mDelivNo:""},
+ en:{place:"Place order",payTitle:"Payment method",payUpi:"Online payment (UPI / QR)",payUpiSub:"Via GPay, PhonePe, Paytm",payCod:"Cash on delivery",payCodSub:"Pay when the goods arrive",payAmt:"Amount to pay",qrMissing:"QR code will be added soon.",s1:"Tap the green button above. GPay / PhonePe / Paytm opens with the amount filled in.",s2:"Check the amount and enter your UPI PIN to pay.",s3:"Come back, enter the UTR number and tap the button below. Your order goes on WhatsApp and the PDF bill downloads.",utr:"UTR / transaction no. (optional)",sendPaid:"I have paid – send on WhatsApp",sendCod:"Send order on WhatsApp",doneH:"Your order was placed successfully!",doneId:"Order no: ",doneP:"WhatsApp has opened with your order. Tap Send there so the order reaches us. We will confirm on WhatsApp.",again:"Order again",mPay:"Payment: ",mPayUpi:"Online (UPI) – paid",mPayCod:"Cash on delivery",mUtr:"UTR: ",upiId:"UPI ID: ",deliver:"Deliver to",addAddr:"Add address",searchPh:"Search bread, buns, rusk",bannerH:"Freshly baked every day",bannerP:"Direct supply to shops and homes. Your order comes to us on WhatsApp.",products:"Products",yourOrder:"Your order",total:"Total",name:"Shop / your name",phone:"Mobile number",address:"Address",date:"Delivery date",note:"Note (optional)",send:"Send order on WhatsApp",send2:"Also send to second number",step2:"Next, please also send it to our second number:",copy:"Copy order",myInfo:"My details",saveNote:"Your name and addresses are saved with your mobile number on this phone only. Enter the same number next time and they fill in automatically.",savedAddr:"Saved addresses – pick one",newAddr:"+ Deliver to a new address",help:"Order help (WhatsApp)",clear:"Clear saved details",navHome:"Home",navCats:"Categories",navCart:"Order",navProfile:"Profile",none:"No products found.",ask:"Price on confirmation",emptyCart:"Nothing added yet. Tap \"ADD\" on the home page.",rest:" + rest on confirmation",dec:" decrease",inc:" increase",addL:" add",errItem:"Add at least one product.",errName:"Enter your name.",errPhone:"Enter a valid 10-digit mobile number.",errAddr:"Enter your address.",copied:"Order copied. Paste it in WhatsApp to send.",copyFail:"Could not copy.",cleared:"Cleared.",numMissing:"to be added",mHead:"*Inimai Foods – New order*",mId:"Order no: ",mWhen:"Order date: ",sentId:"Your order number: ",mTotal:"Total: ",mName:"Name: ",mPhone:"Mobile: ",mAddr:"Address: ",mDate:"Delivery date: ",mNote:"Note: ",other:"தமிழ்",tag:"The Mark of Quality, A Taste Like No Other!",pdf:"Download PDF bill",pdfWait:"Preparing your bill…",pdfOk:"Bill saved.",pdfFail:"Could not create the bill. Please try again.",pdfNo:"Bill was not saved.",billTitle:"Order bill",bItem:"Item",bQty:"Qty",bRate:"Rate",bAmt:"Amount",thanks:"Thank you! Visit again.",offer:"Free door delivery on orders above ₹300 (within 3 km). Otherwise ₹30.",delivFree:"🎉 Your order gets free door delivery! (within 3 km)",delivMore:"A {f} delivery charge is added for orders below ₹300. Add {x} more for free door delivery (within 3 km)",delivCharge:"Delivery charge",free:"Free",dHead:"🚚 Add {x} more and skip the {f} delivery charge!",dSub:"Free door delivery on orders of {m}+ within 3 km. Your order is now {s}.",dFreeHead:"🎉 You get free door delivery!",dFreeSub:"You saved the {f} delivery charge (within 3 km).",fGo:"Order →",payBtn:"Pay {x} in UPI app",hlpH:"UPI app did not open when you tapped the button?",hlp1:"Tap \"Save QR image\" below.",hlp2:"Open GPay / PhonePe, tap the gallery (Upload from gallery) icon in the scanner and pick the saved QR image.",hlp3:"The amount fills in automatically – enter your PIN to pay.",saveQr:"Save QR image",cpId:"Copy UPI ID",cpAmt:"Copy amount",copiedX:"Copied: ",qrSaved:"QR image saved. Now open it in GPay.",orScan:"Or scan this QR code from another phone (amount fills in automatically)",mDeliv:"Delivery: ",mDelivFree:"Free door delivery (₹300+, within 3 km)",mDelivNo:""}
+};
+function t(k){ return T[LANG][k]; }
+function nm(o){ return LANG==='en' ? (o.en||o.name) : o.name; }
+function un(o){ return LANG==='en' ? (o.unitEn||o.unit) : o.unit; }
+function applyLang(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){ el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){ el.placeholder = t(el.dataset.i18nPh); });
+  $('lang').textContent = t('other');
+  document.querySelectorAll('.ticker-track span b').forEach(function(b){ b.textContent = t('tag'); });
+  document.querySelector('.ticker').setAttribute('aria-label', 'INIMAI FOODS – ' + t('tag'));
+  document.querySelectorAll('.cat').forEach(function(b){ var c=CATEGORIES.filter(function(x){return x.id===b.dataset.id;})[0]; b.lastChild.textContent = nm(c); });
+  $('helpNum').textContent = '+'+ORDER_WHATSAPP + (ORDER_WHATSAPP_2 ? ' / +'+ORDER_WHATSAPP_2 : '');
+  renderGrid(); renderCart(); updateLoc(); if (typeof renderPick==='function' && $('addrPick')) try{ renderPick(false); }catch(e){}
+}
+
+
+// categories
+CATEGORIES.forEach(function(c){
+  var b = document.createElement('button'); b.type='button'; b.className='cat'; b.dataset.id=c.id;
+  b.setAttribute('aria-pressed', c.id==='all');
+  b.innerHTML = '<span></span>';
+  b.lastChild.textContent = nm(c);
+  b.addEventListener('click', function(){ cat=c.id; document.querySelectorAll('.cat').forEach(function(x){x.setAttribute('aria-pressed', x.dataset.id===cat);}); show('home'); renderGrid(); });
+  $('cats').appendChild(b);
+});
+$('q').addEventListener('input', function(){ query=this.value.trim(); show('home'); renderGrid(); });
+
+function money(n){ return '₹' + n; }
+function renderGrid(){
+  var list = PRODUCTS.filter(function(p){ return (cat==='all'||p.cat===cat) && (!query || p.name.indexOf(query)>-1 || (p.en||'').toLowerCase().indexOf(query.toLowerCase())>-1); });
+  var c = CATEGORIES.filter(function(x){return x.id===cat;})[0];
+  $('gridTitle').textContent = cat==='all' ? t('products') : nm(c);
+  var g = $('grid'); g.innerHTML = '';
+  if (!list.length){ g.innerHTML = '<div class="empty">'+t('none')+'</div>'; return; }
+  list.forEach(function(p){
+    var card = document.createElement('div'); card.className='card';
+        card.innerHTML = '<div class="img"></div><div class="price"></div><div class="name"></div><div class="unit"></div>';
+    var tile = card.querySelector('.img');
+    if (p.img){ var im=document.createElement('img'); im.src=p.img; im.alt=nm(p); im.className='photo'; tile.appendChild(im); }
+    else if (p.art){ tile.insertAdjacentHTML('afterbegin', svg(p.art)); tile.firstChild.setAttribute('class','art'); tile.firstChild.setAttribute('aria-hidden','true'); }
+    else { var ph=document.createElement('div'); ph.className='ph'; ph.textContent=nm(p); tile.appendChild(ph); }
+    var img = card.querySelector('.img');
+    if (qty[p.id] > 0){
+      var s = document.createElement('div'); s.className='step';
+      s.innerHTML = '<button type="button">−</button><span></span><button type="button">+</button>';
+      s.children[0].setAttribute('aria-label', nm(p)+t('dec')); s.children[2].setAttribute('aria-label', nm(p)+t('inc'));
+      s.children[1].textContent = qty[p.id];
+      s.children[0].onclick = function(){ qty[p.id]--; changed(); };
+      s.children[2].onclick = function(){ qty[p.id]++; changed(); };
+      img.appendChild(s);
+    } else {
+      var a = document.createElement('button'); a.type='button'; a.className='add'; a.textContent='ADD';
+      a.setAttribute('aria-label', nm(p)+t('addL')); a.onclick = function(){ qty[p.id]=1; changed(); };
+      img.appendChild(a);
+    }
+    var pr = card.querySelector('.price');
+    if (p.price != null){
+      pr.innerHTML = '<span class="chip"></span>'; pr.firstChild.textContent = money(p.price);
+      if (p.mrp && p.mrp > p.price){ var m=document.createElement('span'); m.className='mrp'; m.textContent=money(p.mrp); pr.appendChild(m); }
+    } else { pr.innerHTML = '<span class="chip ask"></span>'; pr.firstChild.textContent = t('ask'); }
+    card.querySelector('.name').textContent = nm(p);
+    card.querySelector('.unit').textContent = un(p);
+    g.appendChild(card);
+  });
+}
+
+function items(){ return PRODUCTS.filter(function(p){ return qty[p.id]>0; }); }
+function totals(){
+  var n=0, sum=0, unknown=false;
+  items().forEach(function(p){ n+=qty[p.id]; if(p.price==null) unknown=true; else sum+=p.price*qty[p.id]; });
+  var fee = (n && sum < FREE_DELIVERY_MIN) ? DELIVERY_CHARGE : 0;
+  return {n:n, goods:sum, fee:fee, sum:sum+fee, unknown:unknown};
+}
+function changed(){ renderGrid(); renderCart(); }
+
+function renderDeliv(tt){
+  var free = !tt.fee, pct = Math.min(100, Math.round(tt.goods*100/FREE_DELIVERY_MIN));
+  function f(k){ return t(k).replace('{x}', money(Math.max(0,FREE_DELIVERY_MIN - tt.goods))).replace('{f}', money(DELIVERY_CHARGE)).replace('{s}', money(tt.goods)).replace('{m}', money(FREE_DELIVERY_MIN)); }
+  var head = f(free ? 'dFreeHead' : 'dHead');
+  [['deliv',true],['deliv2',false]].forEach(function(o){
+    var b = $(o[0]); b.hidden = !tt.n || (!o[1] && free);
+    if (b.hidden) return;
+    b.className = 'dbox' + (o[1] ? '' : ' mini') + (free ? ' free' : '');
+    b.innerHTML = '<div class="dt"></div>' + (o[1] ? '<div class="ds"></div>' : '') + '<div class="dbar" aria-hidden="true"><i></i></div>';
+    b.querySelector('.dt').textContent = head;
+    if (o[1]) b.querySelector('.ds').textContent = f(free ? 'dFreeSub' : 'dSub');
+    b.querySelector('.dbar i').style.width = pct + '%';
+  });
+  var fb = $('fbar'); fb.hidden = !tt.n; document.body.classList.toggle('hasbar', !!tt.n);
+  fb.className = 'fbar' + (free ? ' free' : ''); $('fbarT').textContent = head;
+}
+function renderCart(){
+  var tt = totals();
+  $('badge').hidden = !tt.n; $('badge').textContent = tt.n;
+  var L = $('lines'); L.innerHTML='';
+  if (!items().length){ L.innerHTML = '<div class="empty" style="padding:12px 0"></div>'; L.firstChild.textContent = t('emptyCart'); }
+  items().forEach(function(p){
+    var d=document.createElement('div'); d.className='line';
+    d.innerHTML='<span></span><b></b>';
+    d.firstChild.textContent = nm(p) + ' × ' + qty[p.id];
+    d.lastChild.textContent = p.price!=null ? money(p.price*qty[p.id]) : t('ask');
+    L.appendChild(d);
+  });
+  if (tt.n){ var fd=document.createElement('div'); fd.className='line'; fd.innerHTML='<span></span><b></b>'; fd.firstChild.textContent=t('delivCharge'); fd.lastChild.textContent = tt.fee ? money(tt.fee) : t('free'); if(!tt.fee) fd.lastChild.style.color='var(--green)'; L.appendChild(fd); }
+  $('total').textContent = !tt.n ? '—' : (tt.unknown ? (tt.sum? money(tt.sum)+T[LANG].rest : T[LANG].ask) : money(tt.sum));
+  renderDeliv(tt);
+  updateWa();
+}
+
+var ORDER_ID = null, ORDER_TIME = null;
+function pad(n){ return (n<10?'0':'')+n; }
+function orderInfo(){
+  if (!ORDER_ID){
+    var d = new Date(); ORDER_TIME = d;
+    ORDER_ID = 'INM-' + String(d.getFullYear()).slice(2) + pad(d.getMonth()+1) + pad(d.getDate()) + '-' + pad(d.getHours()) + pad(d.getMinutes()) + Math.floor(10+Math.random()*90);
+  }
+  var d = ORDER_TIME;
+  return {id: ORDER_ID, when: pad(d.getDate())+'-'+pad(d.getMonth()+1)+'-'+d.getFullYear()+', '+pad(d.getHours())+':'+pad(d.getMinutes())};
+}
+function message(){
+  var tt = totals(), oi = orderInfo(), lines=[T[LANG].mHead, T[LANG].mId+oi.id, T[LANG].mWhen+oi.when, ''];
+  items().forEach(function(p,i){ lines.push((i+1)+'. '+nm(p)+' ('+un(p)+') × '+qty[p.id] + (p.price!=null? ' = '+money(p.price*qty[p.id]) : '')); });
+  lines.push(T[LANG].mDeliv + (tt.fee ? money(tt.fee) : T[LANG].mDelivFree));
+  if (!tt.unknown) lines.push(T[LANG].mTotal+money(tt.sum));
+  lines.push('',T[LANG].mName+$('name').value.trim(),T[LANG].mPhone+$('phone').value.trim(),T[LANG].mAddr+$('address').value.trim());
+  if ($('date').value) lines.push(T[LANG].mDate+$('date').value);
+  if ($('note').value.trim()) lines.push(T[LANG].mNote+$('note').value.trim());
+  var pm = payMethod();
+  lines.push('', T[LANG].mPay + (pm==='upi' ? T[LANG].mPayUpi : T[LANG].mPayCod));
+  if (pm==='upi' && $('utr').value.trim()) lines.push(T[LANG].mUtr + $('utr').value.trim());
+  return lines.join('\n');
+}
+function problem(){
+  if (!items().length) return t('errItem');
+  if (!$('name').value.trim()) return t('errName');
+  if ($('phone').value.replace(/\D/g,'').length < 10) return t('errPhone');
+  if (!$('address').value.trim()) return t('errAddr');
+  return '';
+}
+function updateWa(){
+  var wa=$('wa');
+  if (problem()){ wa.setAttribute('aria-disabled','true'); wa.href='#'; }
+  else { wa.removeAttribute('aria-disabled'); wa.href='https://wa.me/'+ORDER_WHATSAPP+'?text='+encodeURIComponent(message()); }
+}
+['name','phone','address','date','note'].forEach(function(id){
+  var saved = (id==='name'||id==='phone'||id==='address') ? store('inimai_'+id) : null;
+  if (saved) $(id).value = saved;
+  $(id).addEventListener('input', function(){ if(id==='name'||id==='phone'||id==='address') store('inimai_'+id, this.value); $('msg').textContent=''; updateLoc(); updateWa(); });
+});
+function updateLoc(){ var a=$('address').value.trim(); $('locText').textContent = a ? a.split(/[,\n]/)[0].slice(0,24) : t('addAddr'); }
+function payMethod(){ var r=document.querySelector('input[name=pay]:checked'); return r ? r.value : 'cod'; }
+function upiLink(){
+  var tt = totals(), oi = orderInfo();
+  return 'upi://pay?pa=' + UPI_ID.trim() + '&pn=' + encodeURIComponent(UPI_NAME) + '&am=' + tt.sum.toFixed(2) + '&cu=INR&tn=' + encodeURIComponent('Inimai ' + oi.id);
+}
+var QR_STATIC = 'qr.png';
+function drawQr(link){
+  var go = function(){ try{ var q = qrcode(0,'M'); q.addData(link); q.make(); var im=$('qrImg'); im.hidden=false; $('qrMissing').hidden=true; im.src = q.createDataURL(6, 12); }catch(e){} };
+  if (window.qrcode) go(); else loadScript('https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js').then(go, function(){});
+}
+function refreshPay(){
+  var upi = payMethod()==='upi';
+  $('upiBox').hidden = !upi;
+  $('wa').textContent = upi ? t('sendPaid') : t('sendCod');
+  var tt = totals(); $('payAmt').textContent = tt.unknown ? t('ask') : money(tt.sum);
+  $('upiIdLine').textContent = UPI_ID ? t('upiId')+UPI_ID : '';
+  var up = $('upiPay'); up.hidden = !UPI_ID || tt.unknown;
+  if (UPI_ID && !tt.unknown){ var ln = upiLink(); up.href = ln; up.textContent = t('payBtn').replace('{x}', money(tt.sum)); drawQr(ln); }
+  updateWa();
+}
+document.querySelectorAll('input[name=pay]').forEach(function(r){ r.addEventListener('change', refreshPay); });
+$('utr').addEventListener('input', updateWa);
+$('qrImg').addEventListener('error', function(){ this.hidden=true; $('qrMissing').hidden=false; });
+$('place').addEventListener('click', function(){
+  var p=problem(); if(p){ $('msg').className='msg'; $('msg').textContent=p; return; }
+  $('msg').textContent=''; $('paySec').hidden=false; refreshPay(); $('paySec').scrollIntoView({behavior:'smooth'});
+});
+$('wa').addEventListener('click', function(e){
+  var p=problem(); if(p){ e.preventDefault(); $('msg').className='msg'; $('msg').textContent=p; return; }
+  var id = orderInfo().id;
+  LAST_BILL = snapBill();
+  rememberCustomer();
+  setTimeout(function(){
+    $('doneId').textContent = id;
+    PRODUCTS.forEach(function(x){ qty[x.id]=0; }); $('utr').value=''; $('note').value=''; $('paySec').hidden=true;
+    ORDER_ID=null; changed(); $('pdfBtn').hidden=false; $('pdfMsg').textContent=''; show('done'); setTimeout(function(){ $('pdfBtn').click(); }, 300);
+  }, 600);
+});
+$('copy').addEventListener('click', function(){
+  var p=problem(); if(p){ $('msg').className='msg'; $('msg').textContent=p; return; }
+  try{ navigator.clipboard.writeText(message()).then(function(){ $('msg').className='msg ok'; $('msg').textContent=t('copied'); }, function(){ $('msg').className='msg'; $('msg').textContent=t('copyFail'); }); }
+  catch(e){ $('msg').className='msg'; $('msg').textContent=t('copyFail'); }
+});
+$('form').addEventListener('submit', function(e){ e.preventDefault(); });
+$('clear').addEventListener('click', function(){ store('inimai_book',null); renderPick(false); ['name','phone','address'].forEach(function(id){ store('inimai_'+id,null); $(id).value=''; }); updateLoc(); updateWa(); $('pmsg').textContent=t('cleared'); });
+
+function show(v){
+  if (v==='cats'){ v='home'; $('cats').scrollIntoView({behavior:'smooth'}); }
+  if (v!==document.body.dataset.view && v!=='home') window.scrollTo(0,0);
+  document.body.dataset.view = v;
+  ['home','cart','profile','done'].forEach(function(x){ $('v-'+x).classList.toggle('on', x===v); });
+  document.querySelectorAll('nav a').forEach(function(a){ if(a.dataset.v===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+}
+function route(){ var h=(location.hash||'#home').slice(1); show(['home','cats','cart','profile'].indexOf(h)>-1 ? h : 'home'); }
+window.addEventListener('hashchange', route);
+document.querySelectorAll('nav a').forEach(function(a){ a.addEventListener('click', function(){ setTimeout(route,0); }); });
+
+$('lang').addEventListener('click', function(){ LANG = LANG==='ta'?'en':'ta'; store('inimai_lang', LANG); applyLang(); });
+
+// ---- PDF bill ----
+var LAST_BILL = null, DL = null;
+
+function snapBill(){
+  var tt = totals(), oi = orderInfo();
+  return {lang:LANG, id:oi.id, when:oi.when, sum:tt.sum, fee:tt.fee, unknown:tt.unknown,
+    items: items().map(function(p){ return {n:nm(p), u:un(p), q:qty[p.id], pr:p.price}; }),
+    name:$('name').value.trim(), phone:$('phone').value.trim(), address:$('address').value.trim(),
+    date:$('date').value, note:$('note').value.trim(), pay:payMethod(), utr:$('utr').value.trim()};
+}
+function loadScript(src){ return new Promise(function(res,rej){ var s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
+function el(tag, css, text){ var e=document.createElement(tag); if(css) e.style.cssText=css; if(text!=null) e.textContent=text; return e; }
+function billEl(b){
+  var L = T[b.lang], M='#7A1532', G='#1E7B34';
+  var d = el('div','position:fixed;left:-10000px;top:0;width:600px;padding:32px;background:#fff;color:#22140C;font-family:"Noto Sans Tamil",sans-serif;font-size:15px;line-height:1.5');
+  var h = el('div','display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid '+M+';padding-bottom:12px');
+  var hl = el('div'); hl.appendChild(el('div','font-family:"Baloo Thambi 2",sans-serif;font-weight:800;font-size:30px;color:'+M+';line-height:1.1','INIMAI FOODS'));
+  hl.appendChild(el('div','color:'+G+';font-weight:600;font-size:14px',L.tag)); h.appendChild(hl);
+  var lg = document.createElement('img'); lg.src='logo.png'; lg.style.cssText='height:64px;width:auto'; lg.onerror=function(){ lg.remove(); }; h.appendChild(lg);
+  d.appendChild(h);
+  d.appendChild(el('div','font-size:20px;font-weight:700;margin:16px 0 6px;color:'+M, L.billTitle));
+  [[L.mId,b.id],[L.mWhen,b.when]].forEach(function(r){ var x=el('div'); x.appendChild(el('b',null,r[0])); x.appendChild(document.createTextNode(r[1])); d.appendChild(x); });
+  var tb = el('table','width:100%;border-collapse:collapse;margin:14px 0');
+  var hr = el('tr','background:'+M+';color:#fff');
+  [[L.bItem,'left'],[L.bQty,'center'],[L.bRate,'right'],[L.bAmt,'right']].forEach(function(c){ hr.appendChild(el('th','padding:8px;text-align:'+c[1]+';font-size:14px',c[0])); });
+  tb.appendChild(hr);
+  b.items.forEach(function(it,i){
+    var r = el('tr', i%2 ? 'background:#FFF8EE' : '');
+    var c1 = el('td','padding:8px;border-bottom:1px solid #EADBC8'); c1.appendChild(el('div',null,it.n)); c1.appendChild(el('div','font-size:12px;color:#6B5446',it.u)); r.appendChild(c1);
+    r.appendChild(el('td','padding:8px;text-align:center;border-bottom:1px solid #EADBC8',String(it.q)));
+    r.appendChild(el('td','padding:8px;text-align:right;border-bottom:1px solid #EADBC8',it.pr!=null?money(it.pr):'—'));
+    r.appendChild(el('td','padding:8px;text-align:right;border-bottom:1px solid #EADBC8',it.pr!=null?money(it.pr*it.q):L.ask));
+    tb.appendChild(r);
+  });
+  var fr = el('tr'); fr.appendChild(el('td','padding:8px;border-bottom:1px solid #EADBC8',L.delivCharge)); fr.appendChild(el('td','border-bottom:1px solid #EADBC8')); fr.appendChild(el('td','border-bottom:1px solid #EADBC8'));
+  fr.appendChild(el('td','padding:8px;text-align:right;border-bottom:1px solid #EADBC8;'+(b.fee?'':'color:'+G+';font-weight:600'), b.fee ? money(b.fee) : L.free)); tb.appendChild(fr);
+  var tr = el('tr'); tr.appendChild(el('td','padding:10px 8px;font-weight:700;font-size:17px',L.total)); tr.appendChild(el('td')); tr.appendChild(el('td'));
+  tr.appendChild(el('td','padding:10px 8px;text-align:right;font-weight:700;font-size:17px;color:'+G, b.unknown ? (b.sum? money(b.sum)+L.rest : L.ask) : money(b.sum)));
+  tb.appendChild(tr); d.appendChild(tb);
+  var info = el('div','border:1px solid #EADBC8;border-radius:10px;padding:12px 14px');
+  var rows = [[L.mName,b.name],[L.mPhone,b.phone],[L.mAddr,b.address]];
+  if (b.date) rows.push([L.mDate,b.date]); if (b.note) rows.push([L.mNote,b.note]);
+  rows.push([L.mPay, b.pay==='upi' ? L.mPayUpi : L.mPayCod]); if (b.pay==='upi' && b.utr) rows.push([L.mUtr,b.utr]);
+  rows.forEach(function(r){ var x=el('div','white-space:pre-wrap'); x.appendChild(el('b',null,r[0])); x.appendChild(document.createTextNode(r[1])); info.appendChild(x); });
+  d.appendChild(info);
+  d.appendChild(el('div','text-align:center;margin-top:18px;color:'+M+';font-weight:600', L.thanks));
+  d.appendChild(el('div','text-align:center;font-size:12px;color:#6B5446','WhatsApp: +'+ORDER_WHATSAPP));
+  return d;
+}
+$('pdfBtn').addEventListener('click', function(){
+  if (!LAST_BILL) return;
+  var btn=this, m=$('pdfMsg'); btn.disabled=true; m.className='msg ok'; m.textContent=t('pdfWait');
+  var node = billEl(LAST_BILL); document.body.appendChild(node);
+  var fname = 'Inimai-Foods-Bill-'+LAST_BILL.id+'.pdf';
+  Promise.all([
+    window.html2canvas ? 0 : loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'),
+    window.jspdf ? 0 : loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'),
+    document.fonts ? document.fonts.ready : 0
+  ]).then(function(){ return new Promise(function(r){ setTimeout(r,150); }); })
+  .then(function(){ return html2canvas(node,{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false}); })
+  .then(function(cv){
+    var w=210, h=Math.max(cv.height*w/cv.width, 120);
+    var pdf = new window.jspdf.jsPDF({unit:'mm', format:[w,h]});
+    pdf.addImage(cv.toDataURL('image/jpeg',0.92),'JPEG',0,0,w,cv.height*w/cv.width);
+    var blob = pdf.output('blob');
+    if (DL) return DL.save({filename:fname, data:blob}).then(function(){ m.className='msg ok'; m.textContent=t('pdfOk'); }, function(e){ m.className='msg'; m.textContent = (e && e.code==='declined') ? t('pdfNo') : t('pdfFail'); });
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fname; document.body.appendChild(a); a.click(); a.remove();
+    m.className='msg ok'; m.textContent=t('pdfOk');
+  })
+  .catch(function(){ m.className='msg'; m.textContent=t('pdfFail'); })
+  .then(function(){ node.remove(); btn.disabled=false; });
+});
+
+// ---- saved customers: addresses per mobile number (this phone only) ----
+function book(){ try{ return JSON.parse(store('inimai_book')||'{}') || {}; }catch(e){ return {}; } }
+function phoneKey(){ var d=$('phone').value.replace(/\D/g,''); return d.length>=10 ? d.slice(-10) : ''; }
+var ADDR_SEL = 'new', LAST_KEY = '';
+function setAddr(v){ $('address').value = v; store('inimai_address', v); updateLoc(); updateWa(); }
+function renderPick(auto){
+  var k = phoneKey(), e = k ? book()[k] : null, box = $('addrPick');
+  if (!e || !e.addrs || !e.addrs.length){ box.hidden = true; ADDR_SEL = 'new'; return; }
+  if (auto){
+    if (e.name){ $('name').value = e.name; store('inimai_name', e.name); }
+    ADDR_SEL = (e.last != null && e.addrs[e.last] != null) ? e.last : 0;
+    setAddr(e.addrs[ADDR_SEL]);
+  } else {
+    var i = e.addrs.indexOf($('address').value.trim()); ADDR_SEL = i > -1 ? i : 'new';
+  }
+  box.hidden = false; box.innerHTML = '';
+  box.appendChild(Object.assign(document.createElement('div'), {className:'pkT', textContent:t('savedAddr')}));
+  e.addrs.concat(['__new']).forEach(function(a, i){
+    var isNew = a === '__new', val = isNew ? 'new' : i;
+    var l = document.createElement('label'); l.className = 'payopt';
+    var r = document.createElement('input'); r.type = 'radio'; r.name = 'addrSel'; r.checked = (ADDR_SEL === val);
+    var sp = document.createElement('span'); sp.textContent = isNew ? t('newAddr') : a;
+    r.addEventListener('change', function(){
+      ADDR_SEL = val;
+      if (isNew){ setAddr(''); $('address').focus(); } else setAddr(a);
+    });
+    l.appendChild(r); l.appendChild(sp); box.appendChild(l);
+  });
+}
+function rememberCustomer(){
+  var k = phoneKey(), a = $('address').value.trim(); if (!k || !a) return;
+  var b = book(), e = b[k] || {addrs:[]};
+  e.name = $('name').value.trim();
+  var i = e.addrs.indexOf(a); if (i < 0){ e.addrs.push(a); i = e.addrs.length-1; }
+  while (e.addrs.length > 5){ e.addrs.shift(); i--; }
+  e.last = Math.max(0, i); b[k] = e;
+  store('inimai_book', JSON.stringify(b));
+}
+$('phone').addEventListener('input', function(){ var k = phoneKey(); if (k !== LAST_KEY){ LAST_KEY = k; renderPick(!!k); } });
+$('address').addEventListener('input', function(){
+  if (ADDR_SEL !== 'new'){ var e = book()[phoneKey()]; if (!e || e.addrs[ADDR_SEL] !== this.value.trim()){ ADDR_SEL = 'new'; renderPick(false); } }
+});
+LAST_KEY = phoneKey(); renderPick(false);
+
+// ---- UPI button: try harder to open the UPI app, plus fallbacks ----
+function copyText(txt){
+  return new Promise(function(res,rej){
+    function legacy(){ try{ var ta=document.createElement('textarea'); ta.value=txt; ta.setAttribute('readonly',''); ta.style.cssText='position:fixed;left:-9999px;top:0'; document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0,txt.length); var ok=document.execCommand('copy'); ta.remove(); ok?res():rej(); }catch(e){ rej(); } }
+    try{ if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(res, legacy); else legacy(); }catch(e){ legacy(); }
+  });
+}
+function upiNote(m, bad){ var u=$('upiMsg'); u.style.color = bad ? '#A3122A' : ''; u.textContent = m; }
+$('upiPay').addEventListener('click', function(){
+  // On a real website the plain upi:// link opens GPay / PhonePe / Paytm directly.
+  this.href = upiLink(); this.removeAttribute('target');
+  setTimeout(function(){ if (!document.hidden) $('upiHelp').scrollIntoView({behavior:'smooth', block:'center'}); }, 2500);
+});
+$('cpId').addEventListener('click', function(){ copyText(UPI_ID).then(function(){ upiNote(t('copiedX')+UPI_ID); }, function(){ upiNote(UPI_ID); }); });
+$('cpAmt').addEventListener('click', function(){ var a = String(totals().sum); copyText(a).then(function(){ upiNote(t('copiedX')+'₹'+a); }, function(){ upiNote('₹'+a); }); });
+$('saveQr').addEventListener('click', function(){
+  var im = $('qrImg'), fname = 'Inimai-Foods-UPI-' + orderInfo().id + '-Rs' + totals().sum + '.png';
+  try{
+    var c = document.createElement('canvas'), pad = 24, sz = Math.max(im.naturalWidth || 240, 240);
+    c.width = sz + pad*2; c.height = sz + pad*2 + 40;
+    var x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0,0,c.width,c.height);
+    x.imageSmoothingEnabled = false; x.drawImage(im, pad, pad, sz, sz);
+    x.fillStyle = '#22140C'; x.font = 'bold 20px sans-serif'; x.textAlign = 'center';
+    x.fillText('Inimai Foods – ' + money(totals().sum), c.width/2, sz + pad + 28);
+    c.toBlob(function(blob){
+      if (!blob){ upiNote(t('pdfFail'), true); return; }
+      if (DL) DL.save({filename:fname, data:blob}).then(function(){ upiNote(t('qrSaved')); }, function(e){ upiNote(e && e.code==='declined' ? t('pdfNo') : t('pdfFail'), true); });
+      else { var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fname; document.body.appendChild(a); a.click(); a.remove(); upiNote(t('qrSaved')); }
+    }, 'image/png');
+  }catch(e){ upiNote(t('pdfFail'), true); }
+});
+applyLang(); route();
+</script>
+<script>var INIMAI_SHEET_URL=""; // Google Sheet Web app URL (https://script.google.com/macros/s/…/exec)</script>
+<script src="sheet-connect.js"></script>
+</body>
+</html>
