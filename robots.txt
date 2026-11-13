@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://inimaifoodss-web.github.io/inimai-foods/sitemap.xml
