@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "Inimai Bakes – இனிமை பேக்ஸ்",
+  "short_name": "இனிமை பேக்ஸ்",
+  "description": "இனிமை பேக்ஸ் – பிரெட், பன், ரஸ்க், கேக் ஆன்லைன் ஆர்டர் (சேந்தமங்கலம்)",
+  "lang": "ta",
+  "dir": "ltr",
+  "start_url": "./?source=app",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#7A1532",
+  "categories": ["food", "shopping"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

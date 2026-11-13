@@ -8,7 +8,12 @@
 <meta name="keywords" content="Inimai Bakes, இனிமை பேக்ஸ், Inimai Bakes Sendamangalam, Inimai Bakes bakery, bakery Sendamangalam, bakery Namakkal, Pachudaiyampatti Pudur, bread, rusk, bun, cake, puffs">
 <link rel="canonical" href="https://inimaifoodss-web.github.io/inimai-foods/">
 <link rel="icon" type="image/png" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="இனிமை பேக்ஸ்">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#7A1532">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Inimai Bakes">
@@ -139,6 +144,7 @@ body.hasbar[data-view=home]{padding-bottom:150px}
 .deliv{font-size:14px;font-weight:600;padding:10px 12px;border-radius:10px;margin-top:10px;background:var(--cream);color:var(--maroon);border:1px solid var(--line)}
 .deliv.free{background:#E8F5EC;color:var(--green);border-color:#BFE3C8}
 .badge{position:absolute;top:8px;left:calc(50% + 6px);background:var(--maroon);color:#fff;border-radius:999px;font-size:11px;min-width:18px;height:18px;padding:0 5px;display:flex;align-items:center;justify-content:center}
+.appcard{margin:14px 16px 0;border-radius:16px;background:var(--cream);border:1px solid var(--line);padding:14px 16px;position:relative}.appcard .appTop{display:flex;align-items:center;gap:12px;padding-right:30px}.appcard img{width:52px;height:52px;border-radius:12px;border:1px solid var(--line);background:#fff;flex:0 0 auto}.appcard .appH{margin:0;font-size:17px;color:var(--maroon);font-weight:700}.appcard .appP{margin:2px 0 0;font-size:14px;color:var(--muted)}.appcard .appBtn{width:100%;margin-top:12px;background:var(--maroon)}.appcard .appX{position:absolute;top:6px;right:6px;width:40px;height:40px;border:0;background:none;font-size:24px;color:var(--muted);cursor:pointer}.appHelp{margin-top:12px;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px}.appHelp ol{margin:6px 0 0;padding-left:20px}.appHelp li{margin:4px 0}.panel .appcard{margin:14px 0 0}
 .sitefoot{margin:28px 16px 12px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);text-align:center}.sitefoot b{color:var(--maroon)}.sitefoot a{color:var(--maroon)}
 </style>
 </head>
@@ -164,6 +170,7 @@ body.hasbar[data-view=home]{padding-bottom:150px}
       <div class="bannerLogo"><img src="logo.png" alt="" width="120" height="80" class="logoTa"><div class="logoEn" aria-hidden="true"><svg viewBox="0 2 120 72" class="lt" aria-hidden="true"><path d="M60 70 C38 76 14 64 4 42 C26 38 48 50 60 70Z" fill="#F48FB1" stroke="#7A1532" stroke-width="1.6"/><path d="M60 70 C82 76 106 64 116 42 C94 38 72 50 60 70Z" fill="#F48FB1" stroke="#7A1532" stroke-width="1.6"/><path d="M60 68 C42 62 30 42 34 18 C50 28 58 46 60 68Z" fill="#EC407A" stroke="#7A1532" stroke-width="1.6"/><path d="M60 68 C78 62 90 42 86 18 C70 28 62 46 60 68Z" fill="#EC407A" stroke="#7A1532" stroke-width="1.6"/><path d="M60 4 C74 22 74 50 60 68 C46 50 46 22 60 4Z" fill="#C2185B" stroke="#7A1532" stroke-width="1.6"/><path d="M60 14 C65 28 65 46 60 58" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.2" stroke-linecap="round"/></svg><div class="lw">Inimai</div><svg viewBox="0 0 620 40" class="lf" aria-hidden="true"><path d="M10 6 Q310 50 610 6 Q310 26 10 6Z" fill="#2E7D32"/></svg><div class="ls">BAKES</div></div></div>
       <div><h2 data-i18n="bannerH">தினமும் புதிதாகச் சுட்டது</h2><p data-i18n="bannerP">கடைகளுக்கும் வீடுகளுக்கும் நேரடி சப்ளை. ஆர்டர் WhatsApp-ல் வரும்.</p><div class="offer" data-i18n="offer">₹300க்கு மேல் ஆர்டருக்கு இலவச டோர் டெலிவரி (3 கி.மீ. வரை). மற்றவைக்கு ₹30.</div></div>
     </div>
+    <div class="appcard" data-dismiss hidden><div class="appTop"><img src="icon-192.png" alt="" width="52" height="52"><div><div class="appH"></div><p class="appP"></p></div></div><button type="button" class="appX" hidden>×</button><button type="button" class="btn appBtn"></button><div class="appHelp" hidden></div></div>
     <div class="secttl" id="gridTitle">பொருட்கள்</div>
     <div class="grid" id="grid"></div>
   </section>
@@ -233,6 +240,7 @@ body.hasbar[data-view=home]{padding-bottom:150px}
       <div class="line"><span data-i18n="help">ஆர்டர் உதவி (WhatsApp)</span><b id="helpNum"></b></div>
       <button type="button" class="btn btn2" id="clear" style="margin-top:14px" data-i18n="clear">சேமித்த விவரத்தை அழி</button>
       <div class="msg ok" id="pmsg"></div>
+      <div class="appcard" hidden><div class="appTop"><img src="icon-192.png" alt="" width="52" height="52"><div><div class="appH"></div><p class="appP"></p></div></div><button type="button" class="btn appBtn"></button><div class="appHelp" hidden></div></div>
     </div>
   </section>
 </div>
@@ -715,5 +723,6 @@ applyLang(); route();
 </script>
 <script>var INIMAI_SHEET_URL="https://script.google.com/macros/s/AKfycbyaF_V5V1rTAAw7ThcS2AA8eqnMxblwXB9lllKXRVU3UGpcupzZ93vZSIpg6hvz5PU_2g/exec"; // Google Sheet Web app URL (https://script.google.com/macros/s/…/exec)</script>
 <script src="sheet-connect.js"></script>
+<script src="pwa.js"></script>
 </body>
 </html>
