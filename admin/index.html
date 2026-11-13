@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#7A1532">
+<meta name="robots" content="noindex,nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Inimai Admin">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="icon" href="../icon-192.png">
+<style>
+#login{position:fixed;inset:0;z-index:50;background:#FAF6F0;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+#login[hidden]{display:none}
+#login form{width:100%;max-width:360px;background:#fff;border:1px solid #EADBC8;border-radius:16px;padding:20px;display:grid;gap:12px;font-family:'Noto Sans Tamil',sans-serif;color:#22140C}
+#login h2{margin:0;color:#7A1532;font-size:20px}
+#login p{margin:0;font-size:14px;color:#6B5446}
+#login input{font:inherit;font-size:22px;letter-spacing:.3em;text-align:center;padding:12px;border:1px solid #CDB9A3;border-radius:12px}
+#login button{min-height:50px;border:0;border-radius:12px;background:#1E7B34;color:#fff;font:inherit;font-size:17px;font-weight:700}
+#login .e{color:#A3122A;font-size:14px;min-height:20px}
+body{padding-bottom:64px}
+#logout{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:6;background:#fff;border:1px solid #EADBC8;border-radius:999px;padding:8px 14px;font:inherit;font-size:13px;color:#6B5446}
+</style>
+<script>
+(function(){
+  var API = "https://script.google.com/macros/s/AKfycbyaF_V5V1rTAAw7ThcS2AA8eqnMxblwXB9lllKXRVU3UGpcupzZ93vZSIpg6hvz5PU_2g/exec";
+  var KEY = 'inimai_admin_pin';
+  window.ADMIN_APP = true;
+  function pin(){ try { return localStorage.getItem(KEY) || ''; } catch(e){ return ''; } }
+  function setPin(v){ try { if (v) localStorage.setItem(KEY, v); else localStorage.removeItem(KEY); } catch(e){} }
+  function call(fn, args, p){
+    return fetch(API, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({fn:fn, args:args||[], pin: p != null ? p : pin()})})
+      .then(function(r){ return r.json(); }, function(){ throw {code:'net', message:'இணைய இணைப்பு இல்லை. மீண்டும் முயற்சிக்கவும்.'}; })
+      .then(function(j){ if (j && j.ok) return j.result; throw {code: j && j.code, message: (j && j.error) || 'பிழை'}; });
+  }
+  var FNS = ['getOrders','setStatus','getProducts','saveProduct','deleteProduct','changePrice','bulkPrice'];
+  function runner(){
+    var ok, fail, r = {withSuccessHandler:function(f){ ok=f; return r; }, withFailureHandler:function(f){ fail=f; return r; }};
+    FNS.forEach(function(n){ r[n] = function(){
+      var args = [].slice.call(arguments);
+      call(n, args).then(function(x){ ok && ok(x); }, function(e){
+        if (e.code === 'pin' || e.code === 'nopin' || e.code === 'locked'){ showLogin(e.message); return; }
+        fail && fail(e);
+      });
+    }; });
+    return r;
+  }
+  window.google = {script:{get run(){ return runner(); }}};
+  function showLogin(msg){
+    var L = document.getElementById('login'); if (!L) return;
+    L.hidden = false; document.getElementById('lErr').textContent = msg || '';
+    setTimeout(function(){ document.getElementById('lPin').focus(); }, 50);
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    var L = document.createElement('div'); L.id='login'; L.hidden = !!pin();
+    L.innerHTML = '<form id="lForm" novalidate><h2>இனிமை பேக்ஸ் – அட்மின்</h2><p>உங்கள் அட்மின் PIN-ஐப் போடுங்கள்.</p>'
+      + '<input id="lPin" type="password" inputmode="numeric" autocomplete="current-password" maxlength="8" aria-label="PIN">'
+      + '<div class="e" id="lErr" role="alert"></div><button type="submit" id="lBtn">உள்ளே செல்</button></form>';
+    document.body.appendChild(L);
+    var out = document.createElement('button'); out.id='logout'; out.type='button'; out.textContent='🔒 வெளியேறு';
+    out.addEventListener('click', function(){ setPin(''); showLogin(''); });
+    document.body.appendChild(out);
+    document.getElementById('lForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      var v = document.getElementById('lPin').value.trim(), b = document.getElementById('lBtn'), er = document.getElementById('lErr');
+      if (!/^\d{6,8}$/.test(v)){ er.textContent = '6–8 இலக்க PIN போடுங்கள்.'; return; }
+      b.disabled = true; er.textContent = 'சரிபார்க்கிறது…';
+      call('ping', [], v).then(function(){
+        setPin(v); L.hidden = true; document.getElementById('lPin').value = ''; er.textContent = '';
+        try { load(); } catch(x){}
+        try { if (!document.getElementById('vProducts').hidden) loadProducts(); } catch(x){}
+      }, function(err){ er.textContent = err.message; }).then(function(){ b.disabled = false; });
+    });
+    if (!pin()) showLogin('');
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+})();
+</script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@800&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+<title>Inimai Admin</title>
+<style>
+:root{--m:#7A1532;--cream:#FFF8EE;--ink:#22140C;--mu:#6B5446;--line:#EADBC8;--g:#1E7B34;--gbg:#E8F5EC;--y:#F2B632;--ybg:#FFF3D6;--b:#1F5FA8;--bbg:#E6EFFA;--r:#A3122A;--rbg:#FBE9EC}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans Tamil',-apple-system,Segoe UI,Roboto,sans-serif;background:#FAF6F0;color:var(--ink);line-height:1.45}
+header{background:var(--m);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px}
+header h1{font-size:18px;margin:0;flex:1}
+header small{display:block;font-weight:400;opacity:.85;font-size:12px}
+.icon{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.7);color:#fff;border-radius:10px;min-height:40px;padding:0 12px;font:inherit;font-weight:700;cursor:pointer}
+.wrap{max-width:900px;margin:0 auto;padding:12px 16px 40px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:640px){.stats{grid-template-columns:repeat(3,1fr)}}
+.st{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
+.st b{display:block;font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums}
+.st span{font-size:13px;color:var(--mu)}
+.st.g b{color:var(--g)}.st.y b{color:#9A6A00}.st.m b{color:var(--m)}
+.range{display:flex;gap:8px;margin:14px 0 8px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:999px;min-height:40px;padding:0 14px;font:inherit;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;white-space:nowrap}
+.chip[aria-pressed=true]{background:var(--m);border-color:var(--m);color:#fff}
+.search{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid #CDB9A3;border-radius:12px;margin:6px 0 12px;background:#fff}
+.list{display:grid;gap:12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:8px}
+.row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.oid{font-weight:700;font-size:15px}
+.when{font-size:12px;color:var(--mu)}
+.badge{flex:0 0 auto;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700}
+.s0{background:var(--ybg);color:#7A5200}.s1{background:var(--bbg);color:var(--b)}.s2{background:var(--gbg);color:var(--g)}.s3{background:var(--rbg);color:var(--r)}
+.who{font-size:16px;font-weight:700}
+.addr{font-size:14px;color:var(--mu);white-space:pre-wrap}
+.items{font-size:14px;white-space:pre-wrap;background:var(--cream);border-radius:10px;padding:8px 10px}
+.tot{font-weight:700}
+.pay{font-size:13px;color:var(--mu)}
+.acts{display:flex;flex-wrap:wrap;gap:8px}
+.a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border-radius:10px;font:inherit;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.a.call{color:var(--b);border-color:#BFD3EE}.a.wa{color:var(--g);border-color:#BFE3C8}
+.sbtns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.sb{min-height:44px;border-radius:10px;border:1px solid var(--line);background:#fff;font:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--mu);padding:0 4px}
+.sb[aria-pressed=true].s0b{background:#F2B632;border-color:#F2B632;color:#3A2600}
+.sb[aria-pressed=true].s1b{background:var(--b);border-color:var(--b);color:#fff}
+.sb[aria-pressed=true].s2b{background:var(--g);border-color:var(--g);color:#fff}
+.sb[aria-pressed=true].s3b{background:var(--r);border-color:var(--r);color:#fff}
+.sb:disabled{opacity:.6}
+.empty,.note{color:var(--mu);text-align:center;padding:24px 8px}
+.err{background:var(--rbg);color:var(--r);border-radius:12px;padding:12px;margin-bottom:12px}
+.bmsg{font-size:13px;color:var(--g);flex-basis:100%}
+.bmsg a{color:var(--b)}
+.upd{font-size:12px;color:var(--mu);text-align:right;margin-top:6px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.tab{min-height:46px;border-radius:12px;border:1px solid var(--line);background:#fff;font:inherit;font-size:15px;font-weight:700;cursor:pointer;color:var(--ink)}
+.tab[aria-pressed=true]{background:var(--m);border-color:var(--m);color:#fff}
+.prow{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px}
+.prow.off{opacity:.6}
+.ptop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.pname{font-weight:700;font-size:15px}
+.pmeta{font-size:13px;color:var(--mu)}
+.pprice{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pprice b{color:var(--g);font-size:18px}
+.pprice s{color:var(--mu)}
+.f{display:grid;gap:10px}
+.f label{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--mu)}
+.f input,.f select{font:inherit;font-size:16px;padding:9px 10px;border:1px solid #CDB9A3;border-radius:10px;background:#fff;color:var(--ink);min-width:0;width:100%}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sw{display:flex!important;align-items:center;gap:10px;grid-template-columns:none!important;font-size:15px!important;color:var(--ink)!important}
+.sw input{width:22px;height:22px;accent-color:var(--g)}
+.a.pri{background:var(--g);border-color:var(--g);color:#fff}
+.a.del{color:var(--r);border-color:#F1C2CB}
+.addbtn{width:100%;margin-bottom:12px}
+.pmsg{font-size:14px;color:var(--g);min-height:20px}
+.qp{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.qp button{min-width:48px;min-height:44px;border-radius:10px;border:1px solid var(--line);background:#fff;font:inherit;font-size:15px;font-weight:700;cursor:pointer}
+.qp .dn{color:var(--r);border-color:#F1C2CB}.qp .up{color:var(--g);border-color:#BFE3C8}
+.qp b{min-width:64px;text-align:center;font-size:20px;color:var(--g);font-variant-numeric:tabular-nums}
+.qp s{color:var(--mu)}
+.bulk{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px;display:grid;gap:10px}
+.bulk h2,.pinbox h2{font-size:15px;margin:0}
+.bulk .row3{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bulk select,.bulk input,.pinbox input{font:inherit;font-size:16px;padding:9px 10px;border:1px solid #CDB9A3;border-radius:10px;background:#fff;color:var(--ink);width:100%;min-width:0}
+.bulk .acts .a{flex:1}
+.pinbox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:20px;display:grid;gap:10px}
+.pinbox[hidden]{display:none}
+.pinbox p{margin:0;font-size:13px;color:var(--mu)}
+</style>
+</head>
+<body>
+<header>
+  <h1>இனிமை பேக்ஸ் – அட்மின்<small id="upd">ஏற்றுகிறது…</small></h1>
+  <button class="icon" id="refresh" type="button">↻ புதுப்பி</button>
+</header>
+<div class="wrap">
+  <div id="err" class="err" hidden></div>
+  <div class="tabs" role="group" aria-label="பகுதி">
+    <button class="tab" type="button" data-tab="orders" aria-pressed="true">ஆர்டர்கள்</button>
+    <button class="tab" type="button" data-tab="products" aria-pressed="false">பொருட்கள் / விலை</button>
+  </div>
+  <section id="vOrders">
+  <div class="range chips" role="group" aria-label="காலம்">
+    <button class="chip" data-r="today" aria-pressed="true" type="button">இன்று</button>
+    <button class="chip" data-r="week" aria-pressed="false" type="button">7 நாள்</button>
+    <button class="chip" data-r="month" aria-pressed="false" type="button">இந்த மாதம்</button>
+    <button class="chip" data-r="all" aria-pressed="false" type="button">எல்லாம்</button>
+  </div>
+  <div class="stats">
+    <div class="st m"><b id="sOrders">–</b><span>மொத்த ஆர்டர்கள்</span></div>
+    <div class="st"><b id="sCust">–</b><span>ஆர்டர் செய்தவர்கள்</span></div>
+    <div class="st g"><b id="sDone">–</b><span>டெலிவரி ஆனது</span></div>
+    <div class="st y"><b id="sPend">–</b><span>டெலிவரி நிலுவை</span></div>
+    <div class="st"><b id="sCancel">–</b><span>ரத்து</span></div>
+    <div class="st g"><b id="sSales">–</b><span>விற்பனை (ரத்து தவிர)</span></div>
+  </div>
+  <div class="chips" id="filters" role="group" aria-label="நிலை" style="margin-top:14px"></div>
+  <input class="search" id="q" type="search" placeholder="பெயர், மொபைல், ஆர்டர் எண் தேடுங்கள்">
+  <div class="list" id="list"><div class="note">ஏற்றுகிறது…</div></div>
+  </section>
+  <section id="vProducts" hidden>
+    <button class="a pri addbtn" type="button" id="addP">+ புதிய பொருள் சேர்</button>
+    <div class="bulk">
+      <h2>எல்லா விலையும் ஒரே நேரத்தில் ஏற்ற / குறைக்க</h2>
+      <div class="row3">
+        <label class="f"><span style="font-size:13px;color:var(--mu);font-weight:600">வகை</span><select id="bCat"><option value="">எல்லா வகையும்</option></select></label>
+        <label class="f"><span style="font-size:13px;color:var(--mu);font-weight:600">சதவீதம் %</span><input id="bPct" type="number" inputmode="decimal" value="5" min="1" max="100"></label>
+      </div>
+      <div class="acts"><button class="a dn" type="button" id="bDown" style="color:var(--r)">▼ குறை</button><button class="a up" type="button" id="bUp" style="color:var(--g)">▲ ஏற்று</button></div>
+      <div class="pmsg" id="bMsg" role="status"></div>
+    </div>
+    <div class="pmsg" id="pmsg" role="status"></div>
+    <input class="search" id="pq" type="search" placeholder="பொருள் தேடுங்கள்">
+    <div class="list" id="plist"><div class="note">ஏற்றுகிறது…</div></div>
+  </section>
+  <div class="pinbox" id="pinBox" hidden>
+    <h2>📱 மொபைல் ஆப் PIN</h2>
+    <p id="pinState">போனில் ஆப் போல திறக்க ஒரு PIN (6–8 இலக்க எண்) அமைக்கவும். யாருக்கும் சொல்ல வேண்டாம்.</p>
+    <input id="pinIn" type="password" inputmode="numeric" autocomplete="new-password" maxlength="8" placeholder="புதிய PIN">
+    <button class="a pri" type="button" id="pinSave">PIN சேமி</button>
+    <div class="pmsg" id="pinMsg" role="status"></div>
+  </div>
+</div>
+<script>
+var STATUSES = ['புதியது','உறுதி','டெலிவரி ஆனது','ரத்து'];
+var ORDERS = [], RANGE = 'today', FILTER = 'pending', Q = '', busy = {};
+var $ = function(id){ return document.getElementById(id); };
+function money(n){ n = Number(n)||0; return '₹' + n.toLocaleString('en-IN'); }
+function pad(n){ return (n<10?'0':'')+n; }
+function fmt(ms){ var d=new Date(ms); return pad(d.getDate())+'-'+pad(d.getMonth()+1)+'-'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes()); }
+function sIdx(s){ var i = STATUSES.indexOf(s); return i<0?0:i; }
+function digits(p){ return String(p||'').replace(/\D/g,'').slice(-10); }
+
+function inRange(o){
+  if (RANGE==='all') return true;
+  var now = new Date(), start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  if (RANGE==='week') start.setDate(start.getDate()-6);
+  if (RANGE==='month') start = new Date(now.getFullYear(), now.getMonth(), 1);
+  return o.time >= start.getTime();
+}
+var FILTERS = [
+  {id:'pending', label:'நிலுவை', test:function(o){ var i=sIdx(o.status); return i<2; }},
+  {id:'s0', label:'புதியது', test:function(o){ return sIdx(o.status)===0; }},
+  {id:'s1', label:'உறுதி', test:function(o){ return sIdx(o.status)===1; }},
+  {id:'s2', label:'டெலிவரி ஆனது', test:function(o){ return sIdx(o.status)===2; }},
+  {id:'s3', label:'ரத்து', test:function(o){ return sIdx(o.status)===3; }},
+  {id:'all', label:'எல்லாம்', test:function(){ return true; }}
+];
+FILTERS.forEach(function(f){
+  var b=document.createElement('button'); b.type='button'; b.className='chip'; b.dataset.f=f.id;
+  b.setAttribute('aria-pressed', f.id===FILTER); b.addEventListener('click', function(){ FILTER=f.id; render(); });
+  $('filters').appendChild(b);
+});
+document.querySelectorAll('[data-r]').forEach(function(b){ b.addEventListener('click', function(){ RANGE=b.dataset.r; render(); }); });
+$('q').addEventListener('input', function(){ Q=this.value.trim().toLowerCase(); render(); });
+$('refresh').addEventListener('click', load);
+
+function render(){
+  document.querySelectorAll('[data-r]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.r===RANGE); });
+  var R = ORDERS.filter(inRange);
+  var cust = {}, done=0, pend=0, canc=0, sales=0;
+  R.forEach(function(o){ var i=sIdx(o.status); cust[digits(o.phone)||o.name]=1; if(i===2) done++; else if(i===3) canc++; else pend++; if(i!==3) sales += Number(o.total)||0; });
+  $('sOrders').textContent = R.length; $('sCust').textContent = Object.keys(cust).length;
+  $('sDone').textContent = done; $('sPend').textContent = pend; $('sCancel').textContent = canc; $('sSales').textContent = money(sales);
+  document.querySelectorAll('#filters .chip').forEach(function(b){
+    var f = FILTERS.filter(function(x){return x.id===b.dataset.f;})[0];
+    b.textContent = f.label + ' (' + R.filter(f.test).length + ')';
+    b.setAttribute('aria-pressed', f.id===FILTER);
+  });
+  var f = FILTERS.filter(function(x){return x.id===FILTER;})[0];
+  var L = R.filter(f.test).filter(function(o){
+    if (!Q) return true;
+    return (o.id+' '+o.name+' '+o.phone+' '+o.address).toLowerCase().indexOf(Q) >= 0;
+  });
+  var list = $('list'); list.innerHTML = '';
+  if (!L.length){ var e=document.createElement('div'); e.className='empty'; e.textContent = ORDERS.length ? 'இந்தப் பட்டியலில் ஆர்டர் இல்லை.' : 'இன்னும் ஆர்டர் எதுவும் வரவில்லை.'; list.appendChild(e); return; }
+  L.forEach(function(o){ list.appendChild(card(o)); });
+}
+function el(tag, cls, text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
+function card(o){
+  var c = el('div','card'), i = sIdx(o.status);
+  var r1 = el('div','row'), l = el('div');
+  l.appendChild(el('div','oid',o.id)); l.appendChild(el('div','when',fmt(o.time) + (o.date ? '  ·  டெலிவரி: '+o.date : '')));
+  r1.appendChild(l); r1.appendChild(el('span','badge s'+i, STATUSES[i])); c.appendChild(r1);
+  c.appendChild(el('div','who', o.name + '  ·  ' + o.phone));
+  if (o.address) c.appendChild(el('div','addr', o.address));
+  if (o.items) c.appendChild(el('div','items', o.items));
+  var t = el('div','row'); t.appendChild(el('span','tot','மொத்தம்: '+money(o.total) + (Number(o.fee) ? '  (டெலிவரி '+money(o.fee)+')' : '')));
+  c.appendChild(t);
+  c.appendChild(el('div','pay', 'பணம்: ' + (o.pay||'-') + (o.utr ? '  ·  UTR: '+o.utr : '') + (o.note ? '\nகுறிப்பு: '+o.note : '')));
+  var acts = el('div','acts'), d = digits(o.phone);
+  if (d){
+    var call = el('a','a call','📞 அழை'); call.href='tel:+91'+d; acts.appendChild(call);
+    var wa = el('a','a wa','WhatsApp'); wa.href='https://wa.me/91'+d+'?text='+encodeURIComponent('இனிமை பேக்ஸ்: உங்கள் ஆர்டர் '+o.id+' – '); wa.target='_blank'; wa.rel='noopener'; acts.appendChild(wa);
+  }
+  var bb = el('button','a','🧾 பில் PDF'), bm = el('div','bmsg'); bb.type='button';
+  bb.addEventListener('click', function(){ downloadBill(o, bb, bm); });
+  acts.appendChild(bb); acts.appendChild(bm);
+  c.appendChild(acts);
+  var sb = el('div','sbtns');
+  STATUSES.forEach(function(s, k){
+    var b = el('button','sb s'+k+'b', s); b.type='button'; b.setAttribute('aria-pressed', k===i);
+    b.disabled = !!busy[o.id];
+    b.addEventListener('click', function(){ if (k!==sIdx(o.status)) setStatus(o, s); });
+    sb.appendChild(b);
+  });
+  c.appendChild(sb);
+  if (o.updated) c.appendChild(el('div','upd','நிலை மாற்றியது: '+fmt(o.updated)));
+  return c;
+}
+function showErr(m){ var e=$('err'); e.hidden=!m; e.textContent=m||''; }
+function load(){
+  $('upd').textContent = 'ஏற்றுகிறது…';
+  google.script.run.withSuccessHandler(function(rows){
+    ORDERS = rows || []; showErr('');
+    var d=new Date(); $('upd').textContent = 'கடைசியாக புதுப்பித்தது ' + pad(d.getHours())+':'+pad(d.getMinutes());
+    render();
+  }).withFailureHandler(function(e){ showErr('ஆர்டர்களை ஏற்ற முடியவில்லை: ' + (e && e.message || e)); $('upd').textContent=''; }).getOrders();
+}
+function setStatus(o, s){
+  var old = o.status; o.status = s; busy[o.id]=1; render();
+  google.script.run.withSuccessHandler(function(ms){ delete busy[o.id]; o.updated = ms; render(); })
+    .withFailureHandler(function(e){ delete busy[o.id]; o.status = old; render(); showErr('நிலையை மாற்ற முடியவில்லை: ' + (e && e.message || e)); })
+    .setStatus(o.id, s);
+}
+// ===== பில் PDF (வாடிக்கையாளர் பெறும் அதே வடிவம்) =====
+var SITE = 'https://inimaifoodss-web.github.io/inimai-foods/', SHOP_WA = '917904050386';
+function loadScript(src){ return new Promise(function(res,rej){ var s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
+function css(tag, style, text){ var e=document.createElement(tag); if(style) e.style.cssText=style; if(text!=null) e.textContent=text; return e; }
+function parseItems(txt){
+  return String(txt||'').split('\n').map(function(line){
+    var m = /^\s*\d+\.\s*(.+?)\s*×\s*([\d.]+)(?:\s*=\s*₹\s*([\d.]+))?\s*$/.exec(line);
+    if (!m) return line.trim() ? {n: line.trim(), u:'', q:'', pr:null, amt:null} : null;
+    var name = m[1], unit = '', u = /^(.*) \(([^()]*)\)$/.exec(name);
+    if (u){ name = u[1]; unit = u[2]; }
+    var q = Number(m[2]), amt = m[3] != null ? Number(m[3]) : null;
+    return {n:name, u:unit, q:q, pr: amt != null && q ? amt/q : null, amt:amt};
+  }).filter(Boolean);
+}
+function billNode(o){
+  var M='#7A1532', G='#1E7B34', B='1px solid #EADBC8';
+  var d = css('div','position:fixed;left:-10000px;top:0;width:600px;padding:32px;background:#fff;color:#22140C;font-family:"Noto Sans Tamil",sans-serif;font-size:15px;line-height:1.5');
+  var h = css('div','display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid '+M+';padding-bottom:12px');
+  var hl = css('div'); hl.appendChild(css('div','font-family:"Baloo Thambi 2",sans-serif;font-weight:800;font-size:30px;color:'+M+';line-height:1.1',(window.BILL_BRAND||'இனிமை பேக்ஸ்')));
+  hl.appendChild(css('div','color:'+G+';font-weight:600;font-size:14px','தரத்தின் அடையாளம், சுவையின் தனித்துவம்!')); h.appendChild(hl);
+  var lg = document.createElement('img'); lg.crossOrigin='anonymous'; lg.src=SITE+'logo.png'; lg.style.cssText='height:64px;width:auto'; lg.onerror=function(){ lg.remove(); }; h.appendChild(lg);
+  d.appendChild(h);
+  d.appendChild(css('div','font-size:20px;font-weight:700;margin:16px 0 6px;color:'+M,'ஆர்டர் பில்'));
+  [['ஆர்டர் எண்: ',o.id],['ஆர்டர் தேதி: ',fmt(o.time)]].forEach(function(r){ var x=css('div'); x.appendChild(css('b',null,r[0])); x.appendChild(document.createTextNode(r[1])); d.appendChild(x); });
+  var tb = css('table','width:100%;border-collapse:collapse;margin:14px 0'), hr = css('tr','background:'+M+';color:#fff');
+  [['பொருள்','left'],['அளவு','center'],['விலை','right'],['தொகை','right']].forEach(function(c){ hr.appendChild(css('th','padding:8px;text-align:'+c[1]+';font-size:14px',c[0])); });
+  tb.appendChild(hr);
+  parseItems(o.items).forEach(function(it,i){
+    var r = css('tr', i%2 ? 'background:#FFF8EE' : '');
+    var c1 = css('td','padding:8px;border-bottom:'+B); c1.appendChild(css('div',null,it.n)); if (it.u) c1.appendChild(css('div','font-size:12px;color:#6B5446',it.u)); r.appendChild(c1);
+    r.appendChild(css('td','padding:8px;text-align:center;border-bottom:'+B,String(it.q)));
+    r.appendChild(css('td','padding:8px;text-align:right;border-bottom:'+B,it.pr!=null?money(Math.round(it.pr*100)/100):'—'));
+    r.appendChild(css('td','padding:8px;text-align:right;border-bottom:'+B,it.amt!=null?money(it.amt):'—'));
+    tb.appendChild(r);
+  });
+  var fee = Number(o.fee)||0, fr = css('tr');
+  fr.appendChild(css('td','padding:8px;border-bottom:'+B,'டெலிவரி கட்டணம்')); fr.appendChild(css('td','border-bottom:'+B)); fr.appendChild(css('td','border-bottom:'+B));
+  fr.appendChild(css('td','padding:8px;text-align:right;border-bottom:'+B+';'+(fee?'':'color:'+G+';font-weight:600'), fee ? money(fee) : 'இலவசம்')); tb.appendChild(fr);
+  var tr = css('tr'); tr.appendChild(css('td','padding:10px 8px;font-weight:700;font-size:17px','மொத்தம்')); tr.appendChild(css('td')); tr.appendChild(css('td'));
+  tr.appendChild(css('td','padding:10px 8px;text-align:right;font-weight:700;font-size:17px;color:'+G, money(o.total))); tb.appendChild(tr);
+  d.appendChild(tb);
+  var info = css('div','border:'+B+';border-radius:10px;padding:12px 14px');
+  var rows = [['பெயர்: ',o.name],['மொபைல்: ',o.phone],['முகவரி: ',o.address]];
+  if (o.date) rows.push(['டெலிவரி தேதி: ',o.date]); if (o.note) rows.push(['குறிப்பு: ',o.note]);
+  rows.push(['பணம்: ',o.pay||'-']); if (o.utr) rows.push(['UTR: ',o.utr]);
+  rows.forEach(function(r){ var x=css('div','white-space:pre-wrap'); x.appendChild(css('b',null,r[0])); x.appendChild(document.createTextNode(r[1])); info.appendChild(x); });
+  d.appendChild(info);
+  d.appendChild(css('div','text-align:center;margin-top:18px;color:'+M+';font-weight:600','நன்றி! மீண்டும் வருக.'));
+  d.appendChild(css('div','text-align:center;font-size:12px;color:#6B5446','WhatsApp: +'+SHOP_WA));
+  return d;
+}
+function downloadBill(o, btn, msg){
+  btn.disabled = true; msg.textContent = 'பில் தயாராகிறது…';
+  var node = billNode(o); document.body.appendChild(node);
+  var fname = 'Inimai-Bakes-Bill-' + o.id + '.pdf';
+  Promise.all([
+    window.html2canvas ? 0 : loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'),
+    window.jspdf ? 0 : loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'),
+    document.fonts ? document.fonts.ready : 0
+  ]).then(function(){ return new Promise(function(r){ setTimeout(r,200); }); })
+  .then(function(){ return html2canvas(node,{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false}); })
+  .then(function(cv){
+    var w=210, h=Math.max(cv.height*w/cv.width, 120);
+    var pdf = new window.jspdf.jsPDF({unit:'mm', format:[w,h]});
+    pdf.addImage(cv.toDataURL('image/jpeg',0.92),'JPEG',0,0,w,cv.height*w/cv.width);
+    var url = URL.createObjectURL(pdf.output('blob'));
+    var a = document.createElement('a'); a.href = url; a.download = fname; document.body.appendChild(a); a.click(); a.remove();
+    msg.textContent = 'பில் டவுன்லோட் ஆனது. வரவில்லை என்றால் ';
+    var open = document.createElement('a'); open.href = url; open.target = '_blank'; open.rel = 'noopener'; open.textContent = 'இங்கே அழுத்தி திறக்கவும்';
+    msg.appendChild(open);
+  })
+  .catch(function(){ msg.textContent = 'பில் உருவாக்க முடியவில்லை. இணையத்தைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.'; })
+  .then(function(){ node.remove(); btn.disabled = false; });
+}
+
+// ===== பொருட்கள் =====
+var CATS = [['bread','பிரெட் & பன்'],['rusk','ரஸ்க் & டோஸ்ட்'],['cake','கேக்'],['puff','பஃப்ஸ் & காரம்'],['biscuit','பிஸ்கட்']];
+var PRODUCTS = null, EDIT = null, PQ = '', DELASK = null;
+function catName(id){ var c = CATS.filter(function(x){return x[0]===id;})[0]; return c ? c[1] : id; }
+document.querySelectorAll('[data-tab]').forEach(function(b){ b.addEventListener('click', function(){
+  document.querySelectorAll('[data-tab]').forEach(function(x){ x.setAttribute('aria-pressed', x===b); });
+  var prod = b.dataset.tab==='products'; $('vOrders').hidden = prod; $('vProducts').hidden = !prod;
+  if (prod && !PRODUCTS) loadProducts();
+}); });
+$('pq').addEventListener('input', function(){ PQ = this.value.trim().toLowerCase(); renderProducts(); });
+$('addP').addEventListener('click', function(){ EDIT = {id:'', cat:'bread', name:'', en:'', unit:'', unitEn:'', price:'', mrp:'', img:'', on:true}; renderProducts(); window.scrollTo(0,0); });
+function loadProducts(){
+  google.script.run.withSuccessHandler(function(p){ PRODUCTS = p || []; renderProducts(); })
+    .withFailureHandler(function(e){ showErr('பொருட்களை ஏற்ற முடியவில்லை: ' + (e && e.message || e)); }).getProducts();
+}
+function field(label, key, type, val){
+  var l = el('label', null, label), i = document.createElement('input');
+  i.type = type || 'text'; i.value = val == null ? '' : val; i.dataset.k = key;
+  if (type==='number'){ i.inputMode='decimal'; i.min='0'; }
+  l.appendChild(i); return l;
+}
+function editor(p){
+  var c = el('div','prow'), f = el('div','f');
+  f.appendChild(el('div','pname', p.id ? 'திருத்து: ' + p.name : 'புதிய பொருள்'));
+  f.appendChild(field('பெயர் (தமிழ்)','name','text',p.name));
+  f.appendChild(field('Name (English)','en','text',p.en));
+  var cl = el('label', null, 'வகை'), s = document.createElement('select'); s.dataset.k='cat';
+  CATS.forEach(function(x){ var o=document.createElement('option'); o.value=x[0]; o.textContent=x[1]; if(x[0]===p.cat) o.selected=true; s.appendChild(o); });
+  cl.appendChild(s); f.appendChild(cl);
+  var t1 = el('div','two'); t1.appendChild(field('அளவு (எ.கா. 400 கி)','unit','text',p.unit)); t1.appendChild(field('Unit (e.g. 400 g)','unitEn','text',p.unitEn)); f.appendChild(t1);
+  var t2 = el('div','two'); t2.appendChild(field('விலை ₹','price','number',p.price)); t2.appendChild(field('MRP ₹ (விருப்பம்)','mrp','number',p.mrp)); f.appendChild(t2);
+  f.appendChild(field('படம் link (https://…, விருப்பம்)','img','url',p.img));
+  var sw = el('label','sw'), cb = document.createElement('input'); cb.type='checkbox'; cb.checked = p.on !== false; cb.dataset.k='on';
+  sw.appendChild(cb); sw.appendChild(document.createTextNode('இணையதளத்தில் காட்டு (விற்பனையில்)')); f.appendChild(sw);
+  var acts = el('div','acts'), save = el('button','a pri','சேமி'), cancel = el('button','a','ரத்து செய்');
+  save.type = cancel.type = 'button';
+  cancel.addEventListener('click', function(){ EDIT=null; renderProducts(); });
+  save.addEventListener('click', function(){
+    var v = {id: p.id};
+    f.querySelectorAll('[data-k]').forEach(function(i){ v[i.dataset.k] = i.type==='checkbox' ? i.checked : i.value.trim(); });
+    if (!v.name){ showErr('பெயரை உள்ளிடவும்.'); return; }
+    showErr(''); save.disabled = true; save.textContent = 'சேமிக்கிறது…';
+    google.script.run.withSuccessHandler(function(){ EDIT=null; $('pmsg').textContent = '“' + v.name + '” சேமிக்கப்பட்டது. இணையதளத்தில் சில நொடிகளில் மாறும்.'; loadProducts(); })
+      .withFailureHandler(function(e){ save.disabled=false; save.textContent='சேமி'; showErr('சேமிக்க முடியவில்லை: ' + (e && e.message || e)); }).saveProduct(v);
+  });
+  acts.appendChild(save); acts.appendChild(cancel); f.appendChild(acts);
+  c.appendChild(f); return c;
+}
+function toggleOn(p){
+  var v = {}; for (var k in p) v[k] = p[k]; v.on = !p.on;
+  p.on = v.on; renderProducts();
+  google.script.run.withSuccessHandler(function(){ $('pmsg').textContent = '“' + p.name + '” ' + (p.on ? 'இணையதளத்தில் காட்டப்படும்.' : 'இணையதளத்திலிருந்து மறைக்கப்பட்டது.'); })
+    .withFailureHandler(function(e){ p.on = !v.on; renderProducts(); showErr('மாற்ற முடியவில்லை: ' + (e && e.message || e)); }).saveProduct(v);
+}
+function renderProducts(){
+  var L = $('plist'); L.innerHTML = '';
+  if (EDIT && !EDIT.id) L.appendChild(editor(EDIT));
+  if (!PRODUCTS){ L.appendChild(el('div','note','ஏற்றுகிறது…')); return; }
+  var list = PRODUCTS.filter(function(p){ return !PQ || (p.name+' '+p.en).toLowerCase().indexOf(PQ) >= 0; });
+  if (!list.length) L.appendChild(el('div','empty','பொருள் எதுவும் இல்லை.'));
+  list.forEach(function(p){
+    if (EDIT && EDIT.id === p.id){ L.appendChild(editor(EDIT)); return; }
+    var c = el('div','prow' + (p.on ? '' : ' off')), top = el('div','ptop'), l = el('div');
+    l.appendChild(el('div','pname', p.name)); l.appendChild(el('div','pmeta', (p.en ? p.en + ' · ' : '') + (p.unit || '') + ' · ' + catName(p.cat)));
+    top.appendChild(l); top.appendChild(el('span','badge ' + (p.on ? 's2' : 's3'), p.on ? 'விற்பனையில்' : 'மறைவு'));
+    c.appendChild(top);
+    var pr = el('div','qp');
+    [[-5,'−5','dn'],[-1,'−1','dn']].forEach(function(x){ var b=el('button',x[2],x[1]); b.type='button'; b.setAttribute('aria-label','விலை ₹'+(-x[0])+' குறை'); b.addEventListener('click', function(){ nudge(p, x[0]); }); pr.appendChild(b); });
+    pr.appendChild(el('b', null, p.price == null ? '—' : money(p.price)));
+    [[1,'+1','up'],[5,'+5','up']].forEach(function(x){ var b=el('button',x[2],x[1]); b.type='button'; b.setAttribute('aria-label','விலை ₹'+x[0]+' ஏற்று'); b.addEventListener('click', function(){ nudge(p, x[0]); }); pr.appendChild(b); });
+    if (p.mrp != null && p.mrp > (p.price||0)) pr.appendChild(el('s', null, 'MRP ' + money(p.mrp)));
+    c.appendChild(pr);
+    var acts = el('div','acts'), e = el('button','a','✏️ திருத்து'), o = el('button','a', p.on ? 'மறை' : 'காட்டு'), d = el('button','a del', DELASK===p.id ? 'உறுதியாக நீக்கவா?' : 'நீக்கு');
+    e.type = o.type = d.type = 'button';
+    e.addEventListener('click', function(){ var v={}; for (var k in p) v[k]=p[k]; EDIT=v; DELASK=null; renderProducts(); });
+    o.addEventListener('click', function(){ toggleOn(p); });
+    d.addEventListener('click', function(){
+      if (DELASK !== p.id){ DELASK = p.id; renderProducts(); return; }
+      DELASK = null; d.disabled = true;
+      google.script.run.withSuccessHandler(function(){ $('pmsg').textContent = '“' + p.name + '” நீக்கப்பட்டது.'; loadProducts(); })
+        .withFailureHandler(function(err){ showErr('நீக்க முடியவில்லை: ' + (err && err.message || err)); renderProducts(); }).deleteProduct(p.id);
+    });
+    acts.appendChild(e); acts.appendChild(o); acts.appendChild(d); c.appendChild(acts);
+    L.appendChild(c);
+  });
+}
+load();
+// ===== விலை ஏற்றம் / குறைப்பு =====
+CATS.forEach(function(c){ var o=document.createElement('option'); o.value=c[0]; o.textContent=c[1]; $('bCat').appendChild(o); });
+var bulkAsk = 0;
+function bulk(sign){
+  var pct = Number($('bPct').value), cat = $('bCat').value, m = $('bMsg');
+  if (!(pct > 0 && pct <= 100)){ m.textContent = '1 முதல் 100 வரை சதவீதம் போடவும்.'; return; }
+  var label = (cat ? catName(cat) : 'எல்லா') + ' பொருட்களின் விலை ' + pct + '% ' + (sign > 0 ? 'ஏறும்' : 'குறையும்');
+  if (bulkAsk !== sign){ bulkAsk = sign; m.textContent = label + '. உறுதி செய்ய மீண்டும் அதே பட்டனை அழுத்தவும்.'; return; }
+  bulkAsk = 0; m.textContent = 'மாற்றுகிறது…'; $('bUp').disabled = $('bDown').disabled = true;
+  google.script.run.withSuccessHandler(function(n){ $('bUp').disabled = $('bDown').disabled = false; m.textContent = n + ' பொருட்களின் விலை மாற்றப்பட்டது.'; loadProducts(); })
+    .withFailureHandler(function(e){ $('bUp').disabled = $('bDown').disabled = false; m.textContent = ''; showErr('மாற்ற முடியவில்லை: ' + (e && e.message || e)); })
+    .bulkPrice(sign * pct, cat);
+}
+$('bUp').addEventListener('click', function(){ bulk(1); });
+$('bDown').addEventListener('click', function(){ bulk(-1); });
+$('bPct').addEventListener('input', function(){ bulkAsk = 0; $('bMsg').textContent=''; });
+$('bCat').addEventListener('change', function(){ bulkAsk = 0; $('bMsg').textContent=''; });
+var pending = {};
+function nudge(p, delta){
+  p.price = Math.max(0, (Number(p.price)||0) + delta); renderProducts();
+  pending[p.id] = (pending[p.id]||0) + delta;
+  clearTimeout(nudge['t'+p.id]);
+  nudge['t'+p.id] = setTimeout(function(){
+    var d = pending[p.id]; delete pending[p.id]; if (!d) return;
+    google.script.run.withSuccessHandler(function(v){ p.price = v; renderProducts(); $('pmsg').textContent = '“' + p.name + '” புதிய விலை ' + money(v) + ' சேமிக்கப்பட்டது.'; })
+      .withFailureHandler(function(e){ showErr('விலை சேமிக்க முடியவில்லை: ' + (e && e.message || e)); loadProducts(); })
+      .changePrice(p.id, d);
+  }, 800);
+}
+
+// ===== மொபைல் ஆப் PIN (Google அட்மின் பக்கத்தில் மட்டும்) =====
+if (!window.ADMIN_APP){
+  $('pinBox').hidden = false;
+  google.script.run.withSuccessHandler(function(has){ if (has) $('pinState').textContent = 'PIN அமைக்கப்பட்டுள்ளது ✓. மாற்ற வேண்டுமானால் புதிய PIN போட்டு சேமிக்கவும்.'; }).withFailureHandler(function(){}).hasAppPin();
+  $('pinSave').addEventListener('click', function(){
+    var v = $('pinIn').value.trim(), m = $('pinMsg');
+    if (!/^\d{6,8}$/.test(v)){ m.textContent = 'PIN 6 முதல் 8 இலக்க எண்ணாக இருக்க வேண்டும்.'; return; }
+    m.textContent = 'சேமிக்கிறது…';
+    google.script.run.withSuccessHandler(function(){ $('pinIn').value=''; m.textContent = 'PIN சேமிக்கப்பட்டது ✓. இப்போது போன் ஆப்பில் இந்த PIN-ஐப் போடுங்கள்.'; $('pinState').textContent = 'PIN அமைக்கப்பட்டுள்ளது ✓.'; })
+      .withFailureHandler(function(e){ m.textContent = 'சேமிக்க முடியவில்லை: ' + (e && e.message || e); }).setAppPin(v);
+  });
+}
+
+setInterval(function(){ if (!document.hidden && !Object.keys(busy).length && !$('vOrders').hidden) load(); }, 60000);
+</script>
+</body>
+</html>
