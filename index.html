@@ -183,6 +183,21 @@ div.amain{cursor:default}
 .pcard{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--cream);margin-bottom:16px}
 .av{flex:0 0 auto;width:52px;height:52px;border-radius:999px;background:var(--maroon);color:#fff;font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center}
 .pkT{margin-bottom:8px}
+.ordlink{display:flex;align-items:center;gap:12px;border:2px solid var(--maroon);border-radius:14px;padding:12px 14px;margin-bottom:16px;text-decoration:none;color:var(--ink);background:#FFF5F7}
+.ordlink .oi{font-size:28px}.ordlink span:nth-child(2){display:flex;flex-direction:column;flex:1}.ordlink b{font-size:17px;color:var(--maroon)}.ordlink small{font-size:13px;color:var(--muted)}
+.oarr{font-size:30px;color:var(--maroon);line-height:1}
+.backl{font-size:15px;font-weight:600;color:var(--maroon);text-decoration:none;display:inline-block;padding:6px 0}
+.olist{display:grid;gap:12px}
+.ocard{border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:8px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.otop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.otop div{display:flex;flex-direction:column}.otop small{color:var(--muted);font-size:13px}
+.ost{flex:0 0 auto;font-size:13px;font-weight:700;border-radius:999px;padding:4px 10px;background:#FFF3D6;color:#5A3A00}
+.ost.confirmed{background:#E6F0FF;color:#1C4E9A}.ost.delivered{background:#E8F5EC;color:var(--green)}.ost.cancelled{background:#FDE8EA;color:#A3122A}
+.oitems{font-size:15px}.oaddr{font-size:13px;color:var(--muted)}
+.obot{display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px dashed var(--line);padding-top:10px}
+.osum{font-size:18px;color:var(--green);margin-right:auto}
+.obtn{border:1px solid var(--maroon);background:#fff;color:var(--maroon);border-radius:10px;min-height:42px;padding:0 12px;font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.obtn.re{background:var(--maroon);color:#fff}
+.ocard .msg:empty{display:none}
 </style>
 </head>
 <body>
@@ -264,13 +279,20 @@ div.amain{cursor:default}
       <p class="unit" data-i18n="doneP">WhatsApp-ல் செய்தி திறந்திருக்கும். அங்கே <b>Send</b> அழுத்தினால்தான் ஆர்டர் எங்களுக்கு வரும். ஆர்டர் உறுதியானதும் WhatsApp-ல் பதில் அனுப்புவோம்.</p>
       <button type="button" class="btn" id="pdfBtn" hidden data-i18n="pdf">PDF பில் டவுன்லோட்</button>
       <div class="msg" id="pdfMsg" role="status"></div>
+      <a class="btn btn2" href="#orders" data-i18n="myOrders">என் ஆர்டர்கள்</a>
       <a class="btn btn2" href="#home" id="again" data-i18n="again">மீண்டும் ஆர்டர் செய்</a>
     </div>
+  </section>
+
+  <section class="view" id="v-orders">
+    <div class="secttl"><a href="#profile" class="backl" data-i18n="back">← பின்செல்</a><br><span data-i18n="myOrders">என் ஆர்டர்கள்</span></div>
+    <div class="panel"><div id="ordBox" class="olist"></div></div>
   </section>
 
   <section class="view" id="v-profile">
     <div class="secttl" data-i18n="myInfo">என் விவரம்</div>
     <div class="panel">
+      <a href="#orders" class="ordlink"><span class="oi">📦</span><span><b data-i18n="myOrders">என் ஆர்டர்கள்</b><small data-i18n="myOrdersSub"></small></span><span class="oarr">›</span></a>
       <div id="profBox"></div>
       <p class="unit" data-i18n="acctNote" style="margin-top:14px"></p>
       <div class="line"><span data-i18n="help">ஆர்டர் உதவி (WhatsApp)</span><b id="helpNum"></b></div>
@@ -409,7 +431,7 @@ function applyLang(){
   document.querySelector('.ticker').setAttribute('aria-label', t('brand') + ' – ' + t('tag'));
   document.querySelectorAll('.cat').forEach(function(b){ var c=CATEGORIES.filter(function(x){return x.id===b.dataset.id;})[0]; b.lastChild.textContent = nm(c); });
   $('helpNum').textContent = '+'+ORDER_WHATSAPP + (ORDER_WHATSAPP_2 ? ' / +'+ORDER_WHATSAPP_2 : '');
-  renderGrid(); renderCart(); updateLoc(); if (typeof renderAcct==='function') try{ syncFields(); renderAcct(); }catch(e){}
+  renderGrid(); renderCart(); updateLoc(); if (typeof renderAcct==='function') try{ syncFields(); renderAcct(); if (document.body.dataset.view==='orders') renderOrders(); }catch(e){}
 }
 
 
@@ -590,10 +612,11 @@ function show(v){
   if (v==='cats'){ v='home'; $('cats').scrollIntoView({behavior:'smooth'}); }
   if (v!==document.body.dataset.view && v!=='home') window.scrollTo(0,0);
   document.body.dataset.view = v;
-  ['home','cart','profile','done'].forEach(function(x){ $('v-'+x).classList.toggle('on', x===v); });
-  document.querySelectorAll('nav a').forEach(function(a){ if(a.dataset.v===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  ['home','cart','profile','done','orders'].forEach(function(x){ $('v-'+x).classList.toggle('on', x===v); });
+  if (v==='orders' && typeof renderOrders==='function') renderOrders();
+  document.querySelectorAll('nav a').forEach(function(a){ if(a.dataset.v===v || (v==='orders' && a.dataset.v==='profile')) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
 }
-function route(){ var h=(location.hash||'#home').slice(1); show(['home','cats','cart','profile'].indexOf(h)>-1 ? h : 'home'); }
+function route(){ var h=(location.hash||'#home').slice(1); show(['home','cats','cart','profile','orders'].indexOf(h)>-1 ? h : 'home'); }
 window.addEventListener('hashchange', route);
 $('heroCta').addEventListener('click', function(e){ e.preventDefault(); var g=$('gridTitle'), top=document.querySelector('.top'); window.scrollTo({top: g.getBoundingClientRect().top + window.scrollY - (top?top.offsetHeight:0) - 8, behavior:'smooth'}); });
 document.querySelectorAll('nav a').forEach(function(a){ a.addEventListener('click', function(){ setTimeout(route,0); }); });
@@ -606,7 +629,7 @@ var LAST_BILL = null, DL = null;
 function snapBill(){
   var tt = totals(), oi = orderInfo();
   return {lang:LANG, id:oi.id, when:oi.when, sum:tt.sum, fee:tt.fee, unknown:tt.unknown,
-    items: items().map(function(p){ return {n:nm(p), u:un(p), q:qty[p.id], pr:p.price}; }),
+    items: items().map(function(p){ return {n:nm(p), u:un(p), q:qty[p.id], pr:p.price, pid:p.id}; }),
     name:$('name').value.trim(), phone:$('phone').value.trim(), address:$('address').value.trim(),
     date:$('date').value, note:$('note').value.trim(), pay:payMethod(), utr:$('utr').value.trim()};
 }
@@ -649,11 +672,11 @@ function billEl(b){
   d.appendChild(el('div','text-align:center;font-size:12px;color:#6B5446','WhatsApp: +'+ORDER_WHATSAPP));
   return d;
 }
-$('pdfBtn').addEventListener('click', function(){
-  if (!LAST_BILL) return;
-  var btn=this, m=$('pdfMsg'); btn.disabled=true; m.className='msg ok'; m.textContent=t('pdfWait');
-  var node = billEl(LAST_BILL); document.body.appendChild(node);
-  var fname = 'Inimai-Bakes-Bill-'+LAST_BILL.id+'.pdf';
+$('pdfBtn').addEventListener('click', function(){ if (LAST_BILL) makePdf(LAST_BILL, this, $('pdfMsg')); });
+function makePdf(bill, btn, m){
+  btn.disabled=true; m.className='msg ok'; m.textContent=t('pdfWait');
+  var node = billEl(bill); document.body.appendChild(node);
+  var fname = 'Inimai-Bakes-Bill-'+bill.id+'.pdf';
   Promise.all([
     window.html2canvas ? 0 : loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'),
     window.jspdf ? 0 : loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'),
@@ -671,7 +694,7 @@ $('pdfBtn').addEventListener('click', function(){
   })
   .catch(function(){ m.className='msg'; m.textContent=t('pdfFail'); })
   .then(function(){ node.remove(); btn.disabled=false; });
-});
+}
 
 // ---- customer account (mobile number) + saved addresses — Blinkit-style, stored on this phone ----
 Object.assign(T.ta, {
@@ -741,7 +764,6 @@ function syncFields(){
   updateLoc(); updateWa();
 }
 function updateLoc(){ var a = selAddr(); $('locText').textContent = a ? LABELS[a.label||'home'].i + ' ' + lblText(a) + ' – ' + addrText(a) : t('addAddr'); }
-function rememberCustomer(){}
 function h(tag, cls, text, attrs){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; if (attrs) Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); }); return e; }
 function field(labelKey, el){ var l = h('label'); l.appendChild(h('span', null, t(labelKey))); l.appendChild(el); return l; }
 
@@ -881,6 +903,69 @@ function renderAcct(){
 }
 $('locBtn').addEventListener('click', openPicker);
 syncFields(); renderAcct();
+
+// ---- My orders (Blinkit-style): every order saved in the customer's account on this phone ----
+Object.assign(T.ta, {
+  myOrders:"என் ஆர்டர்கள்", myOrdersSub:"பழைய ஆர்டர்கள், PDF பில், மீண்டும் ஆர்டர்", noOrders:"இன்னும் ஆர்டர் எதுவும் இல்லை. முகப்பில் பொருட்களைச் சேர்த்து ஆர்டர் செய்யுங்கள்.",
+  ordLogin:"உங்கள் ஆர்டர்களைப் பார்க்க லாகின் செய்யுங்கள்.", back:"← பின்செல்", billBtn:"📄 PDF பில்", reorder:"🔁 மீண்டும் ஆர்டர்", reAdded:"பொருட்கள் ஆர்டரில் சேர்க்கப்பட்டன.",
+  st_placed:"ஆர்டர் செய்யப்பட்டது", st_confirmed:"உறுதி செய்யப்பட்டது", st_delivered:"டெலிவரி ஆனது", st_cancelled:"ரத்து செய்யப்பட்டது",
+  items:"பொருட்கள்", more:" + இன்னும் {n}", toAddr:"டெலிவரி: ", ordNote:"ஆர்டர்கள் இந்த போனில் சேமிக்கப்படும்."
+});
+Object.assign(T.en, {
+  myOrders:"My orders", myOrdersSub:"Past orders, PDF bills, order again", noOrders:"No orders yet. Add products on the home page and place an order.",
+  ordLogin:"Log in to see your orders.", back:"← Back", billBtn:"📄 PDF bill", reorder:"🔁 Order again", reAdded:"Items added to your order.",
+  st_placed:"Order placed", st_confirmed:"Confirmed", st_delivered:"Delivered", st_cancelled:"Cancelled",
+  items:"items", more:" + {n} more", toAddr:"Deliver to: ", ordNote:"Orders are saved on this phone."
+});
+var ST_ICON = {placed:'🕒', confirmed:'✅', delivered:'🚚', cancelled:'✖'};
+// admin panel statuses (Tamil words in the Sheet) -> our keys
+function stKey(s){ s = String(s||'').trim(); if (/உறுதி|confirm/i.test(s)) return 'confirmed'; if (/டெலிவரி|deliver/i.test(s)) return 'delivered'; if (/ரத்து|cancel/i.test(s)) return 'cancelled'; return 'placed'; }
+function myOrders(){ var c = acct(); return c && c.orders ? c.orders : []; }
+function rememberCustomer(){
+  var b = LAST_BILL; if (!b || !curPhone()) return;
+  var a = accts(), c = a[curPhone()]; c.orders = (c.orders || []).filter(function(o){ return o.id !== b.id; });
+  var o = JSON.parse(JSON.stringify(b)); o.st = 'placed'; o.ts = Date.now();
+  c.orders.unshift(o); c.orders = c.orders.slice(0, 100); saveAccts(a);
+}
+function renderOrders(){
+  var box = $('ordBox'); box.innerHTML = '';
+  if (!acct()){ box.appendChild(h('p', 'unit', t('ordLogin'))); box.appendChild(loginForm(renderOrders)); return; }
+  var list = myOrders();
+  if (!list.length){ box.appendChild(h('p', 'empty', t('noOrders'))); return; }
+  list.forEach(function(o){
+    var card = h('div', 'ocard'), top = h('div', 'otop');
+    var idw = h('div'); idw.appendChild(h('b', null, o.id)); idw.appendChild(h('small', null, o.when)); top.appendChild(idw);
+    var st = o.st || 'placed'; top.appendChild(h('span', 'ost ' + st, ST_ICON[st] + ' ' + t('st_' + st))); card.appendChild(top);
+    var names = o.items.map(function(i){ return i.n + ' × ' + i.q; });
+    card.appendChild(h('div', 'oitems', names.slice(0, 3).join(', ') + (names.length > 3 ? t('more').replace('{n}', names.length - 3) : '')));
+    if (o.address) card.appendChild(h('div', 'oaddr', t('toAddr') + o.address.split('\n')[0]));
+    var bot = h('div', 'obot'); bot.appendChild(h('b', 'osum', o.unknown ? (o.sum ? money(o.sum) + '+' : t('ask')) : money(o.sum)));
+    var pm = h('div', 'msg', '', {role:'status'});
+    var bb = h('button', 'obtn', t('billBtn'), {type:'button'}); bb.addEventListener('click', function(){ makePdf(o, bb, pm); });
+    var rb = h('button', 'obtn re', t('reorder'), {type:'button'});
+    rb.addEventListener('click', function(){
+      var n = 0; o.items.forEach(function(i){ var p = PRODUCTS.filter(function(x){ return x.id === i.pid || (!i.pid && (x.name === i.n || x.en === i.n)); })[0]; if (p){ qty[p.id] = i.q; n++; } });
+      changed(); if (n){ location.hash = '#cart'; } else { pm.textContent = t('none'); }
+    });
+    bot.appendChild(bb); bot.appendChild(rb); card.appendChild(bot); card.appendChild(pm);
+    box.appendChild(card);
+  });
+  refreshStatuses();
+}
+// Live status from the owner's admin panel (needs the ?api=mystatus endpoint in the Apps Script; quietly skipped until then)
+var ST_ASKED = 0;
+function refreshStatuses(){
+  var u = (window.INIMAI_SHEET_URL || '').trim(), list = myOrders().filter(function(o){ return /^IMF\d+$/.test(o.id) && o.st !== 'delivered' && o.st !== 'cancelled'; });
+  if (!u || !list.length || Date.now() - ST_ASKED < 30000) return; ST_ASKED = Date.now();
+  fetch(u + '?api=mystatus&phone=' + encodeURIComponent(curPhone()) + '&ids=' + encodeURIComponent(list.map(function(o){ return o.id; }).slice(0, 30).join(',')), {redirect:'follow'})
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      if (!j || !j.ok || !j.statuses) return;
+      var a = accts(), c = a[curPhone()], ch = false; if (!c || !c.orders) return;
+      c.orders.forEach(function(o){ if (o.id in j.statuses){ var k = stKey(j.statuses[o.id]); if (k !== o.st){ o.st = k; ch = true; } } });
+      if (ch){ saveAccts(a); if (document.body.dataset.view === 'orders') renderOrders(); }
+    }).catch(function(){});
+}
 
 // ---- UPI button: try harder to open the UPI app, plus fallbacks ----
 function copyText(txt){
