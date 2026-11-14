@@ -147,6 +147,42 @@ body.hasbar[data-view=home]{padding-bottom:150px}
 .badge{position:absolute;top:8px;left:calc(50% + 6px);background:var(--maroon);color:#fff;border-radius:999px;font-size:11px;min-width:18px;height:18px;padding:0 5px;display:flex;align-items:center;justify-content:center}
 .appcard{margin:14px 16px 0;border-radius:16px;background:var(--cream);border:1px solid var(--line);padding:14px 16px;position:relative}.appcard .appTop{display:flex;align-items:center;gap:12px;padding-right:30px}.appcard img{width:52px;height:52px;border-radius:12px;border:1px solid var(--line);background:#fff;flex:0 0 auto}.appcard .appH{margin:0;font-size:17px;color:var(--maroon);font-weight:700}.appcard .appP{margin:2px 0 0;font-size:14px;color:var(--muted)}.appcard .appBtn{width:100%;margin-top:12px;background:var(--maroon)}.appcard .appX{position:absolute;top:6px;right:6px;width:40px;height:40px;border:0;background:none;font-size:24px;color:var(--muted);cursor:pointer}.appHelp{margin-top:12px;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px}.appHelp ol{margin:6px 0 0;padding-left:20px}.appHelp li{margin:4px 0}.panel .appcard{margin:14px 0 0}
 .sitefoot{margin:28px 16px 12px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);text-align:center}.sitefoot b{color:var(--maroon)}.sitefoot a{color:var(--maroon)}
+.loc{background:none;border:0;color:#fff;font:inherit;cursor:pointer;padding:4px 0}
+.loc b::after{content:" ▾";font-size:12px}
+body.noscroll{overflow:hidden}
+.sheetbg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:#fff;width:100%;max-width:560px;max-height:90vh;overflow:auto;border-radius:18px 18px 0 0;padding:0 16px 24px;animation:up .2s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.shHead{position:sticky;top:0;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:16px 0 10px;font-size:18px;color:var(--maroon);z-index:1}
+.shHead button{border:0;background:var(--cream);border-radius:999px;width:40px;height:40px;font-size:18px;cursor:pointer}
+.lgform,.afrm,.alist{display:grid;gap:12px}
+.lgform{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--cream)}
+.sheet .lgform{border:0;padding:0;background:none}
+.lgH{font-weight:800;font-size:18px;color:var(--maroon)}.lgform .unit{margin:-6px 0 0}
+input[maxlength]{letter-spacing:.02em}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chipb{border:2px solid var(--line);background:#fff;border-radius:999px;min-height:44px;padding:0 16px;font:inherit;font-weight:600;font-size:15px;cursor:pointer;color:var(--ink)}
+.chipb[aria-checked=true]{border-color:var(--maroon);background:#FFF5F7;color:var(--maroon)}
+.gpsb{min-height:48px;font-size:15px}
+.gpsm{font-size:14px;color:#A3122A;min-height:0}.gpsm.ok{color:var(--green);font-weight:600}
+.linkb{background:none;border:0;font:inherit;font-size:14px;color:var(--maroon);text-decoration:underline;cursor:pointer;padding:8px 0;justify-self:start}
+.linkb.danger{color:#A3122A}
+.arow{display:flex;align-items:stretch;border:2px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+.arow.sel{border-color:var(--green);background:#F3FAF5}
+.amain{flex:1;display:flex;gap:12px;align-items:flex-start;padding:12px;background:none;border:0;font:inherit;text-align:left;color:inherit;cursor:pointer;min-width:0}
+div.amain{cursor:default}
+.aico{font-size:24px;line-height:1;flex:0 0 auto;margin-top:2px}
+.atx{display:flex;flex-direction:column;min-width:0;flex:1;font-size:14px;color:var(--muted)}
+.atx b{font-size:16px;color:var(--ink)}.atx small{font-size:12px}.atx .aok{color:var(--green);font-weight:600}
+.aedit{flex:0 0 auto;border:0;border-left:1px solid var(--line);background:none;color:var(--maroon);font:inherit;font-weight:700;font-size:14px;padding:0 14px;cursor:pointer;min-width:64px}
+.addb{border:2px dashed var(--maroon);background:#FFF5F7;color:var(--maroon);border-radius:14px;min-height:52px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;width:100%}
+.dcard{display:flex;gap:12px;align-items:flex-start;border:2px solid var(--green);background:#F3FAF5;border-radius:14px;padding:12px}
+.dcard.empty{border:0;background:none;padding:0}
+.dcard .atx small:first-child{color:var(--green);font-weight:700;font-size:13px}.dcard .who{margin-top:4px}
+.chg{flex:0 0 auto;border:1px solid var(--maroon);background:#fff;color:var(--maroon);border-radius:10px;min-height:40px;padding:0 12px;font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.pcard{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--cream);margin-bottom:16px}
+.av{flex:0 0 auto;width:52px;height:52px;border-radius:999px;background:var(--maroon);color:#fff;font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center}
+.pkT{margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -155,7 +191,7 @@ body.hasbar[data-view=home]{padding-bottom:150px}
   <div class="toprow">
     <div class="logo"><img src="logo.png" alt="இனிமை பேக்ஸ் லோகோ" width="105" height="70" class="logoTa"><div class="logoEn" role="img" aria-label="Inimai Bakes logo"><svg viewBox="0 2 120 72" class="lt" aria-hidden="true"><path d="M60 70 C38 76 14 64 4 42 C26 38 48 50 60 70Z" fill="#F48FB1" stroke="#7A1532" stroke-width="1.6"/><path d="M60 70 C82 76 106 64 116 42 C94 38 72 50 60 70Z" fill="#F48FB1" stroke="#7A1532" stroke-width="1.6"/><path d="M60 68 C42 62 30 42 34 18 C50 28 58 46 60 68Z" fill="#EC407A" stroke="#7A1532" stroke-width="1.6"/><path d="M60 68 C78 62 90 42 86 18 C70 28 62 46 60 68Z" fill="#EC407A" stroke="#7A1532" stroke-width="1.6"/><path d="M60 4 C74 22 74 50 60 68 C46 50 46 22 60 4Z" fill="#C2185B" stroke="#7A1532" stroke-width="1.6"/><path d="M60 14 C65 28 65 46 60 58" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.2" stroke-linecap="round"/></svg><div class="lw">Inimai</div><svg viewBox="0 0 620 40" class="lf" aria-hidden="true"><path d="M10 6 Q310 50 610 6 Q310 26 10 6Z" fill="#2E7D32"/></svg><div class="ls">BAKES</div></div></div>
     <button type="button" class="lang" id="lang" aria-label="Language / மொழி">English</button>
-    <div class="loc"><span data-i18n="deliver">டெலிவரி</span><b id="locText">முகவரி சேர்க்கவும்</b></div>
+    <button type="button" class="loc" id="locBtn"><span data-i18n="deliver">டெலிவரி</span><b id="locText">முகவரி சேர்க்கவும்</b></button>
   </div>
   <div class="search">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
@@ -183,10 +219,8 @@ body.hasbar[data-view=home]{padding-bottom:150px}
       <div id="lines"></div>
       <div class="line"><b data-i18n="total">மொத்தம்</b><b id="total"></b></div>
       <form id="form" novalidate>
-        <label><span data-i18n="name">கடை / உங்கள் பெயர்</span><input type="text" id="name" autocomplete="name"></label>
-        <label><span data-i18n="phone">மொபைல் எண்</span><input type="tel" id="phone" inputmode="numeric" autocomplete="tel"></label>
-        <div class="addrpick" id="addrPick" hidden></div>
-        <label><span data-i18n="address">முகவரி</span><textarea id="address"></textarea></label>
+        <div id="acctBox"></div>
+        <div hidden><input type="text" id="name" tabindex="-1"><input type="tel" id="phone" tabindex="-1"><textarea id="address" tabindex="-1"></textarea></div>
         <label><span data-i18n="date">டெலிவரி தேதி</span><input type="date" id="date"></label>
         <label><span data-i18n="note">குறிப்பு (விருப்பம்)</span><textarea id="note"></textarea></label>
         <div class="msg" id="msg" role="alert"></div>
@@ -237,10 +271,9 @@ body.hasbar[data-view=home]{padding-bottom:150px}
   <section class="view" id="v-profile">
     <div class="secttl" data-i18n="myInfo">என் விவரம்</div>
     <div class="panel">
-      <p class="unit" data-i18n="saveNote">பெயர், மொபைல், முகவரி இந்த போனில் மட்டும் சேமிக்கப்படும். அடுத்த ஆர்டரில் தானாக நிரம்பும்.</p>
+      <div id="profBox"></div>
+      <p class="unit" data-i18n="acctNote" style="margin-top:14px"></p>
       <div class="line"><span data-i18n="help">ஆர்டர் உதவி (WhatsApp)</span><b id="helpNum"></b></div>
-      <button type="button" class="btn btn2" id="clear" style="margin-top:14px" data-i18n="clear">சேமித்த விவரத்தை அழி</button>
-      <div class="msg ok" id="pmsg"></div>
       <div class="appcard" hidden><div class="appTop"><img src="icon-192.png" alt="" width="52" height="52"><div><div class="appH"></div><p class="appP"></p></div></div><button type="button" class="btn appBtn"></button><div class="appHelp" hidden></div></div>
     </div>
   </section>
@@ -248,6 +281,7 @@ body.hasbar[data-view=home]{padding-bottom:150px}
 
 <footer class="sitefoot"><b>Inimai Bakes – இனிமை பேக்ஸ்</b><br>பேக்கரி · பச்சுடையாம்பட்டி புதூர், சேந்தமங்கலம், நாமக்கல் மாவட்டம், தமிழ்நாடு<br>Bakery · Pachudaiyampatti Pudur, Sendamangalam, Namakkal Dt, Tamil Nadu<br>WhatsApp: <a href="https://wa.me/917904050386">+91 79040 50386</a></footer>
 <a href="#cart" class="fbar" id="fbar" hidden><span id="fbarT"></span><span class="go" data-i18n="fGo">ஆர்டர் →</span></a>
+<div class="sheetbg" id="sheet" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shTitle"><div class="shHead"><b id="shTitle"></b><button type="button" id="shClose" aria-label="close">✕</button></div><div id="shBody"></div></div></div>
 <nav aria-label="main">
   <a href="#home" data-v="home" aria-current="page"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/></svg><span data-i18n="navHome">முகப்பு</span></a>
   <a href="#cats" data-v="cats"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg><span data-i18n="navCats">வகைகள்</span></a>
@@ -375,7 +409,7 @@ function applyLang(){
   document.querySelector('.ticker').setAttribute('aria-label', t('brand') + ' – ' + t('tag'));
   document.querySelectorAll('.cat').forEach(function(b){ var c=CATEGORIES.filter(function(x){return x.id===b.dataset.id;})[0]; b.lastChild.textContent = nm(c); });
   $('helpNum').textContent = '+'+ORDER_WHATSAPP + (ORDER_WHATSAPP_2 ? ' / +'+ORDER_WHATSAPP_2 : '');
-  renderGrid(); renderCart(); updateLoc(); if (typeof renderPick==='function' && $('addrPick')) try{ renderPick(false); }catch(e){}
+  renderGrid(); renderCart(); updateLoc(); if (typeof renderAcct==='function') try{ syncFields(); renderAcct(); }catch(e){}
 }
 
 
@@ -497,9 +531,8 @@ function message(){
 }
 function problem(){
   if (!items().length) return t('errItem');
-  if (!$('name').value.trim()) return t('errName');
-  if ($('phone').value.replace(/\D/g,'').length < 10) return t('errPhone');
-  if (!$('address').value.trim()) return t('errAddr');
+  if (!$('name').value.trim() || $('phone').value.replace(/\D/g,'').length < 10) return t('errLogin');
+  if (!$('address').value.trim()) return t('errNoAddr');
   return '';
 }
 function updateWa(){
@@ -507,12 +540,7 @@ function updateWa(){
   if (problem()){ wa.setAttribute('aria-disabled','true'); wa.href='#'; }
   else { wa.removeAttribute('aria-disabled'); wa.href='https://wa.me/'+ORDER_WHATSAPP+'?text='+encodeURIComponent(message()); }
 }
-['name','phone','address','date','note'].forEach(function(id){
-  var saved = (id==='name'||id==='phone'||id==='address') ? store('inimai_'+id) : null;
-  if (saved) $(id).value = saved;
-  $(id).addEventListener('input', function(){ if(id==='name'||id==='phone'||id==='address') store('inimai_'+id, this.value); $('msg').textContent=''; updateLoc(); updateWa(); });
-});
-function updateLoc(){ var a=$('address').value.trim(); $('locText').textContent = a ? a.split(/[,\n]/)[0].slice(0,24) : t('addAddr'); }
+['date','note'].forEach(function(id){ $(id).addEventListener('input', function(){ $('msg').textContent=''; updateWa(); }); });
 function payMethod(){ var r=document.querySelector('input[name=pay]:checked'); return r ? r.value : 'cod'; }
 function upiLink(){
   var tt = totals(), oi = orderInfo();
@@ -557,7 +585,6 @@ $('copy').addEventListener('click', function(){
   catch(e){ $('msg').className='msg'; $('msg').textContent=t('copyFail'); }
 });
 $('form').addEventListener('submit', function(e){ e.preventDefault(); });
-$('clear').addEventListener('click', function(){ store('inimai_book',null); renderPick(false); ['name','phone','address'].forEach(function(id){ store('inimai_'+id,null); $(id).value=''; }); updateLoc(); updateWa(); $('pmsg').textContent=t('cleared'); });
 
 function show(v){
   if (v==='cats'){ v='home'; $('cats').scrollIntoView({behavior:'smooth'}); }
@@ -646,49 +673,214 @@ $('pdfBtn').addEventListener('click', function(){
   .then(function(){ node.remove(); btn.disabled=false; });
 });
 
-// ---- saved customers: addresses per mobile number (this phone only) ----
-function book(){ try{ return JSON.parse(store('inimai_book')||'{}') || {}; }catch(e){ return {}; } }
-function phoneKey(){ var d=$('phone').value.replace(/\D/g,''); return d.length>=10 ? d.slice(-10) : ''; }
-var ADDR_SEL = 'new', LAST_KEY = '';
-function setAddr(v){ $('address').value = v; store('inimai_address', v); updateLoc(); updateWa(); }
-function renderPick(auto){
-  var k = phoneKey(), e = k ? book()[k] : null, box = $('addrPick');
-  if (!e || !e.addrs || !e.addrs.length){ box.hidden = true; ADDR_SEL = 'new'; return; }
-  if (auto){
-    if (e.name){ $('name').value = e.name; store('inimai_name', e.name); }
-    ADDR_SEL = (e.last != null && e.addrs[e.last] != null) ? e.last : 0;
-    setAddr(e.addrs[ADDR_SEL]);
-  } else {
-    var i = e.addrs.indexOf($('address').value.trim()); ADDR_SEL = i > -1 ? i : 'new';
-  }
-  box.hidden = false; box.innerHTML = '';
-  box.appendChild(Object.assign(document.createElement('div'), {className:'pkT', textContent:t('savedAddr')}));
-  e.addrs.concat(['__new']).forEach(function(a, i){
-    var isNew = a === '__new', val = isNew ? 'new' : i;
-    var l = document.createElement('label'); l.className = 'payopt';
-    var r = document.createElement('input'); r.type = 'radio'; r.name = 'addrSel'; r.checked = (ADDR_SEL === val);
-    var sp = document.createElement('span'); sp.textContent = isNew ? t('newAddr') : a;
-    r.addEventListener('change', function(){
-      ADDR_SEL = val;
-      if (isNew){ setAddr(''); $('address').focus(); } else setAddr(a);
-    });
-    l.appendChild(r); l.appendChild(sp); box.appendChild(l);
-  });
-}
-function rememberCustomer(){
-  var k = phoneKey(), a = $('address').value.trim(); if (!k || !a) return;
-  var b = book(), e = b[k] || {addrs:[]};
-  e.name = $('name').value.trim();
-  var i = e.addrs.indexOf(a); if (i < 0){ e.addrs.push(a); i = e.addrs.length-1; }
-  while (e.addrs.length > 5){ e.addrs.shift(); i--; }
-  e.last = Math.max(0, i); b[k] = e;
-  store('inimai_book', JSON.stringify(b));
-}
-$('phone').addEventListener('input', function(){ var k = phoneKey(); if (k !== LAST_KEY){ LAST_KEY = k; renderPick(!!k); } });
-$('address').addEventListener('input', function(){
-  if (ADDR_SEL !== 'new'){ var e = book()[phoneKey()]; if (!e || e.addrs[ADDR_SEL] !== this.value.trim()){ ADDR_SEL = 'new'; renderPick(false); } }
+// ---- customer account (mobile number) + saved addresses — Blinkit-style, stored on this phone ----
+Object.assign(T.ta, {
+  lgH:"லாகின் / அக்கவுண்ட் உருவாக்கு", lgP:"உங்கள் பெயர், மொபைல் எண் போட்டால் போதும். முகவரிகளைச் சேமித்து, ஒவ்வொரு ஆர்டரிலும் ஒரு தட்டில் தேர்ந்தெடுக்கலாம்.",
+  lgGo:"தொடரவும்", lgOut:"வெளியேறு (Logout)", lgDel:"இந்த போனிலிருந்து என் அக்கவுண்டை அழி", lgDelQ:"உறுதியாக அழிக்கவா? மீண்டும் அழுத்துங்கள்.",
+  edit:"திருத்து", change:"மாற்று", save:"சேமி", del:"நீக்கு", delQ:"உறுதியாக நீக்கவா? மீண்டும் அழுத்துங்கள்.",
+  myAddrs:"என் முகவரிகள்", addAddrBtn:"+ புதிய முகவரி சேர்", pickTitle:"டெலிவரி முகவரியைத் தேர்ந்தெடுங்கள்",
+  noAddr:"இன்னும் முகவரி சேமிக்கவில்லை.", addrNew:"புதிய முகவரி", addrEdit:"முகவரியைத் திருத்து",
+  lHome:"வீடு", lShop:"கடை", lOther:"மற்றவை", lName:"முகவரிக்கு ஒரு பெயர் (எ.கா. அம்மா வீடு)",
+  fLine:"கதவு எண், தெரு", fArea:"ஊர் / பகுதி", fLand:"அருகில் உள்ள அடையாளம் (விருப்பம்)",
+  gps:"📍 என் தற்போதைய இருப்பிடத்தைச் சேர் (GPS)", gpsWait:"இருப்பிடம் கண்டுபிடிக்கிறது…", gpsOk:"✓ இருப்பிடம் சேர்க்கப்பட்டது – டெலிவரிக்கு வழி எளிது", gpsFail:"இருப்பிடம் கிடைக்கவில்லை. போனில் Location ON செய்து அனுமதி கொடுங்கள்.", gpsDel:"இருப்பிடத்தை நீக்கு",
+  errLine:"கதவு எண் / தெருவை உள்ளிடவும்.", errArea:"ஊர் / பகுதியை உள்ளிடவும்.",
+  errLogin:"ஆர்டர் செய்ய முதலில் பெயர், மொபைல் எண் போட்டு \"தொடரவும்\" அழுத்துங்கள்.", errNoAddr:"டெலிவரி முகவரியைச் சேர்க்கவும்.",
+  dTo:"டெலிவரி செய்யும் இடம்", mLand:"அடையாளம்: ", mMap:"📍 வரைபடம்: ", hi:"வணக்கம், ",
+  acctNote:"உங்கள் அக்கவுண்ட், முகவரிகள் இந்த போனில் மட்டும் சேமிக்கப்படும். வேறு போனில் அதே எண்ணில் லாகின் செய்தால் முகவரியை மீண்டும் சேர்க்க வேண்டும்.",
+  nameOnly:"பெயரைத் திருத்து"
 });
-LAST_KEY = phoneKey(); renderPick(false);
+Object.assign(T.en, {
+  lgH:"Login / Create account", lgP:"Just your name and mobile number. Save your addresses and pick one with a single tap on every order.",
+  lgGo:"Continue", lgOut:"Logout", lgDel:"Delete my account from this phone", lgDelQ:"Sure? Tap again to delete.",
+  edit:"Edit", change:"Change", save:"Save", del:"Delete", delQ:"Sure? Tap again to delete.",
+  myAddrs:"My addresses", addAddrBtn:"+ Add new address", pickTitle:"Select delivery address",
+  noAddr:"No saved address yet.", addrNew:"New address", addrEdit:"Edit address",
+  lHome:"Home", lShop:"Shop", lOther:"Other", lName:"Name this address (e.g. Mom's house)",
+  fLine:"House / door no., street", fArea:"Village / area", fLand:"Nearby landmark (optional)",
+  gps:"📍 Add my current location (GPS)", gpsWait:"Finding your location…", gpsOk:"✓ Location added – easier for our delivery", gpsFail:"Could not get location. Turn on Location and allow it.", gpsDel:"Remove location",
+  errLine:"Enter house / door no. and street.", errArea:"Enter village / area.",
+  errLogin:"To order, first enter your name and mobile number and tap \"Continue\".", errNoAddr:"Add a delivery address.",
+  dTo:"Delivering to", mLand:"Landmark: ", mMap:"📍 Map: ", hi:"Hello, ",
+  acctNote:"Your account and addresses are saved on this phone only. On another phone, log in with the same number and add the address again.",
+  nameOnly:"Edit name"
+});
+var LABELS = {home:{i:'🏠',k:'lHome'}, shop:{i:'🏪',k:'lShop'}, other:{i:'📍',k:'lOther'}};
+function accts(){ try{ return JSON.parse(store('inimai_accts')||'{}') || {}; }catch(e){ return {}; } }
+function saveAccts(a){ store('inimai_accts', JSON.stringify(a)); }
+function curPhone(){ var p = store('inimai_cur'); return p && accts()[p] ? p : ''; }
+function acct(){ var p = curPhone(); return p ? accts()[p] : null; }
+function putAcct(fn){ var a = accts(), p = curPhone(); if (!p) return; fn(a[p]); saveAccts(a); syncFields(); renderAcct(); }
+function newId(){ return 'a' + Date.now().toString(36) + Math.floor(Math.random()*1e4).toString(36); }
+function selAddr(){ var c = acct(); if (!c || !c.addrs.length) return null; return c.addrs.filter(function(x){ return x.id===c.sel; })[0] || c.addrs[0]; }
+function lblText(a){ return a.label==='other' && a.tag ? a.tag : t(LABELS[a.label||'home'].k); }
+function addrText(a){ return [a.line, a.area].filter(Boolean).join(', '); }
+function addrFull(a){
+  var L = T[LANG], s = lblText(a) + ' – ' + addrText(a);
+  if (a.land) s += '\n' + L.mLand + a.land;
+  if (a.lat != null) s += '\n' + L.mMap + 'https://maps.google.com/?q=' + a.lat + ',' + a.lng;
+  return s;
+}
+// one-time move from the older "saved addresses per number" storage
+(function migrate(){
+  if (store('inimai_accts')) return;
+  var a = {}, old = {}; try{ old = JSON.parse(store('inimai_book')||'{}') || {}; }catch(e){}
+  Object.keys(old).forEach(function(p){ var e = old[p] || {}; a[p] = {name:e.name||'', addrs:(e.addrs||[]).map(function(s){ return {id:newId(), label:'home', line:s, area:''}; })}; if (a[p].addrs[e.last||0]) a[p].sel = a[p].addrs[e.last||0].id; });
+  var ph = (store('inimai_phone')||'').replace(/\D/g,'').slice(-10), nmv = store('inimai_name')||'', ad = (store('inimai_address')||'').trim();
+  if (ph.length===10){
+    a[ph] = a[ph] || {name:nmv, addrs:[]}; if (!a[ph].name) a[ph].name = nmv;
+    if (ad && !a[ph].addrs.some(function(x){ return x.line===ad; })){ var x = {id:newId(), label:'home', line:ad, area:''}; a[ph].addrs.push(x); a[ph].sel = x.id; }
+    store('inimai_cur', ph);
+  }
+  if (Object.keys(a).length) saveAccts(a);
+  store('inimai_book', null); ['name','phone','address'].forEach(function(k){ store('inimai_'+k, null); });
+})();
+function syncFields(){
+  var c = acct(), a = selAddr();
+  $('name').value = c ? c.name : ''; $('phone').value = curPhone(); $('address').value = a ? addrFull(a) : '';
+  if (c && a) $('msg').textContent = '';
+  updateLoc(); updateWa();
+}
+function updateLoc(){ var a = selAddr(); $('locText').textContent = a ? LABELS[a.label||'home'].i + ' ' + lblText(a) + ' – ' + addrText(a) : t('addAddr'); }
+function rememberCustomer(){}
+function h(tag, cls, text, attrs){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; if (attrs) Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); }); return e; }
+function field(labelKey, el){ var l = h('label'); l.appendChild(h('span', null, t(labelKey))); l.appendChild(el); return l; }
+
+// bottom sheet
+function openSheet(title, body){
+  $('shTitle').textContent = title; var b = $('shBody'); b.innerHTML = ''; b.appendChild(body);
+  $('sheet').hidden = false; document.body.classList.add('noscroll');
+  var f = b.querySelector('input:not([type=radio]),textarea'); if (f && !f.value) setTimeout(function(){ try{ f.focus(); }catch(e){} }, 60);
+}
+function closeSheet(){ $('sheet').hidden = true; document.body.classList.remove('noscroll'); }
+$('shClose').addEventListener('click', closeSheet);
+$('sheet').addEventListener('click', function(e){ if (e.target === this) closeSheet(); });
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !$('sheet').hidden) closeSheet(); });
+
+function loginForm(onDone){
+  var c = acct(), f = h('div', 'lgform');
+  f.appendChild(h('div', 'lgH', t('lgH'))); f.appendChild(h('p', 'unit', t('lgP')));
+  var n = h('input', null, null, {type:'text', autocomplete:'name'}); n.value = c ? c.name : '';
+  var p = h('input', null, null, {type:'tel', inputmode:'numeric', autocomplete:'tel', maxlength:'14'});
+  var m = h('div', 'msg', '', {role:'alert'}), go = h('button', 'btn', t('lgGo'), {type:'button'});
+  f.appendChild(field('name', n)); f.appendChild(field('phone', p)); f.appendChild(m); f.appendChild(go);
+  go.addEventListener('click', function(){
+    var nv = n.value.trim(), pv = p.value.replace(/\D/g,'');
+    if (pv.length === 12 && pv.indexOf('91') === 0) pv = pv.slice(2);
+    if (!nv){ m.textContent = t('errName'); n.focus(); return; }
+    if (!/^[6-9]\d{9}$/.test(pv)){ m.textContent = t('errPhone'); p.focus(); return; }
+    var a = accts(); a[pv] = a[pv] || {addrs:[]}; a[pv].name = nv; saveAccts(a); store('inimai_cur', pv);
+    syncFields(); renderAcct(); if (onDone) onDone();
+  });
+  return f;
+}
+function addrForm(a, after){
+  var isNew = !a; a = a ? JSON.parse(JSON.stringify(a)) : {label:'home'};
+  var f = h('div', 'afrm'), chips = h('div', 'chips', null, {role:'radiogroup'});
+  var tag = h('input', null, null, {type:'text', maxlength:'30'}); tag.value = a.tag || '';
+  var tagL = field('lName', tag);
+  function drawChips(){ chips.innerHTML = ''; Object.keys(LABELS).forEach(function(k){
+    var b = h('button', 'chipb', LABELS[k].i + ' ' + t(LABELS[k].k), {type:'button', role:'radio', 'aria-checked': String(a.label===k)});
+    b.addEventListener('click', function(){ a.label = k; drawChips(); }); chips.appendChild(b); });
+    tagL.hidden = a.label !== 'other'; }
+  var line = h('textarea', null, null, {rows:'2', autocomplete:'street-address'}); line.value = a.line || '';
+  var area = h('input', null, null, {type:'text'}); area.value = a.area || '';
+  var land = h('input', null, null, {type:'text'}); land.value = a.land || '';
+  var gps = h('button', 'btn btn2 gpsb', t('gps'), {type:'button'}), gm = h('div', 'gpsm', '', {role:'status'}), gx = h('button', 'linkb', t('gpsDel'), {type:'button'});
+  function drawGps(){ gm.className = 'gpsm' + (a.lat != null ? ' ok' : ''); gm.textContent = a.lat != null ? t('gpsOk') : ''; gx.hidden = a.lat == null; }
+  gps.addEventListener('click', function(){
+    if (!navigator.geolocation){ gm.className = 'gpsm'; gm.textContent = t('gpsFail'); return; }
+    gm.className = 'gpsm'; gm.textContent = t('gpsWait');
+    navigator.geolocation.getCurrentPosition(function(pos){ a.lat = +pos.coords.latitude.toFixed(6); a.lng = +pos.coords.longitude.toFixed(6); drawGps(); },
+      function(){ gm.className = 'gpsm'; gm.textContent = t('gpsFail'); }, {enableHighAccuracy:true, timeout:15000, maximumAge:60000});
+  });
+  gx.addEventListener('click', function(){ delete a.lat; delete a.lng; drawGps(); });
+  var m = h('div', 'msg', '', {role:'alert'}), sv = h('button', 'btn', t('save'), {type:'button'});
+  [chips, tagL, field('fLine', line), field('fArea', area), field('fLand', land), gps, gm, gx, m, sv].forEach(function(x){ f.appendChild(x); });
+  sv.addEventListener('click', function(){
+    a.line = line.value.trim().replace(/\s*\n\s*/g, ', '); a.area = area.value.trim(); a.land = land.value.trim(); a.tag = a.label === 'other' ? tag.value.trim() : '';
+    if (!a.line){ m.textContent = t('errLine'); line.focus(); return; }
+    if (!a.area){ m.textContent = t('errArea'); area.focus(); return; }
+    if (!a.land) delete a.land; if (!a.tag) delete a.tag;
+    if (isNew) a.id = newId();
+    putAcct(function(c){ var i = c.addrs.map(function(x){ return x.id; }).indexOf(a.id); if (i > -1) c.addrs[i] = a; else c.addrs.unshift(a); c.addrs = c.addrs.slice(0, 10); c.sel = a.id; });
+    closeSheet(); if (after) after();
+  });
+  if (!isNew){
+    var d = h('button', 'linkb danger', t('del'), {type:'button'}), armed = false;
+    d.addEventListener('click', function(){
+      if (!armed){ armed = true; d.textContent = t('delQ'); return; }
+      putAcct(function(c){ c.addrs = c.addrs.filter(function(x){ return x.id !== a.id; }); if (c.sel === a.id) c.sel = c.addrs[0] ? c.addrs[0].id : null; });
+      closeSheet(); if (after) after();
+    });
+    f.appendChild(d);
+  }
+  drawChips(); drawGps(); return f;
+}
+function openAddrForm(a, after){ openSheet(t(a ? 'addrEdit' : 'addrNew'), addrForm(a, after)); }
+function addrRow(a, opts){
+  var r = h('div', 'arow' + (opts.sel ? ' sel' : ''));
+  var main = h(opts.pick ? 'button' : 'div', 'amain', null, opts.pick ? {type:'button', 'aria-pressed': String(!!opts.sel)} : null);
+  main.appendChild(h('span', 'aico', LABELS[a.label||'home'].i));
+  var tx = h('span', 'atx'); tx.appendChild(h('b', null, lblText(a))); tx.appendChild(h('span', null, addrText(a) + (a.land ? ' · ' + a.land : '')));
+  if (a.lat != null) tx.appendChild(h('small', 'aok', t('gpsOk').split('–')[0].split('-')[0].trim()));
+  main.appendChild(tx); if (opts.pick) main.addEventListener('click', opts.pick);
+  var e = h('button', 'aedit', t('edit'), {type:'button', 'aria-label': t('edit') + ' ' + lblText(a)});
+  e.addEventListener('click', function(){ openAddrForm(a, opts.after); });
+  r.appendChild(main); r.appendChild(e); return r;
+}
+function openPicker(){
+  if (!acct()){ openSheet(t('lgH'), loginForm(function(){ if (!acct().addrs.length) openAddrForm(null); else openPicker(); })); return; }
+  var c = acct(), b = h('div', 'alist'), add = h('button', 'addb', t('addAddrBtn'), {type:'button'});
+  add.addEventListener('click', function(){ openAddrForm(null); }); b.appendChild(add);
+  c.addrs.forEach(function(a){ b.appendChild(addrRow(a, {sel: a.id === (selAddr()||{}).id, pick: function(){ putAcct(function(x){ x.sel = a.id; }); closeSheet(); }, after: openPicker})); });
+  openSheet(t('pickTitle'), b);
+}
+function renderAcct(){
+  var c = acct(), box = $('acctBox'), pf = $('profBox'); box.innerHTML = ''; pf.innerHTML = '';
+  // order page
+  if (!c){ box.appendChild(loginForm(function(){ if (!acct().addrs.length) openAddrForm(null); })); }
+  else {
+    var a = selAddr(), card = h('div', 'dcard');
+    if (a){
+      card.appendChild(h('span', 'aico', LABELS[a.label||'home'].i));
+      var tx = h('div', 'atx'); tx.appendChild(h('small', null, t('dTo'))); tx.appendChild(h('b', null, lblText(a)));
+      tx.appendChild(h('span', null, addrText(a) + (a.land ? ' · ' + a.land : ''))); tx.appendChild(h('small', 'who', c.name + ' · ' + curPhone()));
+      var ch = h('button', 'chg', t('change'), {type:'button'}); ch.addEventListener('click', openPicker);
+      card.appendChild(tx); card.appendChild(ch);
+    } else {
+      var ad = h('button', 'addb', t('addAddrBtn'), {type:'button'}); ad.addEventListener('click', function(){ openAddrForm(null); });
+      card.className = 'dcard empty'; card.appendChild(ad);
+    }
+    box.appendChild(card);
+  }
+  // profile page
+  if (!c){ pf.appendChild(loginForm()); }
+  else {
+    var top = h('div', 'pcard'); top.appendChild(h('span', 'av', (c.name.trim()[0] || '?').toUpperCase()));
+    var ti = h('div', 'atx'); ti.appendChild(h('small', null, t('hi'))); ti.appendChild(h('b', null, c.name)); ti.appendChild(h('span', null, '+91 ' + curPhone()));
+    var en = h('button', 'chg', t('edit'), {type:'button'});
+    en.addEventListener('click', function(){
+      var w = h('div', 'afrm'), n = h('input', null, null, {type:'text'}); n.value = c.name; var m = h('div', 'msg'), s = h('button', 'btn', t('save'), {type:'button'});
+      s.addEventListener('click', function(){ var v = n.value.trim(); if (!v){ m.textContent = t('errName'); return; } putAcct(function(x){ x.name = v; }); closeSheet(); });
+      w.appendChild(field('name', n)); w.appendChild(m); w.appendChild(s); openSheet(t('nameOnly'), w);
+    });
+    top.appendChild(ti); top.appendChild(en); pf.appendChild(top);
+    pf.appendChild(h('div', 'pkT', t('myAddrs')));
+    var l = h('div', 'alist');
+    if (!c.addrs.length) l.appendChild(h('p', 'unit', t('noAddr')));
+    var sa = selAddr();
+    c.addrs.forEach(function(a){ l.appendChild(addrRow(a, {sel: sa && a.id === sa.id, pick: function(){ putAcct(function(x){ x.sel = a.id; }); }})); });
+    var ad2 = h('button', 'addb', t('addAddrBtn'), {type:'button'}); ad2.addEventListener('click', function(){ openAddrForm(null); }); l.appendChild(ad2);
+    pf.appendChild(l);
+    var out = h('button', 'btn btn2', t('lgOut'), {type:'button'}); out.style.marginTop = '16px';
+    out.addEventListener('click', function(){ store('inimai_cur', null); syncFields(); renderAcct(); });
+    var del = h('button', 'linkb danger', t('lgDel'), {type:'button'}), armed = false;
+    del.addEventListener('click', function(){ if (!armed){ armed = true; del.textContent = t('lgDelQ'); return; } var x = accts(); delete x[curPhone()]; saveAccts(x); store('inimai_cur', null); syncFields(); renderAcct(); });
+    pf.appendChild(out); pf.appendChild(del);
+  }
+}
+$('locBtn').addEventListener('click', openPicker);
+syncFields(); renderAcct();
 
 // ---- UPI button: try harder to open the UPI app, plus fallbacks ----
 function copyText(txt){
