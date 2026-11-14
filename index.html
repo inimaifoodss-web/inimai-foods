@@ -665,6 +665,7 @@ $('copy').addEventListener('click', function(){
 $('form').addEventListener('submit', function(e){ e.preventDefault(); });
 
 function show(v){
+  if ((v==='home'||v==='cats') && location.hash && location.hash!=='#home' && location.hash!=='#cats'){ try{ history.replaceState(null,'','#home'); }catch(x){} }
   if (v==='cats'){ v='home'; $('cats').scrollIntoView({behavior:'smooth'}); }
   if (v!==document.body.dataset.view && v!=='home') window.scrollTo(0,0);
   document.body.dataset.view = v;
@@ -673,9 +674,16 @@ function show(v){
   document.querySelectorAll('nav a').forEach(function(a){ if(a.dataset.v===v || (v==='orders' && a.dataset.v==='profile')) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
 }
 function route(){ var h=(location.hash||'#home').slice(1); show(['home','cats','cart','profile','orders'].indexOf(h)>-1 ? h : 'home'); }
-window.addEventListener('hashchange', route);
+window.addEventListener('hashchange', route); window.addEventListener('popstate', route);
 $('heroCta').addEventListener('click', function(e){ e.preventDefault(); var g=$('gridTitle'), top=document.querySelector('.top'); window.scrollTo({top: g.getBoundingClientRect().top + window.scrollY - (top?top.offsetHeight:0) - 8, behavior:'smooth'}); });
-document.querySelectorAll('nav a').forEach(function(a){ a.addEventListener('click', function(){ setTimeout(route,0); }); });
+// Any in-page link (#cart, #home, #orders…) always switches view, even when the address bar already shows that hash
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a || a.id==='heroCta') return;
+  var h = a.getAttribute('href'); if (h.length < 2) return;
+  e.preventDefault();
+  if (location.hash !== h){ try{ history.pushState(null, '', h); }catch(x){ location.hash = h; return; } }
+  route();
+});
 
 $('lang').addEventListener('click', function(){ LANG = LANG==='ta'?'en':'ta'; store('inimai_lang', LANG); applyLang(); });
 
