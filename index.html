@@ -137,11 +137,15 @@ nav a[aria-current=page]::after{content:"";position:absolute;bottom:4px;width:44
 .dbar{height:10px;border-radius:99px;background:#fff;border:1px solid #EAD08A;margin-top:10px;overflow:hidden}
 .dbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#F2B632,#1E7B34);border-radius:99px;transition:width .4s}
 .dbox.free{background:#E8F5EC;border-color:#1E7B34;color:var(--green)}.dbox.free .dbar{border-color:#BFE3C8}
-.fbar{position:fixed;left:8px;right:8px;bottom:76px;z-index:19;display:flex;align-items:center;gap:10px;background:#FFF3D6;border:2px solid #F2B632;border-radius:14px;padding:10px 12px;color:#5A3A00;text-decoration:none;font-weight:700;font-size:14px;line-height:1.35;box-shadow:0 4px 14px rgba(0,0,0,.15);max-width:964px;margin:0 auto}
-.fbar.free{background:#E8F5EC;border-color:#1E7B34;color:var(--green)}
-.fbar .go{margin-left:auto;flex:0 0 auto;background:var(--maroon);color:#fff;border-radius:10px;padding:8px 12px;white-space:nowrap}
-body[data-view]:not([data-view=home]) .fbar{display:none!important}
-body.hasbar[data-view=home]{padding-bottom:150px}
+.cbar{position:fixed;left:8px;right:8px;bottom:76px;z-index:19;max-width:964px;margin:0 auto;border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.22)}
+.cnudge{display:block;background:#FFF3D6;color:#5A3A00;font-size:13px;font-weight:700;padding:7px 12px;text-decoration:none;line-height:1.3}
+.cbar.free .cnudge{background:#E8F5EC;color:var(--green)}
+.cgo{display:flex;align-items:center;gap:10px;background:#0C831F;color:#fff;text-decoration:none;padding:10px 14px;min-height:58px}
+.cico{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.cinfo{display:flex;flex-direction:column;line-height:1.2}.cinfo b{font-size:15px}.cinfo span{font-size:15px;font-weight:700}
+.cview{margin-left:auto;font-weight:800;font-size:17px;white-space:nowrap}
+body[data-view]:not([data-view=home]) .cbar{display:none!important}
+body.hasbar[data-view=home]{padding-bottom:170px}
 .deliv{font-size:14px;font-weight:600;padding:10px 12px;border-radius:10px;margin-top:10px;background:var(--cream);color:var(--maroon);border:1px solid var(--line)}
 .deliv.free{background:#E8F5EC;color:var(--green);border-color:#BFE3C8}
 .badge{position:absolute;top:8px;left:calc(50% + 6px);background:var(--maroon);color:#fff;border-radius:999px;font-size:11px;min-width:18px;height:18px;padding:0 5px;display:flex;align-items:center;justify-content:center}
@@ -198,6 +202,24 @@ div.amain{cursor:default}
 .obtn{border:1px solid var(--maroon);background:#fff;color:var(--maroon);border-radius:10px;min-height:42px;padding:0 12px;font:inherit;font-weight:700;font-size:14px;cursor:pointer}
 .obtn.re{background:var(--maroon);color:#fff}
 .ocard .msg:empty{display:none}
+.add{border-color:#0C831F;color:#0C831F;box-shadow:none;background:#F7FFF9}
+.step{background:#0C831F;box-shadow:none}
+.off{position:absolute;top:0;left:10px;background:#256FEF;color:#fff;font-size:11px;font-weight:800;line-height:1.1;text-align:center;padding:5px 5px 7px;white-space:pre;border-radius:0 0 6px 6px;clip-path:polygon(0 0,100% 0,100% 100%,50% 88%,0 100%)}
+.clist{display:grid;gap:0;border:1px solid var(--line);border-radius:14px;padding:4px 12px;margin-bottom:12px}
+.clist:has(.cempty){border:0;padding:0}
+.citem{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.citem:last-child{border-bottom:0}
+.cthumb{flex:0 0 auto;width:56px;height:56px;border:1px solid var(--line);border-radius:10px;background:var(--cream);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:26px}
+.cthumb svg{width:44px;height:40px}.cthumb img{width:100%;height:100%;object-fit:cover}
+.ctx{flex:1;min-width:0}.cn{font-size:15px;font-weight:600;line-height:1.3}.cp{font-size:15px}.cp s{color:#8a7a70;margin-left:6px;font-size:13px}
+.citem .step.cstep,.citem .add.cstep{position:static;flex:0 0 auto;height:38px;min-width:0}
+.citem .step.cstep button{width:32px;height:38px;font-size:20px}.citem .add.cstep{min-width:72px;font-size:15px}
+.bill{border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:6px}
+.billH{font-weight:800;font-size:16px;margin-bottom:2px}
+.brow{display:flex;justify-content:space-between;gap:10px;font-size:14px}.brow .fr{color:var(--green);font-weight:700}
+.brow.gt{border-top:1px dashed var(--line);padding-top:8px;margin-top:2px;font-size:16px}
+.savebox{margin-top:10px;background:#E6F0FF;color:#1C4E9A;border-radius:12px;padding:10px 12px;font-weight:700;font-size:14px}
+.cempty{text-align:center;padding:24px 0;display:grid;gap:8px;justify-items:center}.cempty .ce1{font-size:56px}.cempty p{margin:0;font-weight:700;font-size:17px}.cempty .btn{min-width:220px}
 </style>
 </head>
 <body>
@@ -231,8 +253,9 @@ div.amain{cursor:default}
     <div class="secttl" data-i18n="yourOrder">உங்கள் ஆர்டர்</div>
     <div class="panel">
       <div class="dbox" id="deliv" hidden></div>
-      <div id="lines"></div>
-      <div class="line"><b data-i18n="total">மொத்தம்</b><b id="total"></b></div>
+      <div id="lines" class="clist"></div>
+      <div class="bill" id="billBox" hidden><div class="billH" data-i18n="billDet">பில் விவரம்</div><div id="billRows"></div><div class="brow gt"><b data-i18n="grand">செலுத்த வேண்டியது</b><b id="total"></b></div></div>
+      <div class="savebox" id="saveBox" hidden></div>
       <form id="form" novalidate>
         <div id="acctBox"></div>
         <div hidden><input type="text" id="name" tabindex="-1"><input type="tel" id="phone" tabindex="-1"><textarea id="address" tabindex="-1"></textarea></div>
@@ -302,7 +325,7 @@ div.amain{cursor:default}
 </div>
 
 <footer class="sitefoot"><b>Inimai Bakes – இனிமை பேக்ஸ்</b><br>பேக்கரி · பச்சுடையாம்பட்டி புதூர், சேந்தமங்கலம், நாமக்கல் மாவட்டம், தமிழ்நாடு<br>Bakery · Pachudaiyampatti Pudur, Sendamangalam, Namakkal Dt, Tamil Nadu<br>WhatsApp: <a href="https://wa.me/917904050386">+91 79040 50386</a></footer>
-<a href="#cart" class="fbar" id="fbar" hidden><span id="fbarT"></span><span class="go" data-i18n="fGo">ஆர்டர் →</span></a>
+<div class="cbar" id="fbar" hidden><a href="#cart" class="cnudge" id="fbarT"></a><a href="#cart" class="cgo"><span class="cico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M4 7h16l-1.5 12h-13z"/><path d="M9 7V5a3 3 0 016 0v2"/></svg></span><span class="cinfo"><b id="cbN"></b><span id="cbS"></span></span><span class="cview"><span data-i18n="viewCart">கார்ட் பார்க்க</span> ›</span></a></div>
 <div class="sheetbg" id="sheet" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shTitle"><div class="shHead"><b id="shTitle"></b><button type="button" id="shClose" aria-label="close">✕</button></div><div id="shBody"></div></div></div>
 <nav aria-label="main">
   <a href="#home" data-v="home" aria-current="page"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/></svg><span data-i18n="navHome">முகப்பு</span></a>
@@ -419,6 +442,8 @@ var T = {
  ta:{place:"ஆர்டர் செய்",payTitle:"பணம் செலுத்தும் முறை",payUpi:"ஆன்லைன் பேமெண்ட் (UPI / QR)",payUpiSub:"GPay, PhonePe, Paytm மூலம்",payCod:"கேஷ் ஆன் டெலிவரி",payCodSub:"பொருள் வந்ததும் பணம் கொடுக்கலாம்",payAmt:"செலுத்த வேண்டிய தொகை",qrMissing:"QR கோடு விரைவில் சேர்க்கப்படும்.",s1:"மேலே உள்ள பச்சை பட்டனை அழுத்துங்கள். GPay / PhonePe / Paytm திறக்கும், தொகை தானாக நிரம்பியிருக்கும்.",s2:"தொகையைச் சரிபார்த்து UPI PIN போட்டு செலுத்துங்கள்.",s3:"திரும்பி வந்து UTR எண்ணைப் போட்டு, கீழே உள்ள பட்டனை அழுத்துங்கள். ஆர்டர் WhatsApp-ல் போகும், PDF பில் டவுன்லோட் ஆகும்.",utr:"UTR / பரிவர்த்தனை எண் (விருப்பம்)",sendPaid:"பணம் செலுத்தினேன் – WhatsApp-ல் அனுப்பு",sendCod:"WhatsApp-ல் ஆர்டர் அனுப்பு",doneH:"உங்கள் ஆர்டர் வெற்றிகரமாகப் பதிவானது!",doneId:"ஆர்டர் எண்: ",doneP:"WhatsApp-ல் செய்தி திறந்திருக்கும். அங்கே Send அழுத்தினால்தான் ஆர்டர் எங்களுக்கு வரும். ஆர்டர் உறுதியானதும் WhatsApp-ல் பதில் அனுப்புவோம்.",again:"மீண்டும் ஆர்டர் செய்",mPay:"பணம்: ",mPayUpi:"ஆன்லைன் (UPI) – செலுத்தப்பட்டது",mPayCod:"கேஷ் ஆன் டெலிவரி",mUtr:"UTR: ",upiId:"UPI ID: ",deliver:"டெலிவரி",addAddr:"முகவரி சேர்க்கவும்",searchPh:"பிரெட், பன், ரஸ்க் தேடுங்கள்",bannerH:"தினமும் புதிதாகச் சுட்டது",bannerP:"கடைகளுக்கும் வீடுகளுக்கும் நேரடி சப்ளை. ஆர்டர் WhatsApp-ல் வரும்.",products:"பொருட்கள்",yourOrder:"உங்கள் ஆர்டர்",total:"மொத்தம்",name:"கடை / உங்கள் பெயர்",phone:"மொபைல் எண்",address:"முகவரி",date:"டெலிவரி தேதி",note:"குறிப்பு (விருப்பம்)",send:"WhatsApp-ல் ஆர்டர் அனுப்பு",send2:"இரண்டாவது எண்ணுக்கும் அனுப்பு",step2:"அடுத்து, இரண்டாவது எண்ணுக்கும் அனுப்புங்கள்:",copy:"ஆர்டரை காப்பி செய்",myInfo:"என் விவரம்",saveNote:"பெயர், முகவரிகள் உங்கள் மொபைல் எண்ணுடன் இந்த போனில் மட்டும் சேமிக்கப்படும். அதே எண்ணைப் போட்டால் அடுத்த ஆர்டரில் தானாக நிரம்பும்.",savedAddr:"சேமித்த முகவரிகள் – ஒன்றைத் தேர்ந்தெடுங்கள்",newAddr:"+ புதிய முகவரிக்கு அனுப்பு",help:"ஆர்டர் உதவி (WhatsApp)",clear:"சேமித்த விவரத்தை அழி",navHome:"முகப்பு",navCats:"வகைகள்",navCart:"ஆர்டர்",navProfile:"சுயவிவரம்",none:"பொருள் எதுவும் கிடைக்கவில்லை.",ask:"விலை உறுதி செய்யப்படும்",emptyCart:"இன்னும் பொருள் எதுவும் சேர்க்கவில்லை. முகப்பில் \"ADD\" அழுத்துங்கள்.",rest:" + மீதி உறுதி செய்யப்படும்",dec:" குறை",inc:" கூட்டு",addL:" சேர்",errItem:"குறைந்தது ஒரு பொருளைச் சேர்க்கவும்.",errName:"பெயரை உள்ளிடவும்.",errPhone:"சரியான 10 இலக்க மொபைல் எண்ணை உள்ளிடவும்.",errAddr:"முகவரியை உள்ளிடவும்.",copied:"ஆர்டர் காப்பி ஆனது. WhatsApp-ல் ஒட்டி அனுப்பலாம்.",copyFail:"காப்பி செய்ய முடியவில்லை.",cleared:"அழிக்கப்பட்டது.",numMissing:"சேர்க்கப்பட வேண்டும்",brand:"இனிமை பேக்ஸ்",mHead:"*இனிமை பேக்ஸ் – புதிய ஆர்டர்*",mId:"ஆர்டர் எண்: ",mWhen:"ஆர்டர் தேதி: ",sentId:"உங்கள் ஆர்டர் எண்: ",mTotal:"மொத்தம்: ",mName:"பெயர்: ",mPhone:"மொபைல்: ",mAddr:"முகவரி: ",mDate:"டெலிவரி தேதி: ",mNote:"குறிப்பு: ",other:"English",tag:"தரத்தின் அடையாளம், சுவையின் தனித்துவம்!",pdf:"PDF பில் டவுன்லோட்",pdfWait:"பில் தயாராகிறது…",pdfOk:"பில் சேமிக்கப்பட்டது.",pdfFail:"பில் உருவாக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",pdfNo:"பில் சேமிக்கப்படவில்லை.",billTitle:"ஆர்டர் பில்",bItem:"பொருள்",bQty:"அளவு",bRate:"விலை",bAmt:"தொகை",thanks:"நன்றி! மீண்டும் வருக.",hl1:"🍞 அடுப்பிலிருந்து நேராக உங்கள் வீட்டுக்கு",hl2:"💯 தரமான பொருட்கள், அசல் சுவை",hl3:"📲 2 நிமிடத்தில் WhatsApp-ல் ஆர்டர்",heroCta:"இப்போதே ஆர்டர் செய்யுங்கள் ↓",delivFree:"🎉 உங்கள் ஆர்டருக்கு இலவச டோர் டெலிவரி! (3 கி.மீ. தூரத்திற்குள்)",delivMore:"₹300க்கு குறைவான ஆர்டருக்கு {f} டெலிவரி கட்டணம் சேர்க்கப்பட்டுள்ளது. இன்னும் {x} சேர்த்தால் இலவச டோர் டெலிவரி (3 கி.மீ. தூரத்திற்குள்)",delivCharge:"டெலிவரி கட்டணம்",free:"இலவசம்",dHead:"🚚 இன்னும் {x} சேர்த்தால் {f} டெலிவரி கட்டணம் இல்லை!",dSub:"{m}க்கு மேல் ஆர்டருக்கு 3 கி.மீ. வரை இலவச டோர் டெலிவரி. இப்போது உங்கள் ஆர்டர் {s}.",dFreeHead:"🎉 வாழ்த்துகள்! உங்களுக்கு இலவச டோர் டெலிவரி",dFreeSub:"{f} டெலிவரி கட்டணம் சேமித்தீர்கள் (3 கி.மீ. வரை).",fGo:"ஆர்டர் →",payBtn:"{x} UPI ஆப்பில் செலுத்து",hlpH:"பட்டன் அழுத்தியும் UPI ஆப் திறக்கவில்லையா?",hlp1:"கீழே \"QR படத்தை சேமி\" அழுத்துங்கள்.",hlp2:"GPay / PhonePe திறந்து, ஸ்கேனரில் \"Upload from gallery\" (படம்) ஐகானை அழுத்தி, சேமித்த QR படத்தைத் தேர்ந்தெடுங்கள்.",hlp3:"தொகை தானாக வரும் – PIN போட்டு செலுத்துங்கள்.",saveQr:"QR படத்தை சேமி",cpId:"UPI ID காப்பி",cpAmt:"தொகை காப்பி",copiedX:"காப்பி ஆனது: ",qrSaved:"QR படம் சேமிக்கப்பட்டது. இப்போது GPay-ல் திறங்கள்.",orScan:"அல்லது வேறு போனில் இந்த QR கோடை ஸ்கேன் செய்யுங்கள் (தொகை தானாக வரும்)",mDeliv:"டெலிவரி: ",mDelivFree:"இலவச டோர் டெலிவரி (₹300+, 3 கி.மீ. வரை)",mDelivNo:""},
  en:{place:"Place order",payTitle:"Payment method",payUpi:"Online payment (UPI / QR)",payUpiSub:"Via GPay, PhonePe, Paytm",payCod:"Cash on delivery",payCodSub:"Pay when the goods arrive",payAmt:"Amount to pay",qrMissing:"QR code will be added soon.",s1:"Tap the green button above. GPay / PhonePe / Paytm opens with the amount filled in.",s2:"Check the amount and enter your UPI PIN to pay.",s3:"Come back, enter the UTR number and tap the button below. Your order goes on WhatsApp and the PDF bill downloads.",utr:"UTR / transaction no. (optional)",sendPaid:"I have paid – send on WhatsApp",sendCod:"Send order on WhatsApp",doneH:"Your order was placed successfully!",doneId:"Order no: ",doneP:"WhatsApp has opened with your order. Tap Send there so the order reaches us. We will confirm on WhatsApp.",again:"Order again",mPay:"Payment: ",mPayUpi:"Online (UPI) – paid",mPayCod:"Cash on delivery",mUtr:"UTR: ",upiId:"UPI ID: ",deliver:"Deliver to",addAddr:"Add address",searchPh:"Search bread, buns, rusk",bannerH:"Freshly baked every day",bannerP:"Direct supply to shops and homes. Your order comes to us on WhatsApp.",products:"Products",yourOrder:"Your order",total:"Total",name:"Shop / your name",phone:"Mobile number",address:"Address",date:"Delivery date",note:"Note (optional)",send:"Send order on WhatsApp",send2:"Also send to second number",step2:"Next, please also send it to our second number:",copy:"Copy order",myInfo:"My details",saveNote:"Your name and addresses are saved with your mobile number on this phone only. Enter the same number next time and they fill in automatically.",savedAddr:"Saved addresses – pick one",newAddr:"+ Deliver to a new address",help:"Order help (WhatsApp)",clear:"Clear saved details",navHome:"Home",navCats:"Categories",navCart:"Order",navProfile:"Profile",none:"No products found.",ask:"Price on confirmation",emptyCart:"Nothing added yet. Tap \"ADD\" on the home page.",rest:" + rest on confirmation",dec:" decrease",inc:" increase",addL:" add",errItem:"Add at least one product.",errName:"Enter your name.",errPhone:"Enter a valid 10-digit mobile number.",errAddr:"Enter your address.",copied:"Order copied. Paste it in WhatsApp to send.",copyFail:"Could not copy.",cleared:"Cleared.",numMissing:"to be added",brand:"INIMAI BAKES",mHead:"*Inimai Bakes – New order*",mId:"Order no: ",mWhen:"Order date: ",sentId:"Your order number: ",mTotal:"Total: ",mName:"Name: ",mPhone:"Mobile: ",mAddr:"Address: ",mDate:"Delivery date: ",mNote:"Note: ",other:"தமிழ்",tag:"The Mark of Quality, A Taste Like No Other!",pdf:"Download PDF bill",pdfWait:"Preparing your bill…",pdfOk:"Bill saved.",pdfFail:"Could not create the bill. Please try again.",pdfNo:"Bill was not saved.",billTitle:"Order bill",bItem:"Item",bQty:"Qty",bRate:"Rate",bAmt:"Amount",thanks:"Thank you! Visit again.",hl1:"🍞 Straight from our oven to your door",hl2:"💯 Quality ingredients, real taste",hl3:"📲 Order on WhatsApp in 2 minutes",heroCta:"Order now ↓",delivFree:"🎉 Your order gets free door delivery! (within 3 km)",delivMore:"A {f} delivery charge is added for orders below ₹300. Add {x} more for free door delivery (within 3 km)",delivCharge:"Delivery charge",free:"Free",dHead:"🚚 Add {x} more and skip the {f} delivery charge!",dSub:"Free door delivery on orders of {m}+ within 3 km. Your order is now {s}.",dFreeHead:"🎉 You get free door delivery!",dFreeSub:"You saved the {f} delivery charge (within 3 km).",fGo:"Order →",payBtn:"Pay {x} in UPI app",hlpH:"UPI app did not open when you tapped the button?",hlp1:"Tap \"Save QR image\" below.",hlp2:"Open GPay / PhonePe, tap the gallery (Upload from gallery) icon in the scanner and pick the saved QR image.",hlp3:"The amount fills in automatically – enter your PIN to pay.",saveQr:"Save QR image",cpId:"Copy UPI ID",cpAmt:"Copy amount",copiedX:"Copied: ",qrSaved:"QR image saved. Now open it in GPay.",orScan:"Or scan this QR code from another phone (amount fills in automatically)",mDeliv:"Delivery: ",mDelivFree:"Free door delivery (₹300+, within 3 km)",mDelivNo:""}
 };
+Object.assign(T.ta,{itemsN:"{n} பொருட்கள்",viewCart:"கார்ட் பார்க்க",billDet:"பில் விவரம்",itemTotal:"பொருட்களின் மொத்தம்",grand:"செலுத்த வேண்டியது",saved:"🎉 இந்த ஆர்டரில் மொத்தம் {x} சேமிக்கிறீர்கள்!",browse:"பொருட்களைப் பார்க்க",emptyCart:"உங்கள் கார்ட் காலியாக உள்ளது"});
+Object.assign(T.en,{itemsN:"{n} items",viewCart:"View cart",billDet:"Bill details",itemTotal:"Items total",grand:"Grand total",saved:"🎉 You save {x} in total on this order!",browse:"Browse products",emptyCart:"Your cart is empty"});
 function t(k){ return T[LANG][k]; }
 function nm(o){ return LANG==='en' ? (o.en||o.name) : o.name; }
 function un(o){ return LANG==='en' ? (o.unitEn||o.unit) : o.unit; }
@@ -461,19 +486,8 @@ function renderGrid(){
     else if (p.art){ tile.insertAdjacentHTML('afterbegin', svg(p.art)); tile.firstChild.setAttribute('class','art'); tile.firstChild.setAttribute('aria-hidden','true'); }
     else { var ph=document.createElement('div'); ph.className='ph'; ph.textContent=nm(p); tile.appendChild(ph); }
     var img = card.querySelector('.img');
-    if (qty[p.id] > 0){
-      var s = document.createElement('div'); s.className='step';
-      s.innerHTML = '<button type="button">−</button><span></span><button type="button">+</button>';
-      s.children[0].setAttribute('aria-label', nm(p)+t('dec')); s.children[2].setAttribute('aria-label', nm(p)+t('inc'));
-      s.children[1].textContent = qty[p.id];
-      s.children[0].onclick = function(){ qty[p.id]--; changed(); };
-      s.children[2].onclick = function(){ qty[p.id]++; changed(); };
-      img.appendChild(s);
-    } else {
-      var a = document.createElement('button'); a.type='button'; a.className='add'; a.textContent='ADD';
-      a.setAttribute('aria-label', nm(p)+t('addL')); a.onclick = function(){ qty[p.id]=1; changed(); };
-      img.appendChild(a);
-    }
+    img.appendChild(stepper(p));
+    if (p.price != null && p.mrp && p.mrp > p.price){ var off=document.createElement('span'); off.className='off'; off.textContent=Math.round((p.mrp-p.price)*100/p.mrp)+'%\nOFF'; img.appendChild(off); }
     var pr = card.querySelector('.price');
     if (p.price != null){
       pr.innerHTML = '<span class="chip"></span>'; pr.firstChild.textContent = money(p.price);
@@ -508,21 +522,63 @@ function renderDeliv(tt){
     b.querySelector('.dbar i').style.width = pct + '%';
   });
   var fb = $('fbar'); fb.hidden = !tt.n; document.body.classList.toggle('hasbar', !!tt.n);
-  fb.className = 'fbar' + (free ? ' free' : ''); $('fbarT').textContent = head;
+  fb.className = 'cbar' + (free ? ' free' : ''); $('fbarT').textContent = head;
+  $('cbN').textContent = t('itemsN').replace('{n}', tt.n); $('cbS').textContent = tt.unknown ? (tt.goods ? money(tt.goods)+'+' : t('ask')) : money(tt.sum);
+}
+function stepper(p, big){
+  if (!(qty[p.id] > 0)){
+    var a = document.createElement('button'); a.type='button'; a.className='add'; a.textContent='ADD';
+    a.setAttribute('aria-label', nm(p)+t('addL')); a.onclick = function(){ qty[p.id]=1; changed(); };
+    return a;
+  }
+  var s = document.createElement('div'); s.className='step';
+  s.innerHTML = '<button type="button">−</button><span></span><button type="button">+</button>';
+  s.children[0].setAttribute('aria-label', nm(p)+t('dec')); s.children[2].setAttribute('aria-label', nm(p)+t('inc'));
+  s.children[1].textContent = qty[p.id];
+  s.children[0].onclick = function(){ qty[p.id]--; changed(); };
+  s.children[2].onclick = function(){ qty[p.id]++; changed(); };
+  return s;
+}
+function thumb(p){
+  var d = document.createElement('div'); d.className='cthumb';
+  if (p.img){ var im=document.createElement('img'); im.src=p.img; im.alt=''; d.appendChild(im); }
+  else if (p.art){ d.insertAdjacentHTML('afterbegin', svg(p.art)); d.firstChild.setAttribute('aria-hidden','true'); }
+  else d.textContent = '🍞';
+  return d;
 }
 function renderCart(){
   var tt = totals();
   $('badge').hidden = !tt.n; $('badge').textContent = tt.n;
   var L = $('lines'); L.innerHTML='';
-  if (!items().length){ L.innerHTML = '<div class="empty" style="padding:12px 0"></div>'; L.firstChild.textContent = t('emptyCart'); }
+  if (!items().length){
+    var e = document.createElement('div'); e.className='cempty';
+    e.innerHTML = '<div class="ce1">🛒</div><p></p><a class="btn" href="#home"></a>';
+    e.querySelector('p').textContent = t('emptyCart'); e.querySelector('a').textContent = t('browse'); L.appendChild(e);
+  }
+  var mrpSave = 0;
   items().forEach(function(p){
-    var d=document.createElement('div'); d.className='line';
-    d.innerHTML='<span></span><b></b>';
-    d.firstChild.textContent = nm(p) + ' × ' + qty[p.id];
-    d.lastChild.textContent = p.price!=null ? money(p.price*qty[p.id]) : t('ask');
+    var d=document.createElement('div'); d.className='citem';
+    d.appendChild(thumb(p));
+    var tx=document.createElement('div'); tx.className='ctx';
+    tx.innerHTML='<div class="cn"></div><div class="unit"></div><div class="cp"></div>';
+    tx.children[0].textContent = nm(p); tx.children[1].textContent = un(p);
+    var cp = tx.children[2];
+    if (p.price!=null){ cp.innerHTML='<b></b>'; cp.firstChild.textContent = money(p.price*qty[p.id]);
+      if (p.mrp && p.mrp>p.price){ var m=document.createElement('s'); m.textContent=money(p.mrp*qty[p.id]); cp.appendChild(m); mrpSave += (p.mrp-p.price)*qty[p.id]; } }
+    else cp.textContent = t('ask');
+    d.appendChild(tx);
+    var st = stepper(p); st.classList.add('cstep'); d.appendChild(st);
     L.appendChild(d);
   });
-  if (tt.n){ var fd=document.createElement('div'); fd.className='line'; fd.innerHTML='<span></span><b></b>'; fd.firstChild.textContent=t('delivCharge'); fd.lastChild.textContent = tt.fee ? money(tt.fee) : t('free'); if(!tt.fee) fd.lastChild.style.color='var(--green)'; L.appendChild(fd); }
+  $('billBox').hidden = !tt.n;
+  var R = $('billRows'); R.innerHTML='';
+  if (tt.n){
+    [[t('itemTotal'), tt.unknown ? (tt.goods? money(tt.goods)+'+' : t('ask')) : money(tt.goods), ''], [t('delivCharge'), tt.fee ? money(tt.fee) : t('free'), tt.fee ? '' : 'fr']].forEach(function(r){
+      var x=document.createElement('div'); x.className='brow'; x.innerHTML='<span></span><span></span>'; x.firstChild.textContent=r[0]; x.lastChild.textContent=r[1]; if(r[2]) x.lastChild.className=r[2]; R.appendChild(x);
+    });
+  }
+  var sv = mrpSave + (tt.n && !tt.fee ? DELIVERY_CHARGE : 0);
+  $('saveBox').hidden = !tt.n || !sv; $('saveBox').textContent = t('saved').replace('{x}', money(sv));
   $('total').textContent = !tt.n ? '—' : (tt.unknown ? (tt.sum? money(tt.sum)+T[LANG].rest : T[LANG].ask) : money(tt.sum));
   renderDeliv(tt);
   updateWa();
