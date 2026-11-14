@@ -955,7 +955,7 @@ function renderOrders(){
 // Live status from the owner's admin panel (needs the ?api=mystatus endpoint in the Apps Script; quietly skipped until then)
 var ST_ASKED = 0;
 function refreshStatuses(){
-  var u = (window.INIMAI_SHEET_URL || '').trim(), list = myOrders().filter(function(o){ return /^IMF\d+$/.test(o.id) && o.st !== 'delivered' && o.st !== 'cancelled'; });
+  var u = (window.INIMAI_SHEET_URL || '').trim(), list = myOrders().filter(function(o){ return /^(IMF\d+|INM-[\d-]+)$/.test(o.id) && o.st !== 'delivered' && o.st !== 'cancelled'; });
   if (!u || !list.length || Date.now() - ST_ASKED < 30000) return; ST_ASKED = Date.now();
   fetch(u + '?api=mystatus&phone=' + encodeURIComponent(curPhone()) + '&ids=' + encodeURIComponent(list.map(function(o){ return o.id; }).slice(0, 30).join(',')), {redirect:'follow'})
     .then(function(r){ return r.json(); })
