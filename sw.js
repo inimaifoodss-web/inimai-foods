@@ -2,7 +2,7 @@
 // Files from this site: network first (menu/prices always fresh), saved copy only when offline.
 // Google Sheet / Apps Script calls and other sites are never intercepted or cached,
 // so orders and prices stay live.
-var CACHE = 'inimai-v3';
+var CACHE = 'inimai-v4';
 var CORE = ['./', 'index.html', 'sheet-connect.js', 'pwa.js', 'logo.png', 'qr.png',
             'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 
