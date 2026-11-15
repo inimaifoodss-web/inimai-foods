@@ -66,6 +66,7 @@ body{font-family:'Noto Sans Tamil',sans-serif;background:#fff;color:var(--ink);l
 .pdAct{position:relative;height:48px;margin-top:8px}.pdAct .add,.pdAct .step{position:static;width:100%;justify-content:space-between}
 .pdAct .step button{flex:1}.pdGo{display:block;text-align:center;margin-top:6px}
 .photo{width:100%;height:100%;object-fit:cover;border-radius:13px}
+.photo.pack{object-fit:contain;background:#FDF2F5}
 .ph{padding:10px 12px 26px;text-align:center;font-family:'Baloo Thambi 2',sans-serif;font-weight:800;font-size:19px;line-height:1.25;color:var(--maroon)}
 .add{position:absolute;right:8px;bottom:-14px;min-width:96px;height:44px;border-radius:12px;background:#fff;border:2px solid var(--maroon);color:var(--maroon);font:inherit;font-weight:700;font-size:17px;cursor:pointer;box-shadow:0 3px 0 var(--maroon)}
 .step{position:absolute;right:8px;bottom:-14px;display:flex;align-items:center;background:var(--maroon);border-radius:12px;height:44px;box-shadow:0 3px 0 #4E0D20}
@@ -219,7 +220,7 @@ div.amain{cursor:default}
 .citem{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
 .citem:last-child{border-bottom:0}
 .cthumb{flex:0 0 auto;width:56px;height:56px;border:1px solid var(--line);border-radius:10px;background:var(--cream);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:26px}
-.cthumb{color:var(--maroon);font-weight:800}.cthumb img{width:100%;height:100%;object-fit:cover}
+.cthumb{color:var(--maroon);font-weight:800}.cthumb img{width:100%;height:100%;object-fit:cover}.cthumb img.pack{object-fit:contain;background:#FDF2F5}
 .ctx{flex:1;min-width:0}.cn{font-size:15px;font-weight:600;line-height:1.3}.cp{font-size:15px}.cp s{color:#8a7a70;margin-left:6px;font-size:13px}
 .citem .step.cstep,.citem .add.cstep{position:static;flex:0 0 auto;height:38px;min-width:0}
 .citem .step.cstep button{width:32px;height:38px;font-size:20px}.citem .add.cstep{min-width:72px;font-size:15px}
@@ -360,9 +361,9 @@ var CATEGORIES = [
   {id:"puff", name:"பஃப்ஸ் & காரம்", en:"Puffs & Savouries"},
   {id:"biscuit", name:"பிஸ்கட்", en:"Biscuits"}
 ];
-// price: கடைகளுக்கு உங்கள் விலை (₹), mrp: சந்தை விலை (₹), img: உண்மையான புகைப்படக் கோப்பு, எ.கா. 'img/products/p1.jpg' (இல்லையெனில் null), desc/descEn: விவரம் (விருப்பம்)
+// price: கடைகளுக்கு உங்கள் விலை (₹), mrp: சந்தை விலை (₹), img: உண்மையான புகைப்படக் கோப்பு, எ.கா. 'img/products/p1.jpg' (இல்லையெனில் null), desc/descEn: விவரம் (விருப்பம்), fit:"pack" = பாக்கெட் படம் முழுதாகத் தெரிய
 var PRODUCTS = [
-  {id:"p1", cat:"bread", name:"பால் / ஸ்வீட் பிரெட்", en:"Milk / Sweet bread", unit:"400 கி", unitEn:"400 g", price:38, mrp:50, img:null},
+  {id:"p1", cat:"bread", name:"பால் / ஸ்வீட் பிரெட்", en:"Milk / Sweet bread", unit:"400 கி", unitEn:"400 g", price:38, mrp:50, img:"img/products/p1.jpg", fit:"pack"},
   {id:"p2", cat:"bread", name:"ஃபேமிலி பிரெட்", en:"Family bread (large)", unit:"600 கி", unitEn:"600 g", price:90, mrp:120, img:null},
   {id:"p3", cat:"bread", name:"கோதுமை பிரெட்", en:"Whole wheat bread", unit:"350 கி", unitEn:"350 g", price:34, mrp:45, img:null},
   {id:"p4", cat:"bread", name:"பிளெயின் பன்", en:"Plain bun", unit:"1 எண்ணம்", unitEn:"1 pc", price:8, mrp:10, img:null},
@@ -517,7 +518,7 @@ function stepper(p, big){
 function pic(p, cls){
   function ph(){ var d=document.createElement('div'); d.className='ph'; d.textContent=nm(p); return d; }
   if (!p.img) return ph();
-  var im=document.createElement('img'); im.src=p.img; im.alt=nm(p); im.className=cls; im.loading='lazy'; im.decoding='async';
+  var im=document.createElement('img'); im.src=p.img; im.alt=nm(p); im.className=cls+(p.fit==='pack'?' pack':''); im.loading='lazy'; im.decoding='async';
   im.onerror=function(){ if (im.parentNode) im.parentNode.replaceChild(ph(), im); };
   return im;
 }
@@ -555,7 +556,7 @@ function refreshDetail(){
 }
 function thumb(p){
   var d = document.createElement('div'); d.className='cthumb';
-  if (p.img){ var im=document.createElement('img'); im.src=p.img; im.alt=''; im.loading='lazy'; im.onerror=function(){ d.textContent=(p.en||p.name).charAt(0); }; d.appendChild(im); }
+  if (p.img){ var im=document.createElement('img'); im.src=p.img; im.alt=''; if (p.fit==='pack') im.className='pack'; im.loading='lazy'; im.onerror=function(){ d.textContent=(p.en||p.name).charAt(0); }; d.appendChild(im); }
   else d.textContent = (p.en||p.name).charAt(0);
   return d;
 }
