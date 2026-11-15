@@ -1,14 +1,14 @@
-// Inimai Bakes – "install as app" support (Android button + iPhone steps).
+// Inimai Bakehouse – "install as app" support (Android button + iPhone steps).
 (function () {
   var TXT = {
     ta: {
-      h: 'இனிமை பேக்ஸ் App', p: 'போன் Home screen-ல் சேர்த்தால், ஒரே தொடுதலில் ஆர்டர் செய்யலாம்.',
+      h: 'இனிமை பேக்ஹவுஸ் App', p: 'போன் Home screen-ல் சேர்த்தால், ஒரே தொடுதலில் ஆர்டர் செய்யலாம்.',
       btn: 'App-ஆக install செய்', close: 'மூடு', done: 'நன்றி! App உங்கள் Home screen-ல் சேர்க்கப்பட்டது.',
       ios: '<b>iPhone-ல் சேர்க்க:</b><ol><li>Safari-ல் இந்த பக்கத்தைத் திறக்கவும்.</li><li>கீழே உள்ள <b>Share</b> பட்டனை (□↑) அழுத்தவும்.</li><li><b>"Add to Home Screen"</b> தேர்வு செய்து <b>Add</b> அழுத்தவும்.</li></ol>',
       other: '<b>App-ஆக சேர்க்க:</b><ol><li>இந்த பக்கத்தை <b>Chrome</b>-ல் திறக்கவும் (WhatsApp-ல் இருந்தால் ⋮ → "Open in Chrome").</li><li>மேலே வலது பக்க <b>⋮</b> மெனுவை அழுத்தவும்.</li><li><b>"Install app"</b> அல்லது <b>"Add to Home screen"</b> அழுத்தவும்.</li></ol>'
     },
     en: {
-      h: 'Inimai Bakes App', p: 'Add it to your phone’s Home screen and order in one tap.',
+      h: 'Inimai Bakehouse App', p: 'Add it to your phone’s Home screen and order in one tap.',
       btn: 'Install as app', close: 'Close', done: 'Thank you! The app is now on your Home screen.',
       ios: '<b>To add on iPhone:</b><ol><li>Open this page in Safari.</li><li>Tap the <b>Share</b> button (□↑) at the bottom.</li><li>Choose <b>"Add to Home Screen"</b>, then tap <b>Add</b>.</li></ol>',
       other: '<b>To add as an app:</b><ol><li>Open this page in <b>Chrome</b> (in WhatsApp: ⋮ → "Open in Chrome").</li><li>Tap the <b>⋮</b> menu at the top right.</li><li>Tap <b>"Install app"</b> or <b>"Add to Home screen"</b>.</li></ol>'
