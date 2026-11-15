@@ -2,7 +2,7 @@
 // Files from this site: network first (menu/prices always fresh), saved copy only when offline.
 // Google Sheet / Apps Script calls and other sites are never intercepted or cached,
 // so orders and prices stay live.
-var CACHE = 'inimai-v12';
+var CACHE = 'inimai-v14';
 var CORE = ['./', 'index.html', 'sheet-connect.js', 'pwa.js', 'logo.png', 'qr.png',
             'manifest.webmanifest', 'icon-192-bh.png', 'icon-512-bh.png', 'apple-touch-icon-bh.png'];
 
@@ -22,7 +22,8 @@ self.addEventListener('fetch', function (e) {
   var url = new URL(req.url);
   if (url.origin !== self.location.origin) return;   // Apps Script, fonts, WhatsApp: straight to network
   e.respondWith(
-    fetch(req).then(function (res) {
+    // cache:'no-cache' = always ask GitHub for the newest file (skips the browser's 10-minute copy)
+    fetch(req, { cache: 'no-cache' }).then(function (res) {
       if (res && res.ok && res.type === 'basic') {
         var copy = res.clone();
         caches.open(CACHE).then(function (c) { c.put(req, copy); });
