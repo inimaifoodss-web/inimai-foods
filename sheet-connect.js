@@ -8,8 +8,9 @@
   var URL_ = (window.INIMAI_SHEET_URL || '').trim();
   if (!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(URL_)) return;
   var KEY = 'inimai_products_v1';
-  var ART_BY_ID = {};
-  PRODUCTS.forEach(function (p) { ART_BY_ID[p.id] = p.art; });
+  // படங்கள் / விவரம் இணையதளத்தில் உள்ளவை (Sheet-ல் img காலியாக இருந்தால் இவை பயன்படும்)
+  var BUILTIN = {};
+  PRODUCTS.forEach(function (p) { BUILTIN[p.id] = p; });
 
   function apply(list) {
     if (!Array.isArray(list) || !list.length) return;
@@ -20,7 +21,11 @@
       var mrp = (r.mrp === null || r.mrp === '' || isNaN(Number(r.mrp))) ? null : Number(r.mrp);
       next.push({ id: String(r.id), cat: String(r.cat || ''), name: String(r.name), en: String(r.en || ''),
         unit: String(r.unit || ''), unitEn: String(r.unitEn || ''), price: price, mrp: mrp,
-        img: /^https:\/\//.test(r.img || '') ? r.img : null, art: ART_BY_ID[r.id] });
+        img: null });
+      var b = BUILTIN[r.id] || {}, cur = next[next.length - 1], im = String(r.img || '').trim();
+      if (/^https:\/\//.test(im) || /^img\/products\/[\w.-]+$/.test(im)) cur.img = im;
+      else if (b.img) { cur.img = b.img; if (b.fit) cur.fit = b.fit; }
+      cur.desc = String(r.desc || b.desc || ''); cur.descEn = String(r.descEn || b.descEn || '');
     });
     if (!next.length) return;
     PRODUCTS.length = 0;
