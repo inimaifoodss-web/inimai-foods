@@ -56,7 +56,15 @@ body{font-family:'Noto Sans Tamil',sans-serif;background:#fff;color:var(--ink);l
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;padding:0 16px}
 .card{display:flex;flex-direction:column;gap:6px}
 .img{position:relative;border:1px solid var(--line);border-radius:14px;height:140px;background:var(--cream);display:flex;align-items:center;justify-content:center}
-.art{width:78%;height:92%;margin-bottom:10px}
+.img[role=button],.name{cursor:pointer}
+.pdImg{position:relative;border:1px solid var(--line);border-radius:14px;background:var(--cream);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pdImg .ph{font-size:26px;padding:16px}
+.pdSoon{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:13px;color:var(--muted)}
+.pdet{display:grid;gap:8px}.pdAlt{font-size:16px;color:var(--muted);margin-top:4px}.pdUnit{font-size:15px;color:var(--muted)}
+.pdPrice{margin-top:4px}.pdOff{background:#FDE7EC;color:var(--maroon);font-weight:700;font-size:13px;border-radius:6px;padding:2px 8px}
+.pdDesc{margin:4px 0 0;font-size:15px;line-height:1.5}
+.pdAct{position:relative;height:48px;margin-top:8px}.pdAct .add,.pdAct .step{position:static;width:100%;justify-content:space-between}
+.pdAct .step button{flex:1}.pdGo{display:block;text-align:center;margin-top:6px}
 .photo{width:100%;height:100%;object-fit:cover;border-radius:13px}
 .ph{padding:10px 12px 26px;text-align:center;font-family:'Baloo Thambi 2',sans-serif;font-weight:800;font-size:19px;line-height:1.25;color:var(--maroon)}
 .add{position:absolute;right:8px;bottom:-14px;min-width:96px;height:44px;border-radius:12px;background:#fff;border:2px solid var(--maroon);color:var(--maroon);font:inherit;font-weight:700;font-size:17px;cursor:pointer;box-shadow:0 3px 0 var(--maroon)}
@@ -211,7 +219,7 @@ div.amain{cursor:default}
 .citem{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
 .citem:last-child{border-bottom:0}
 .cthumb{flex:0 0 auto;width:56px;height:56px;border:1px solid var(--line);border-radius:10px;background:var(--cream);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:26px}
-.cthumb svg{width:44px;height:40px}.cthumb img{width:100%;height:100%;object-fit:cover}
+.cthumb{color:var(--maroon);font-weight:800}.cthumb img{width:100%;height:100%;object-fit:cover}
 .ctx{flex:1;min-width:0}.cn{font-size:15px;font-weight:600;line-height:1.3}.cp{font-size:15px}.cp s{color:#8a7a70;margin-left:6px;font-size:13px}
 .citem .step.cstep,.citem .add.cstep{position:static;flex:0 0 auto;height:38px;min-width:0}
 .citem .step.cstep button{width:32px;height:38px;font-size:20px}.citem .add.cstep{min-width:72px;font-size:15px}
@@ -352,7 +360,7 @@ var CATEGORIES = [
   {id:"puff", name:"பஃப்ஸ் & காரம்", en:"Puffs & Savouries"},
   {id:"biscuit", name:"பிஸ்கட்", en:"Biscuits"}
 ];
-// price: கடைகளுக்கு உங்கள் விலை (₹), mrp: சந்தை விலை (₹), img: புகைப்படக் கோப்பு (இல்லையெனில் null)
+// price: கடைகளுக்கு உங்கள் விலை (₹), mrp: சந்தை விலை (₹), img: உண்மையான புகைப்படக் கோப்பு, எ.கா. 'img/products/p1.jpg' (இல்லையெனில் null), desc/descEn: விவரம் (விருப்பம்)
 var PRODUCTS = [
   {id:"p1", cat:"bread", name:"பால் / ஸ்வீட் பிரெட்", en:"Milk / Sweet bread", unit:"400 கி", unitEn:"400 g", price:38, mrp:50, img:null},
   {id:"p2", cat:"bread", name:"ஃபேமிலி பிரெட்", en:"Family bread (large)", unit:"600 கி", unitEn:"600 g", price:90, mrp:120, img:null},
@@ -392,48 +400,9 @@ var PRODUCTS = [
 ];
 // =========================================
 
-// ---- product pictures (drawn) ----
-const G='#e0a050',GD='#b8742e',GL='#f3c983',CR='#fffaf0';
-const S={
-loaf:(c=G)=>`<rect x="18" y="42" width="84" height="40" rx="6" fill="${GD}"/><path d="M18 50 Q18 22 40 24 Q60 14 80 24 Q102 22 102 50 Z" fill="${c}"/><rect x="18" y="48" width="84" height="34" rx="6" fill="${c}"/><g stroke="${GD}" stroke-width="2" fill="none"><path d="M38 30 q6 6 0 14"/><path d="M58 24 q6 6 0 14"/><path d="M78 30 q6 6 0 14"/></g>`,
-wheat:()=>S.loaf('#b97a43')+`<g fill="#8a5428">${[30,46,62,78,90].map((x,i)=>`<circle cx="${x}" cy="${60+(i%2)*10}" r="1.6"/>`).join('')}</g>`,
-bun:(top='')=>`<ellipse cx="60" cy="74" rx="40" ry="10" fill="${GD}"/><path d="M20 74 Q20 34 60 32 Q100 34 100 74 Z" fill="${G}"/><ellipse cx="50" cy="46" rx="16" ry="6" fill="${GL}" opacity=".6"/>${top}`,
-sweetbun:()=>`<ellipse cx="60" cy="74" rx="40" ry="10" fill="#c98a1e"/><path d="M20 74 Q20 34 60 32 Q100 34 100 74 Z" fill="#f2b632"/><ellipse cx="50" cy="46" rx="16" ry="6" fill="#ffe08a" opacity=".7"/><g fill="#fff">${[[44,42],[56,38],[68,44],[52,52],[74,54],[40,56]].map(p=>`<ellipse cx="${p[0]}" cy="${p[1]}" rx="2.4" ry="1.3"/>`).join('')}</g>`,
-creambun:()=>`<ellipse cx="60" cy="80" rx="38" ry="8" fill="${GD}"/><path d="M22 80 Q22 62 60 60 Q98 62 98 80Z" fill="${G}"/><path d="M24 58 Q30 48 40 54 Q48 44 58 52 Q68 44 76 54 Q86 46 94 58 Q96 64 60 64 Q24 64 24 58Z" fill="${CR}" stroke="#eadcc4"/><path d="M24 58 Q22 40 60 36 Q98 40 96 58Z" fill="${G}"/><ellipse cx="50" cy="44" rx="12" ry="4" fill="${GL}" opacity=".6"/>`,
-coconutbun:()=>S.bun(`<g stroke="#fff" stroke-width="2.4" stroke-linecap="round">${[[40,46],[52,40],[64,42],[76,48],[46,56],[60,52],[72,58],[84,60],[34,60]].map(p=>`<line x1="${p[0]}" y1="${p[1]}" x2="${p[0]+4}" y2="${p[1]+2}"/>`).join('')}</g>`),
-masalabun:()=>S.bun(`<g>${[[40,48,'#3c8d3c'],[54,42,'#d84a2a'],[68,46,'#3c8d3c'],[80,56,'#d84a2a'],[48,58,'#d84a2a'],[64,58,'#3c8d3c'],[34,62,'#3c8d3c']].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="2.4" fill="${p[2]}"/>`).join('')}</g>`),
-pav:()=>{let o='';for(let r=0;r<2;r++)for(let c=0;c<3;c++){const x=24+c*26,y=40+r*22;o+=`<rect x="${x}" y="${y}" width="26" height="24" rx="9" fill="${r?GD:G}" stroke="${GD}" stroke-width="1.5"/><ellipse cx="${x+11}" cy="${y+7}" rx="6" ry="2.5" fill="${GL}" opacity=".7"/>`}return o},
-rusk:(c='#d89a4c',dots='#a8662a')=>[0,1,2].map(i=>`<g transform="translate(${18+i*8},${58-i*14}) rotate(-6)"><rect width="70" height="22" rx="5" fill="${c}" stroke="${dots}" stroke-width="1.5"/><rect x="4" y="3" width="62" height="16" rx="4" fill="#efc589"/>${[12,24,36,48,58].map((x,j)=>`<circle cx="${x}" cy="${8+(j%2)*6}" r="1.4" fill="${dots}"/>`).join('')}</g>`).join(''),
-bag:(fill,label)=>`<path d="M30 26 L90 26 L96 90 L24 90Z" fill="#fff" stroke="#d8c3a8" stroke-width="2" opacity=".95"/><path d="M30 26 L90 26 L88 34 L32 34Z" fill="${fill}"/><g transform="translate(26,44) scale(.58)">${label}</g>`,
-toast:()=>[0,1].map(i=>`<g transform="translate(${26+i*18},${30+i*8})"><path d="M0 20 Q0 0 22 2 Q44 0 44 20 L44 52 L0 52Z" fill="#c9792f"/><path d="M5 22 Q5 7 22 8 Q39 7 39 22 L39 47 L5 47Z" fill="#eab06a"/></g>`).join(''),
-cakepiece:()=>`<path d="M22 56 L98 56 L98 80 L22 80Z" fill="#e6b469"/><path d="M22 56 Q60 40 98 56" fill="#c47e34"/><path d="M22 56 Q60 44 98 56 L98 60 Q60 50 22 60Z" fill="#a8652a"/><g fill="#c88f45">${[34,50,66,82].map(x=>`<circle cx="${x}" cy="70" r="1.6"/>`).join('')}</g>`,
-loafcake:(fruit=false)=>`<rect x="16" y="44" width="88" height="38" rx="5" fill="#e3ad60"/><path d="M16 50 Q16 32 60 30 Q104 32 104 50Z" fill="#b8692a"/><path d="M40 34 Q60 44 80 34" stroke="#8f4f1d" stroke-width="2" fill="none"/>${fruit?`<g>${[[28,58,'#c0272d'],[44,68,'#2e8b3a'],[60,56,'#6b2a14'],[76,70,'#c0272d'],[92,60,'#e9a21a'],[36,74,'#6b2a14'],[68,64,'#e9a21a'],[84,76,'#2e8b3a']].map(p=>`<rect x="${p[0]}" y="${p[1]}" width="5" height="4" rx="1" fill="${p[2]}"/>`).join('')}</g>`:''}`,
-creamcake:()=>`<ellipse cx="60" cy="80" rx="42" ry="9" fill="#e9d6bf"/><rect x="20" y="46" width="80" height="34" fill="#fff"/><ellipse cx="60" cy="80" rx="40" ry="8" fill="#fff"/><rect x="20" y="58" width="80" height="6" fill="#f5b8c4"/><ellipse cx="60" cy="46" rx="40" ry="10" fill="#fffdf8" stroke="#f1e3d2"/>${[30,45,60,75,90].map(x=>`<circle cx="${x}" cy="${44+(x==60?-2:0)}" r="5" fill="#fff" stroke="#f1e3d2"/><circle cx="${x}" cy="${39+(x==60?-2:0)}" r="3.4" fill="#d01f3c"/>`).join('')}`,
-cupcake:()=>`<path d="M34 58 L86 58 L78 90 L42 90Z" fill="#f3a6b8"/><g stroke="#e07f98" stroke-width="1.5">${[42,50,58,66,74].map(x=>`<line x1="${x}" y1="60" x2="${x+(x<60?2:-2)}" y2="89"/>`).join('')}</g><path d="M30 60 Q28 40 46 40 Q48 24 60 24 Q72 24 74 40 Q92 40 90 60Z" fill="#e3a957"/><ellipse cx="54" cy="36" rx="8" ry="3" fill="${GL}"/>`,
-muffin:()=>`<path d="M34 58 L86 58 L78 90 L42 90Z" fill="#8a2b2b"/><g stroke="#6a1d1d" stroke-width="1.5">${[42,50,58,66,74].map(x=>`<line x1="${x}" y1="60" x2="${x+(x<60?2:-2)}" y2="89"/>`).join('')}</g><path d="M28 60 Q24 30 60 26 Q96 30 92 60Z" fill="#b5343a"/>${[[44,44],[60,36],[74,46],[52,54],[68,56]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="2.6" fill="#fff"/>`).join('')}`,
-honeycake:()=>`<rect x="26" y="40" width="68" height="40" rx="3" fill="#d8923a"/><rect x="26" y="36" width="68" height="10" rx="3" fill="#c0202e"/><g stroke="#f5d06b" stroke-width="2">${[34,46,58,70,82].map(x=>`<line x1="${x}" y1="38" x2="${x}" y2="44"/>`).join('')}</g><g fill="#f6c86a" opacity=".8">${[34,50,66,82].map(x=>`<circle cx="${x}" cy="62" r="2"/>`).join('')}</g><path d="M26 46 L94 46" stroke="#fff" stroke-width="2.5" stroke-dasharray="4 4"/>`,
-swissroll:()=>`<rect x="40" y="38" width="60" height="44" rx="6" fill="#7a3d1e"/><circle cx="40" cy="60" r="22" fill="#8a4522"/><path d="M40 60 m0 0 a4 4 0 0 1 8 0 a8 8 0 0 1 -16 0 a12 12 0 0 1 24 0 a16 16 0 0 1 -32 0" stroke="#fff4e0" stroke-width="3.2" fill="none"/>`,
-donut:()=>`<ellipse cx="60" cy="64" rx="40" ry="26" fill="#d99a4e"/><path d="M22 58 Q22 34 60 34 Q98 34 98 58 Q98 66 90 70 Q80 66 74 72 Q62 66 52 72 Q40 66 30 70 Q22 66 22 58Z" fill="#fbf4e6"/><ellipse cx="60" cy="58" rx="12" ry="7" fill="#c78a40"/>${[[34,48,'#e84d6a'],[48,40,'#3aa0d8'],[74,42,'#f2c230'],[86,54,'#55b04a'],[40,60,'#f2c230'],[80,62,'#e84d6a']].map(p=>`<rect x="${p[0]}" y="${p[1]}" width="6" height="2" rx="1" fill="${p[2]}" transform="rotate(30 ${p[0]} ${p[1]})"/>`).join('')}`,
-puff:(fill='#7a9b3a',bits='#e0602e')=>`<path d="M20 74 L60 34 L100 74Z" fill="#e6a74f"/><path d="M20 74 L100 74 L96 82 L24 82Z" fill="#c5822f"/><g stroke="#f7d79a" stroke-width="2" fill="none"><path d="M30 70 L60 40 L90 70"/><path d="M38 72 L60 50 L82 72"/></g><path d="M48 74 Q60 60 72 74Z" fill="${fill}"/><circle cx="56" cy="70" r="2" fill="${bits}"/><circle cx="64" cy="69" r="2" fill="${bits}"/>`,
-eggpuff:()=>`<rect x="18" y="38" width="84" height="42" rx="6" fill="#e6a74f"/><g stroke="#f7d79a" stroke-width="2"><line x1="22" y1="46" x2="98" y2="46"/><line x1="22" y1="72" x2="98" y2="72"/></g><path d="M52 50 Q38 50 38 60 Q38 70 52 70 L68 70 Q82 70 82 60 Q82 50 68 50Z" fill="#fff"/><circle cx="60" cy="60" r="7" fill="#f5b30f"/>`,
-samosa:()=>`<path d="M60 22 L100 84 L20 84Z" fill="#e2a24a" stroke="#b9772c" stroke-width="2"/><path d="M60 22 L68 84" stroke="#b9772c" stroke-width="2"/><g fill="#c4802f">${[[46,64],[76,70],[58,50],[40,78],[84,80]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="1.6"/>`).join('')}</g>`,
-cutlet:()=>`<ellipse cx="60" cy="64" rx="42" ry="22" fill="#a8622a"/><ellipse cx="60" cy="60" rx="40" ry="20" fill="#c87d38"/><g fill="#e8b56c">${Array.from({length:22},(_,i)=>`<circle cx="${28+(i*13)%64}" cy="${48+(i*7)%24}" r="1.5"/>`).join('')}</g>`,
-khari:()=>[0,1,2].map(i=>`<g transform="translate(${16+i*4},${30+i*18}) rotate(-4)"><rect width="84" height="14" rx="4" fill="#e6b066"/><g stroke="#f8dda8" stroke-width="1.6"><line x1="4" y1="4" x2="80" y2="4"/><line x1="4" y1="9" x2="80" y2="9"/></g><g fill="#fff">${[14,34,54,72].map(x=>`<circle cx="${x}" cy="7" r="1.3"/>`).join('')}</g></g>`).join(''),
-biscuits:(c='#e8b468',dot='#c88a3a',type='round')=>{const pos=[[38,46],[78,46],[58,70]];return pos.map(p=>type==='round'?`<circle cx="${p[0]}" cy="${p[1]}" r="20" fill="${c}" stroke="${dot}" stroke-width="2"/>${[[-7,-6],[6,-7],[0,2],[-8,8],[8,7]].map(d=>`<circle cx="${p[0]+d[0]}" cy="${p[1]+d[1]}" r="1.6" fill="${dot}"/>`).join('')}`:type==='coconut'?`<circle cx="${p[0]}" cy="${p[1]}" r="20" fill="${c}"/>${[[-8,-6],[5,-9],[2,3],[-6,9],[9,6],[-10,2]].map(d=>`<rect x="${p[0]+d[0]}" y="${p[1]+d[1]}" width="5" height="2" rx="1" fill="#fff" transform="rotate(25 ${p[0]+d[0]} ${p[1]+d[1]})"/>`).join('')}`:type==='salt'?`<rect x="${p[0]-19}" y="${p[1]-15}" width="38" height="30" rx="3" fill="${c}" stroke="${dot}" stroke-width="2"/>${[[-10,-6],[0,-6],[10,-6],[-10,5],[0,5],[10,5]].map(d=>`<circle cx="${p[0]+d[0]}" cy="${p[1]+d[1]}" r="1.4" fill="${dot}"/>`).join('')}<g fill="#c0392b">${[[-5,0],[6,0]].map(d=>`<circle cx="${p[0]+d[0]}" cy="${p[1]+d[1]}" r="1.2"/>`).join('')}</g>`:`<circle cx="${p[0]}" cy="${p[1]}" r="20" fill="${c}"/><path d="M${p[0]-12} ${p[1]-4} q12 -10 24 0" stroke="#fff6e0" stroke-width="2" fill="none"/><path d="M${p[0]-10} ${p[1]+6} q10 -6 20 0" stroke="#fff6e0" stroke-width="2" fill="none"/>`).join('')},
-dilpasand:()=>`<rect x="20" y="40" width="80" height="40" rx="4" fill="#e3a650"/><rect x="20" y="36" width="80" height="12" rx="4" fill="#efc07a"/><g stroke="#c5862f" stroke-width="1.6">${[30,42,54,66,78,90].map(x=>`<line x1="${x-4}" y1="38" x2="${x+4}" y2="46"/>`).join('')}</g><rect x="20" y="56" width="80" height="8" fill="#d9493a"/><rect x="20" y="64" width="80" height="4" fill="#f2d07a"/>`
-};
-const svg=b=>`<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="60" cy="90" rx="44" ry="5" fill="#000" opacity=".08"/>${b}</svg>`;
-var ART=[S.loaf(),S.loaf('#e8aa58'),S.wheat(),S.bun(),S.sweetbun(),S.creambun(),S.coconutbun(),S.masalabun(),S.pav(),S.rusk(),S.rusk('#c9853c','#8c5220'),S.bag('#f0d9b5',S.rusk('#e8bb78','#b98240')),S.bag('#f2c230',S.rusk('#dfa04e','#9a5c22')),S.toast(),S.cakepiece(),S.loafcake(),S.loafcake(true),S.creamcake(),S.cupcake(),S.muffin(),S.honeycake(),S.swissroll(),S.donut(),S.puff(),S.eggpuff(),S.puff('#8a6a4a','#d9c2a0'),S.puff('#f4eedf','#e0602e'),S.samosa(),S.cutlet(),S.khari(),S.biscuits(),S.biscuits('#d99a4e','#a8662a','coconut'),S.biscuits('#efc98a','#c08a44','salt'),S.biscuits('#e9b25c','#b07a34','osmania'),S.dilpasand()];
-PRODUCTS.forEach(function(p,i){ p.art = ART[i]; });
+// பொருள் படங்கள்: உண்மையான புகைப்படம் மட்டும் (img). கார்ட்டூன் / வாட்டர்மார்க் படங்கள் வேண்டாம்.
+// Product pictures: real photos only (img: 'img/products/p1.jpg'). No drawings, no watermarked/stock images.
 
-var ICONS = {
-  all:'<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="13" cy="13" r="7" fill="#E9A94B"/><rect x="21" y="7" width="13" height="12" rx="3" fill="#C97A2B"/><rect x="6" y="23" width="13" height="11" rx="3" fill="#D98E3A"/><circle cx="28" cy="28" r="7" fill="#EC407A"/></svg>',
-  bread:'<svg width="44" height="40" viewBox="0 0 44 40" aria-hidden="true"><path d="M6 18c0-7 7-11 16-11s16 4 16 11c0 3-2 4-4 4v12H10V22c-2 0-4-1-4-4z" fill="#E3A14D" stroke="#7A4A16" stroke-width="2"/><path d="M14 14q2 4 0 8M22 13q2 5 0 9M30 14q2 4 0 8" stroke="#7A4A16" stroke-width="1.6" fill="none"/></svg>',
-  bun:'<svg width="44" height="40" viewBox="0 0 44 40" aria-hidden="true"><ellipse cx="22" cy="24" rx="17" ry="11" fill="#D9893A" stroke="#7A4A16" stroke-width="2"/><ellipse cx="22" cy="20" rx="13" ry="7" fill="#E9A94B"/><circle cx="16" cy="18" r="1.2" fill="#fff"/><circle cx="24" cy="16" r="1.2" fill="#fff"/><circle cx="28" cy="20" r="1.2" fill="#fff"/></svg>',
-  rusk:'<svg width="44" height="40" viewBox="0 0 44 40" aria-hidden="true"><rect x="5" y="12" width="12" height="20" rx="3" fill="#C97A2B" stroke="#7A4A16" stroke-width="2" transform="rotate(-12 11 22)"/><rect x="16" y="10" width="12" height="20" rx="3" fill="#D98E3A" stroke="#7A4A16" stroke-width="2"/><rect x="27" y="12" width="12" height="20" rx="3" fill="#E3A14D" stroke="#7A4A16" stroke-width="2" transform="rotate(12 33 22)"/></svg>',
-  cake:'<svg width="44" height="40" viewBox="0 0 44 40" aria-hidden="true"><rect x="7" y="20" width="30" height="14" rx="3" fill="#C97A2B" stroke="#7A4A16" stroke-width="2"/><rect x="11" y="10" width="22" height="11" rx="3" fill="#F48FB1" stroke="#7A1532" stroke-width="2"/><rect x="21" y="3" width="2.5" height="7" fill="#7A1532"/></svg>',
-  biscuit:'<svg width="44" height="40" viewBox="0 0 44 40" aria-hidden="true"><circle cx="22" cy="20" r="15" fill="#E3A14D" stroke="#7A4A16" stroke-width="2"/><circle cx="16" cy="15" r="1.8" fill="#7A4A16"/><circle cx="26" cy="13" r="1.8" fill="#7A4A16"/><circle cx="20" cy="22" r="1.8" fill="#7A4A16"/><circle cx="28" cy="24" r="1.8" fill="#7A4A16"/><circle cx="15" cy="26" r="1.8" fill="#7A4A16"/></svg>'
-};
 
 var $ = function(id){ return document.getElementById(id); };
 var qty = {}, cat = "all", query = "";
@@ -445,6 +414,8 @@ var T = {
  en:{place:"Place order",payTitle:"Payment method",payUpi:"Online payment (UPI / QR)",payUpiSub:"Via GPay, PhonePe, Paytm",payCod:"Cash on delivery",payCodSub:"Pay when the goods arrive",payAmt:"Amount to pay",qrMissing:"QR code will be added soon.",s1:"Tap the green button above. GPay / PhonePe / Paytm opens with the amount filled in.",s2:"Check the amount and enter your UPI PIN to pay.",s3:"Come back, enter the UTR number and tap the button below. Your order goes on WhatsApp and the PDF bill downloads.",utr:"UTR / transaction no. (optional)",sendPaid:"I have paid – send on WhatsApp",sendCod:"Send order on WhatsApp",doneH:"Your order was placed successfully!",doneId:"Order no: ",doneP:"WhatsApp has opened with your order. Tap Send there so the order reaches us. We will confirm on WhatsApp.",again:"Order again",mPay:"Payment: ",mPayUpi:"Online (UPI) – paid",mPayCod:"Cash on delivery",mUtr:"UTR: ",upiId:"UPI ID: ",deliver:"Deliver to",addAddr:"Add address",searchPh:"Search bread, buns, rusk",bannerH:"Freshly baked every day",bannerP:"Direct supply to shops and homes. Your order comes to us on WhatsApp.",products:"Products",yourOrder:"Your order",total:"Total",name:"Shop / your name",phone:"Mobile number",address:"Address",date:"Delivery date",note:"Note (optional)",send:"Send order on WhatsApp",send2:"Also send to second number",step2:"Next, please also send it to our second number:",copy:"Copy order",myInfo:"My details",saveNote:"Your name and addresses are saved with your mobile number on this phone only. Enter the same number next time and they fill in automatically.",savedAddr:"Saved addresses – pick one",newAddr:"+ Deliver to a new address",help:"Order help (WhatsApp)",clear:"Clear saved details",navHome:"Home",navCats:"Categories",navCart:"Order",navProfile:"Profile",none:"No products found.",ask:"Price on confirmation",emptyCart:"Nothing added yet. Tap \"ADD\" on the home page.",rest:" + rest on confirmation",dec:" decrease",inc:" increase",addL:" add",errItem:"Add at least one product.",errName:"Enter your name.",errPhone:"Enter a valid 10-digit mobile number.",errAddr:"Enter your address.",copied:"Order copied. Paste it in WhatsApp to send.",copyFail:"Could not copy.",cleared:"Cleared.",numMissing:"to be added",brand:"INIMAI BAKEHOUSE",mHead:"*Inimai Bakehouse – New order*",mId:"Order no: ",mWhen:"Order date: ",sentId:"Your order number: ",mTotal:"Total: ",mName:"Name: ",mPhone:"Mobile: ",mAddr:"Address: ",mDate:"Delivery date: ",mNote:"Note: ",other:"தமிழ்",tag:"The Mark of Quality, A Taste Like No Other!",pdf:"Download PDF bill",pdfWait:"Preparing your bill…",pdfOk:"Bill saved.",pdfFail:"Could not create the bill. Please try again.",pdfNo:"Bill was not saved.",billTitle:"Order bill",bItem:"Item",bQty:"Qty",bRate:"Rate",bAmt:"Amount",thanks:"Thank you! Visit again.",hl1:"🍞 Straight from our oven to your door",hl2:"💯 Quality ingredients, real taste",hl3:"📲 Order on WhatsApp in 2 minutes",heroCta:"Order now ↓",delivFree:"🎉 Your order gets free door delivery! (within 3 km)",delivMore:"A {f} delivery charge is added for orders below ₹300. Add {x} more for free door delivery (within 3 km)",delivCharge:"Delivery charge",free:"Free",dHead:"🚚 Add {x} more and skip the {f} delivery charge!",dSub:"Free door delivery on orders of {m}+ within 3 km. Your order is now {s}.",dFreeHead:"🎉 You get free door delivery!",dFreeSub:"You saved the {f} delivery charge (within 3 km).",fGo:"Order →",payBtn:"Pay {x} in UPI app",hlpH:"Payment failed after the PIN, or the app did not open? Pay this way:",hlp1:"Scan the shop QR below from another phone, or tap \"Save shop QR\".",hlp2:"Open GPay / PhonePe, tap the gallery (Upload from gallery) icon in the scanner and pick the saved QR image.",hlp3:"Type the amount shown above yourself, then enter your PIN to pay.",saveQr:"Save shop QR",cpId:"Copy UPI ID",cpAmt:"Copy amount",copiedX:"Copied: ",qrSaved:"QR image saved. Now open it in GPay.",orScan:"Or scan this QR code from another phone (amount fills in automatically)",mDeliv:"Delivery: ",mDelivFree:"Free door delivery (₹300+, within 3 km)",mDelivNo:""}
 };
 Object.assign(T.ta,{itemsN:"{n} பொருட்கள்",viewCart:"கார்ட் பார்க்க",billDet:"பில் விவரம்",itemTotal:"பொருட்களின் மொத்தம்",grand:"செலுத்த வேண்டியது",saved:"🎉 இந்த ஆர்டரில் மொத்தம் {x} சேமிக்கிறீர்கள்!",browse:"பொருட்களைப் பார்க்க",emptyCart:"உங்கள் கார்ட் காலியாக உள்ளது"});
+Object.assign(T.ta,{photoSoon:"உண்மையான புகைப்படம் விரைவில்",qtyLbl:"அளவு",catLbl:"வகை"});
+Object.assign(T.en,{photoSoon:"Real photo coming soon",qtyLbl:"Size",catLbl:"Category"});
 Object.assign(T.en,{itemsN:"{n} items",viewCart:"View cart",billDet:"Bill details",itemTotal:"Items total",grand:"Grand total",saved:"🎉 You save {x} in total on this order!",browse:"Browse products",emptyCart:"Your cart is empty"});
 function t(k){ return T[LANG][k]; }
 function nm(o){ return LANG==='en' ? (o.en||o.name) : o.name; }
@@ -484,9 +455,10 @@ function renderGrid(){
     var card = document.createElement('div'); card.className='card';
         card.innerHTML = '<div class="img"></div><div class="price"></div><div class="name"></div><div class="unit"></div>';
     var tile = card.querySelector('.img');
-    if (p.img){ var im=document.createElement('img'); im.src=p.img; im.alt=nm(p); im.className='photo'; tile.appendChild(im); }
-    else if (p.art){ tile.insertAdjacentHTML('afterbegin', svg(p.art)); tile.firstChild.setAttribute('class','art'); tile.firstChild.setAttribute('aria-hidden','true'); }
-    else { var ph=document.createElement('div'); ph.className='ph'; ph.textContent=nm(p); tile.appendChild(ph); }
+    tile.appendChild(pic(p, 'photo'));
+    card.querySelector('.name').onclick = tile.onclick = function(e){ if (!e.target.closest('.add,.step')) openDetail(p); };
+    tile.setAttribute('role','button'); tile.tabIndex = 0; tile.setAttribute('aria-label', nm(p));
+    tile.onkeydown = function(e){ if ((e.key==='Enter'||e.key===' ') && e.target===tile){ e.preventDefault(); openDetail(p); } };
     var img = card.querySelector('.img');
     img.appendChild(stepper(p));
     if (p.price != null && p.mrp && p.mrp > p.price){ var off=document.createElement('span'); off.className='off'; off.textContent=Math.round((p.mrp-p.price)*100/p.mrp)+'%\nOFF'; img.appendChild(off); }
@@ -508,7 +480,7 @@ function totals(){
   var fee = (n && sum < FREE_DELIVERY_MIN) ? DELIVERY_CHARGE : 0;
   return {n:n, goods:sum, fee:fee, sum:sum+fee, unknown:unknown};
 }
-function changed(){ renderGrid(); renderCart(); }
+function changed(){ renderGrid(); renderCart(); refreshDetail(); }
 
 function renderDeliv(tt){
   var free = !tt.fee, pct = Math.min(100, Math.round(tt.goods*100/FREE_DELIVERY_MIN));
@@ -541,11 +513,50 @@ function stepper(p, big){
   s.children[2].onclick = function(){ qty[p.id]++; changed(); };
   return s;
 }
+// real photo, or a plain name tile until the photo arrives
+function pic(p, cls){
+  function ph(){ var d=document.createElement('div'); d.className='ph'; d.textContent=nm(p); return d; }
+  if (!p.img) return ph();
+  var im=document.createElement('img'); im.src=p.img; im.alt=nm(p); im.className=cls; im.loading='lazy'; im.decoding='async';
+  im.onerror=function(){ if (im.parentNode) im.parentNode.replaceChild(ph(), im); };
+  return im;
+}
+// product detail (tap a product)
+var detailP = null;
+function detailBody(p){
+  var w=document.createElement('div'); w.className='pdet';
+  var ph=document.createElement('div'); ph.className='pdImg'; ph.appendChild(pic(p,'photo'));
+  if (!p.img){ var s=document.createElement('div'); s.className='pdSoon'; s.textContent=t('photoSoon'); ph.appendChild(s); }
+  w.appendChild(ph);
+  var alt = LANG==='en' ? p.name : (p.en||'');
+  if (alt){ var a=document.createElement('div'); a.className='pdAlt'; a.textContent=alt; w.appendChild(a); }
+  var u=document.createElement('div'); u.className='pdUnit'; u.textContent=t('qtyLbl')+': '+un(p); w.appendChild(u);
+  var pr=document.createElement('div'); pr.className='price pdPrice';
+  if (p.price != null){
+    pr.innerHTML='<span class="chip"></span>'; pr.firstChild.textContent=money(p.price);
+    if (p.mrp && p.mrp > p.price){
+      var m=document.createElement('span'); m.className='mrp'; m.textContent=money(p.mrp); pr.appendChild(m);
+      var o=document.createElement('span'); o.className='pdOff'; o.textContent=Math.round((p.mrp-p.price)*100/p.mrp)+'% OFF'; pr.appendChild(o);
+    }
+  } else { pr.innerHTML='<span class="chip ask"></span>'; pr.firstChild.textContent=t('ask'); }
+  w.appendChild(pr);
+  var d = LANG==='en' ? (p.descEn||p.desc) : (p.desc||p.descEn);
+  if (d){ var dd=document.createElement('p'); dd.className='pdDesc'; dd.textContent=d; w.appendChild(dd); }
+  var c=CATEGORIES.filter(function(x){return x.id===p.cat;})[0];
+  if (c){ var cc=document.createElement('div'); cc.className='pdUnit'; cc.textContent=t('catLbl')+': '+nm(c); w.appendChild(cc); }
+  var row=document.createElement('div'); row.className='pdAct'; row.appendChild(stepper(p)); w.appendChild(row);
+  if (qty[p.id] > 0){ var g=document.createElement('a'); g.className='btn pdGo'; g.href='#cart'; g.textContent=t('viewCart')+' ›'; g.onclick=function(){ closeSheet(); }; w.appendChild(g); }
+  return w;
+}
+function openDetail(p){ detailP = p; openSheet(nm(p), detailBody(p)); }
+function refreshDetail(){
+  if (!detailP || $('sheet').hidden || !document.querySelector('#shBody .pdet')) { detailP = null; return; }
+  var b=$('shBody'); b.innerHTML=''; b.appendChild(detailBody(detailP)); $('shTitle').textContent = nm(detailP);
+}
 function thumb(p){
   var d = document.createElement('div'); d.className='cthumb';
-  if (p.img){ var im=document.createElement('img'); im.src=p.img; im.alt=''; d.appendChild(im); }
-  else if (p.art){ d.insertAdjacentHTML('afterbegin', svg(p.art)); d.firstChild.setAttribute('aria-hidden','true'); }
-  else d.textContent = '🍞';
+  if (p.img){ var im=document.createElement('img'); im.src=p.img; im.alt=''; im.loading='lazy'; im.onerror=function(){ d.textContent=(p.en||p.name).charAt(0); }; d.appendChild(im); }
+  else d.textContent = (p.en||p.name).charAt(0);
   return d;
 }
 function renderCart(){
