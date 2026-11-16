@@ -12,11 +12,14 @@
   var BUILTIN = {};
   PRODUCTS.forEach(function (p) { BUILTIN[p.id] = p; });
 
+  // இணையதளத்திலிருந்து நீக்கிய பொருட்கள் (Sheet-ல் இருந்தாலும் காட்ட வேண்டாம்) – உரிமையாளர் கேட்டபடி, 16 Nov 2026:
+  // p2 ஃபேமிலி பிரெட், p12 மில்க் ரஸ்க், p13 நெய் ரஸ்க், p29 கட்லெட், p30 காரி, p34 ஒஸ்மானியா பிஸ்கட்
+  var REMOVED = { p2: 1, p12: 1, p13: 1, p29: 1, p30: 1, p34: 1 };
   function apply(list) {
     if (!Array.isArray(list) || !list.length) return;
     var next = [];
     list.forEach(function (r) {
-      if (!r || !r.id || !r.name) return;
+      if (!r || !r.id || !r.name || REMOVED[String(r.id)]) return;
       var price = (r.price === null || r.price === '' || isNaN(Number(r.price))) ? null : Number(r.price);
       var mrp = (r.mrp === null || r.mrp === '' || isNaN(Number(r.mrp))) ? null : Number(r.mrp);
       next.push({ id: String(r.id), cat: String(r.cat || ''), name: String(r.name), en: String(r.en || ''),
@@ -28,6 +31,15 @@
       cur.desc = String(r.desc || b.desc || ''); cur.descEn = String(r.descEn || b.descEn || '');
     });
     if (!next.length) return;
+    // இணையதளத்தில் மட்டும் சேர்த்த புதிய பொருட்கள் (p36 முதல், எ.கா. கேக்குகள்) – Sheet-ல் இல்லையென்றாலும் காட்டு
+    var have = {}; next.forEach(function (p) { have[p.id] = 1; });
+    Object.keys(BUILTIN).forEach(function (id) {
+      var n = Number(String(id).slice(1));
+      if (have[id] || REMOVED[id] || !(n > 35)) return;
+      var b = BUILTIN[id], at = -1;
+      next.forEach(function (p, i) { if (p.cat === b.cat) at = i; });
+      next.splice(at < 0 ? next.length : at + 1, 0, b); have[id] = 1;
+    });
     PRODUCTS.length = 0;
     next.forEach(function (p) { PRODUCTS.push(p); if (!(p.id in qty)) qty[p.id] = 0; });
     Object.keys(qty).forEach(function (id) { if (!next.some(function (p) { return p.id === id; })) delete qty[id]; });
