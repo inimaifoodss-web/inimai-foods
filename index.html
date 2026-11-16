@@ -383,6 +383,14 @@ var PRODUCTS = [
   {id:"p21", cat:"cake", name:"ஹனி கேக்", en:"Honey cake", unit:"1 எண்ணம்", unitEn:"1 pc", price:15, mrp:20, img:"img/products/p21.jpg"},
   {id:"p22", cat:"cake", name:"ஸ்விஸ் ரோல்", en:"Swiss roll", unit:"1 எண்ணம்", unitEn:"1 pc", price:11, mrp:15, img:"img/products/p22.jpg"},
   {id:"p23", cat:"cake", name:"டோனட்", en:"Donut", unit:"1 எண்ணம்", unitEn:"1 pc", price:30, mrp:40, img:"img/products/p23.jpg"},
+  {id:"p36", cat:"cake", name:"ரெட் ஹார்ட் கேக்", en:"Red heart cake", unit:"1 கேக்", unitEn:"1 cake", price:null, mrp:null, img:"img/products/p36.jpg", desc:"எடை, டிசைன், பெயர் உங்கள் விருப்பப்படி செய்து தரப்படும். விலை WhatsApp-ல் உறுதி செய்யப்படும்.", descEn:"Made to order: weight, design and name as you like. Price confirmed on WhatsApp."},
+  {id:"p37", cat:"cake", name:"2 அடுக்கு சாக்லேட் கேக்", en:"2-tier chocolate cake", unit:"1 கேக்", unitEn:"1 cake", price:null, mrp:null, img:"img/products/p37.jpg", fit:"pack", desc:"எடை, டிசைன், பெயர் உங்கள் விருப்பப்படி செய்து தரப்படும். விலை WhatsApp-ல் உறுதி செய்யப்படும்.", descEn:"Made to order: weight, design and name as you like. Price confirmed on WhatsApp."},
+  {id:"p38", cat:"cake", name:"ஃப்ரெஷ் ஃப்ரூட் கேக்", en:"Fresh fruit cake", unit:"1 கேக்", unitEn:"1 cake", price:null, mrp:null, img:"img/products/p38.jpg", desc:"எடை, டிசைன், பெயர் உங்கள் விருப்பப்படி செய்து தரப்படும். விலை WhatsApp-ல் உறுதி செய்யப்படும்.", descEn:"Made to order: weight, design and name as you like. Price confirmed on WhatsApp."},
+  {id:"p39", cat:"cake", name:"ரெட் வெல்வெட் கேக்", en:"Red velvet cake", unit:"1 கேக்", unitEn:"1 cake", price:null, mrp:null, img:"img/products/p39.jpg", fit:"pack", desc:"எடை, டிசைன், பெயர் உங்கள் விருப்பப்படி செய்து தரப்படும். விலை WhatsApp-ல் உறுதி செய்யப்படும்.", descEn:"Made to order: weight, design and name as you like. Price confirmed on WhatsApp."},
+  {id:"p40", cat:"cake", name:"வைட் ஃபாரஸ்ட் கேக்", en:"White forest cake", unit:"1 கேக்", unitEn:"1 cake", price:null, mrp:null, img:"img/products/p40.jpg", fit:"pack", desc:"எடை, டிசைன், பெயர் உங்கள் விருப்பப்படி செய்து தரப்படும். விலை WhatsApp-ல் உறுதி செய்யப்படும்.", descEn:"Made to order: weight, design and name as you like. Price confirmed on WhatsApp."},
+  {id:"p41", cat:"cake", name:"பிறந்தநாள் கேக் (1வது பிறந்தநாள்)", en:"1st birthday cake", unit:"1 கேக்", unitEn:"1 cake", price:null, mrp:null, img:"img/products/p41.jpg", desc:"எடை, டிசைன், பெயர் உங்கள் விருப்பப்படி செய்து தரப்படும். விலை WhatsApp-ல் உறுதி செய்யப்படும்.", descEn:"Made to order: weight, design and name as you like. Price confirmed on WhatsApp."},
+  {id:"p42", cat:"cake", name:"ரோஸ் கிரீம் கேக்", en:"Rose cream cake", unit:"1 கேக்", unitEn:"1 cake", price:null, mrp:null, img:"img/products/p42.jpg", fit:"pack", desc:"எடை, டிசைன், பெயர் உங்கள் விருப்பப்படி செய்து தரப்படும். விலை WhatsApp-ல் உறுதி செய்யப்படும்.", descEn:"Made to order: weight, design and name as you like. Price confirmed on WhatsApp."},
+  {id:"p43", cat:"cake", name:"குழந்தைகள் பிறந்தநாள் கேக் (2 அடுக்கு)", en:"Kids 2-tier birthday cake", unit:"1 கேக்", unitEn:"1 cake", price:null, mrp:null, img:"img/products/p43.jpg", fit:"pack", desc:"எடை, டிசைன், பெயர் உங்கள் விருப்பப்படி செய்து தரப்படும். விலை WhatsApp-ல் உறுதி செய்யப்படும்.", descEn:"Made to order: weight, design and name as you like. Price confirmed on WhatsApp."},
   {id:"p24", cat:"puff", name:"வெஜ் பஃப்ஸ்", en:"Veg puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:21, mrp:28, img:"img/products/p24.jpg"},
   {id:"p25", cat:"puff", name:"முட்டை பஃப்ஸ்", en:"Egg puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:26, mrp:35, img:"img/products/p25.jpg"},
   {id:"p26", cat:"puff", name:"காளான் பஃப்ஸ்", en:"Mushroom puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:33, mrp:44, img:"img/products/p26.jpg"},
@@ -1073,7 +1081,7 @@ $('saveQr').addEventListener('click', function(){
 applyLang(); route();
 </script>
 <script>var INIMAI_SHEET_URL="https://script.google.com/macros/s/AKfycbyaF_V5V1rTAAw7ThcS2AA8eqnMxblwXB9lllKXRVU3UGpcupzZ93vZSIpg6hvz5PU_2g/exec"; // Google Sheet Web app URL (https://script.google.com/macros/s/…/exec)</script>
-<script src="sheet-connect.js?v=15"></script>
+<script src="sheet-connect.js?v=16"></script>
 <script src="pwa.js"></script>
 </body>
 </html>

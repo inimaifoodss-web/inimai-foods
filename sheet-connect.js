@@ -31,6 +31,15 @@
       cur.desc = String(r.desc || b.desc || ''); cur.descEn = String(r.descEn || b.descEn || '');
     });
     if (!next.length) return;
+    // இணையதளத்தில் மட்டும் சேர்த்த புதிய பொருட்கள் (p36 முதல், எ.கா. கேக்குகள்) – Sheet-ல் இல்லையென்றாலும் காட்டு
+    var have = {}; next.forEach(function (p) { have[p.id] = 1; });
+    Object.keys(BUILTIN).forEach(function (id) {
+      var n = Number(String(id).slice(1));
+      if (have[id] || REMOVED[id] || !(n > 35)) return;
+      var b = BUILTIN[id], at = -1;
+      next.forEach(function (p, i) { if (p.cat === b.cat) at = i; });
+      next.splice(at < 0 ? next.length : at + 1, 0, b); have[id] = 1;
+    });
     PRODUCTS.length = 0;
     next.forEach(function (p) { PRODUCTS.push(p); if (!(p.id in qty)) qty[p.id] = 0; });
     Object.keys(qty).forEach(function (id) { if (!next.some(function (p) { return p.id === id; })) delete qty[id]; });
