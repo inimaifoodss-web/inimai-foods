@@ -12,11 +12,14 @@
   var BUILTIN = {};
   PRODUCTS.forEach(function (p) { BUILTIN[p.id] = p; });
 
+  // இணையதளத்திலிருந்து நீக்கிய பொருட்கள் (Sheet-ல் இருந்தாலும் காட்ட வேண்டாம்) – உரிமையாளர் கேட்டபடி, 16 Nov 2026:
+  // p2 ஃபேமிலி பிரெட், p6 கிரீம் பன், p12 மில்க் ரஸ்க், p13 நெய் ரஸ்க், p29 கட்லெட், p30 காரி, p34 ஒஸ்மானியா பிஸ்கட்
+  var REMOVED = { p2: 1, p6: 1, p12: 1, p13: 1, p29: 1, p30: 1, p34: 1 };
   function apply(list) {
     if (!Array.isArray(list) || !list.length) return;
     var next = [];
     list.forEach(function (r) {
-      if (!r || !r.id || !r.name) return;
+      if (!r || !r.id || !r.name || REMOVED[String(r.id)]) return;
       var price = (r.price === null || r.price === '' || isNaN(Number(r.price))) ? null : Number(r.price);
       var mrp = (r.mrp === null || r.mrp === '' || isNaN(Number(r.mrp))) ? null : Number(r.mrp);
       next.push({ id: String(r.id), cat: String(r.cat || ''), name: String(r.name), en: String(r.en || ''),

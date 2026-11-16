@@ -363,21 +363,17 @@ var CATEGORIES = [
 ];
 // price: கடைகளுக்கு உங்கள் விலை (₹), mrp: சந்தை விலை (₹), img: உண்மையான புகைப்படக் கோப்பு, எ.கா. 'img/products/p1.jpg' (இல்லையெனில் null), desc/descEn: விவரம் (விருப்பம்), fit:"pack" = பாக்கெட் படம் முழுதாகத் தெரிய
 var PRODUCTS = [
-  {id:"p1", cat:"bread", name:"பால் / ஸ்வீட் பிரெட்", en:"Milk / Sweet bread", unit:"400 கி", unitEn:"400 g", price:38, mrp:50, img:"img/products/p1.jpg", fit:"pack"},
-  {id:"p2", cat:"bread", name:"ஃபேமிலி பிரெட்", en:"Family bread (large)", unit:"600 கி", unitEn:"600 g", price:90, mrp:120, img:"img/products/p2.jpg"},
+  {id:"p1", cat:"bread", name:"பால் / ஸ்வீட் பிரெட்", en:"Milk / Sweet bread", unit:"400 கி", unitEn:"400 g", price:38, mrp:50, img:"img/products/p1.jpg"},
   {id:"p3", cat:"bread", name:"கோதுமை பிரெட்", en:"Whole wheat bread", unit:"350 கி", unitEn:"350 g", price:34, mrp:45, img:"img/products/p3.jpg"},
   {id:"p4", cat:"bread", name:"பிளெயின் பன்", en:"Plain bun", unit:"1 எண்ணம்", unitEn:"1 pc", price:8, mrp:10, img:"img/products/p4.jpg"},
   {id:"p5", cat:"bread", name:"ஸ்வீட் பன்", en:"Sweet (yellow) bun", unit:"1 எண்ணம்", unitEn:"1 pc", price:14, mrp:18, img:"img/products/p5.jpg"},
-  {id:"p6", cat:"bread", name:"கிரீம் பன்", en:"Cream bun", unit:"1 எண்ணம்", unitEn:"1 pc", price:11, mrp:15, img:null},
-  {id:"p7", cat:"bread", name:"தேங்காய் பன்", en:"Coconut bun", unit:"1 எண்ணம்", unitEn:"1 pc", price:11, mrp:15, img:null},
+  {id:"p7", cat:"bread", name:"தேங்காய் பன்", en:"Coconut bun", unit:"1 எண்ணம்", unitEn:"1 pc", price:11, mrp:15, img:"img/products/p7.jpg"},
   {id:"p8", cat:"bread", name:"மசாலா பன்", en:"Masala bun", unit:"1 எண்ணம்", unitEn:"1 pc", price:11, mrp:15, img:"img/products/p8.jpg"},
   {id:"p9", cat:"bread", name:"பாவ் பன்", en:"Pav bun", unit:"6 எண்ணம்", unitEn:"Pack of 6", price:30, mrp:40, img:"img/products/p9.jpg"},
-  {id:"p10", cat:"rusk", name:"ஏலக்காய் ரஸ்க்", en:"Elaichi rusk", unit:"1 கிலோ", unitEn:"1 kg", price:110, mrp:147, img:"img/products/p10.jpg"},
+  {id:"p10", cat:"rusk", name:"ஏலக்காய் ரஸ்க்", en:"Elaichi rusk", unit:"1 கிலோ", unitEn:"1 kg", price:110, mrp:147, img:"img/products/p10.jpg", fit:"pack"},
   {id:"p11", cat:"rusk", name:"லூஸ் ரஸ்க்", en:"Loose bakery rusk", unit:"1 கிலோ", unitEn:"1 kg", price:150, mrp:200, img:"img/products/p11.jpg"},
-  {id:"p12", cat:"rusk", name:"மில்க் ரஸ்க்", en:"Milk rusk", unit:"200 கி", unitEn:"200 g", price:30, mrp:40, img:"img/products/p12.jpg"},
-  {id:"p13", cat:"rusk", name:"நெய் ரஸ்க்", en:"Ghee rusk", unit:"200 கி", unitEn:"200 g", price:45, mrp:60, img:"img/products/p13.jpg"},
   {id:"p14", cat:"rusk", name:"ஸ்வீட் டோஸ்ட்", en:"Sweet toast", unit:"200 கி", unitEn:"200 g", price:30, mrp:40, img:"img/products/p14.jpg"},
-  {id:"p15", cat:"cake", name:"டீ கேக் (துண்டு)", en:"Tea cake (piece)", unit:"1 எண்ணம்", unitEn:"1 pc", price:8, mrp:10, img:null},
+  {id:"p15", cat:"cake", name:"டீ கேக் (துண்டு)", en:"Tea cake (piece)", unit:"1 எண்ணம்", unitEn:"1 pc", price:8, mrp:10, img:"img/products/p15.jpg"},
   {id:"p16", cat:"cake", name:"டீ கேக் / மடீரா கேக்", en:"Tea / Madeira cake", unit:"1 கிலோ", unitEn:"1 kg", price:338, mrp:450, img:"img/products/p16.jpg"},
   {id:"p17", cat:"cake", name:"பிளம் கேக்", en:"Plum cake", unit:"1 கிலோ", unitEn:"1 kg", price:450, mrp:600, img:"img/products/p17.jpg"},
   {id:"p18", cat:"cake", name:"ஃப்ரெஷ் கிரீம் கேக்", en:"Fresh cream cake", unit:"1 கிலோ", unitEn:"1 kg", price:300, mrp:400, img:"img/products/p18.jpg"},
@@ -386,18 +382,15 @@ var PRODUCTS = [
   {id:"p21", cat:"cake", name:"ஹனி கேக்", en:"Honey cake", unit:"1 எண்ணம்", unitEn:"1 pc", price:15, mrp:20, img:"img/products/p21.jpg"},
   {id:"p22", cat:"cake", name:"ஸ்விஸ் ரோல்", en:"Swiss roll", unit:"1 எண்ணம்", unitEn:"1 pc", price:11, mrp:15, img:"img/products/p22.jpg"},
   {id:"p23", cat:"cake", name:"டோனட்", en:"Donut", unit:"1 எண்ணம்", unitEn:"1 pc", price:30, mrp:40, img:"img/products/p23.jpg"},
-  {id:"p24", cat:"puff", name:"வெஜ் பஃப்ஸ்", en:"Veg puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:21, mrp:28, img:null},
-  {id:"p25", cat:"puff", name:"முட்டை பஃப்ஸ்", en:"Egg puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:26, mrp:35, img:null},
-  {id:"p26", cat:"puff", name:"காளான் பஃப்ஸ்", en:"Mushroom puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:33, mrp:44, img:null},
-  {id:"p27", cat:"puff", name:"பனீர் பஃப்ஸ்", en:"Paneer puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:38, mrp:50, img:null},
-  {id:"p28", cat:"puff", name:"சமோசா", en:"Samosa", unit:"1 எண்ணம்", unitEn:"1 pc", price:11, mrp:15, img:null},
-  {id:"p29", cat:"puff", name:"கட்லெட்", en:"Cutlet", unit:"1 எண்ணம்", unitEn:"1 pc", price:15, mrp:20, img:null},
-  {id:"p30", cat:"puff", name:"காரி / பஃப் பிஸ்கட்", en:"Khari / puff biscuit", unit:"200 கி", unitEn:"200 g", price:73, mrp:97, img:null},
-  {id:"p31", cat:"biscuit", name:"பட்டர் பிஸ்கட்", en:"Butter biscuit", unit:"1 கிலோ", unitEn:"1 kg", price:225, mrp:300, img:null},
-  {id:"p32", cat:"biscuit", name:"தேங்காய் குக்கீஸ்", en:"Coconut cookies", unit:"1 கிலோ", unitEn:"1 kg", price:225, mrp:300, img:null},
-  {id:"p33", cat:"biscuit", name:"உப்பு / மசாலா பிஸ்கட்", en:"Salt / masala biscuit", unit:"1 கிலோ", unitEn:"1 kg", price:225, mrp:300, img:null},
-  {id:"p34", cat:"biscuit", name:"ஒஸ்மானியா பிஸ்கட்", en:"Osmania biscuit", unit:"1 கிலோ", unitEn:"1 kg", price:240, mrp:320, img:null},
-  {id:"p35", cat:"biscuit", name:"தில்பசந்த்", en:"Dilpasand", unit:"1 எண்ணம்", unitEn:"1 pc", price:19, mrp:25, img:null}
+  {id:"p24", cat:"puff", name:"வெஜ் பஃப்ஸ்", en:"Veg puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:21, mrp:28, img:"img/products/p24.jpg"},
+  {id:"p25", cat:"puff", name:"முட்டை பஃப்ஸ்", en:"Egg puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:26, mrp:35, img:"img/products/p25.jpg"},
+  {id:"p26", cat:"puff", name:"காளான் பஃப்ஸ்", en:"Mushroom puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:33, mrp:44, img:"img/products/p26.jpg"},
+  {id:"p27", cat:"puff", name:"பனீர் பஃப்ஸ்", en:"Paneer puff", unit:"1 எண்ணம்", unitEn:"1 pc", price:38, mrp:50, img:"img/products/p27.jpg"},
+  {id:"p28", cat:"puff", name:"சமோசா", en:"Samosa", unit:"1 எண்ணம்", unitEn:"1 pc", price:11, mrp:15, img:"img/products/p28.jpg"},
+  {id:"p31", cat:"biscuit", name:"பட்டர் பிஸ்கட்", en:"Butter biscuit", unit:"1 கிலோ", unitEn:"1 kg", price:225, mrp:300, img:"img/products/p31.jpg"},
+  {id:"p32", cat:"biscuit", name:"தேங்காய் குக்கீஸ்", en:"Coconut cookies", unit:"1 கிலோ", unitEn:"1 kg", price:225, mrp:300, img:"img/products/p32.jpg"},
+  {id:"p33", cat:"biscuit", name:"உப்பு / மசாலா பிஸ்கட்", en:"Salt / masala biscuit", unit:"1 கிலோ", unitEn:"1 kg", price:225, mrp:300, img:"img/products/p33.jpg"},
+  {id:"p35", cat:"biscuit", name:"தில்பசந்த்", en:"Dilpasand", unit:"1 எண்ணம்", unitEn:"1 pc", price:19, mrp:25, img:"img/products/p35.jpg"}
 ];
 // =========================================
 
@@ -1079,7 +1072,7 @@ $('saveQr').addEventListener('click', function(){
 applyLang(); route();
 </script>
 <script>var INIMAI_SHEET_URL="https://script.google.com/macros/s/AKfycbyaF_V5V1rTAAw7ThcS2AA8eqnMxblwXB9lllKXRVU3UGpcupzZ93vZSIpg6hvz5PU_2g/exec"; // Google Sheet Web app URL (https://script.google.com/macros/s/…/exec)</script>
-<script src="sheet-connect.js?v=13"></script>
+<script src="sheet-connect.js?v=15"></script>
 <script src="pwa.js"></script>
 </body>
 </html>
