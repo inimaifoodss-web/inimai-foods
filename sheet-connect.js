@@ -15,6 +15,8 @@
   // இணையதளத்திலிருந்து நீக்கிய பொருட்கள் (Sheet-ல் இருந்தாலும் காட்ட வேண்டாம்) – உரிமையாளர் கேட்டபடி, 16 Nov 2026:
   // p2 ஃபேமிலி பிரெட், p12 மில்க் ரஸ்க், p13 நெய் ரஸ்க், p29 கட்லெட், p30 காரி, p34 ஒஸ்மானியா பிஸ்கட்
   var REMOVED = { p2: 1, p12: 1, p13: 1, p29: 1, p30: 1, p34: 1 };
+  // உரிமையாளர் மாற்றிய பெயர்கள் (Sheet-ல் பழைய பெயர் இருந்தாலும் இது காட்டப்படும்) – 16 Nov 2026: p9 பாவ் பன் → மினி பன்
+  var RENAMED = { p9: { name: 'மினி பன்', en: 'Mini bun' } };
   function apply(list) {
     if (!Array.isArray(list) || !list.length) return;
     var next = [];
@@ -26,6 +28,7 @@
         unit: String(r.unit || ''), unitEn: String(r.unitEn || ''), price: price, mrp: mrp,
         img: null });
       var b = BUILTIN[r.id] || {}, cur = next[next.length - 1], im = String(r.img || '').trim();
+      if (RENAMED[cur.id]) { cur.name = RENAMED[cur.id].name; cur.en = RENAMED[cur.id].en; }
       if (/^https:\/\//.test(im) || /^img\/products\/[\w.-]+$/.test(im)) cur.img = im;
       else if (b.img) { cur.img = b.img; if (b.fit) cur.fit = b.fit; }
       cur.desc = String(r.desc || b.desc || ''); cur.descEn = String(r.descEn || b.descEn || '');
