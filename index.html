@@ -568,7 +568,8 @@ var HERO_IDS = ['p42','p38','p36','p1','p39','p24','p6','p37'], SPECIAL_IDS = ['
 function byId(id){ return PRODUCTS.filter(function(x){ return x.id===id && x.img; })[0]; }
 function renderHero(){
   var sl=$('slides'), dots=$('dots'); if (!sl) return;
-  var list = HERO_IDS.map(byId).filter(Boolean);
+  // அட்மின் "நகரும் படம்" tab-லிருந்து வந்த படங்கள் இருந்தால் அவை; இல்லையெனில் பொருள் படங்கள்
+  var list = (window.HERO_LIST && HERO_LIST.length) ? HERO_LIST.map(function(b){ return {id:b.img+'|'+(b.name||'')+'|'+(b.en||''), img:b.img, name:b.name||b.en||'', en:b.en||b.name||''}; }) : HERO_IDS.map(byId).filter(Boolean);
   if (sl.dataset.k !== list.map(function(p){return p.id;}).join()+LANG){
     sl.dataset.k = list.map(function(p){return p.id;}).join()+LANG; sl.innerHTML=''; dots.innerHTML='';
     list.forEach(function(p,i){
@@ -1188,7 +1189,7 @@ Object.assign(T.en, {payerL:"UPI ID you paid from *", utr:"UTR / transaction no.
 applyLang(); route();
 </script>
 <script>var INIMAI_SHEET_URL="https://script.google.com/macros/s/AKfycbyaF_V5V1rTAAw7ThcS2AA8eqnMxblwXB9lllKXRVU3UGpcupzZ93vZSIpg6hvz5PU_2g/exec"; // Google Sheet Web app URL (https://script.google.com/macros/s/…/exec)</script>
-<script src="sheet-connect.js?v=23"></script>
+<script src="sheet-connect.js?v=24"></script>
 <script src="register.js?v=4"></script>
 <script src="pwa.js"></script>
 </body>

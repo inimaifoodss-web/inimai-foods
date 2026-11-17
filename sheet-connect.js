@@ -53,7 +53,7 @@
   }
 
   var cached = null;
-  try { cached = JSON.parse(localStorage.getItem(KEY) || 'null'); if (cached) apply(cached.p || cached, !!cached.v2); } catch (e) {}
+  try { cached = JSON.parse(localStorage.getItem(KEY) || 'null'); if (cached) { if (Array.isArray(cached.b)) window.HERO_LIST = cached.b; apply(cached.p || cached, !!cached.v2); } } catch (e) {}
   // முதல் முறை திறக்கும்போது (சேமித்த பட்டியல் இல்லை): Sheet பட்டியல் வரும் வரை பொருட்களைக் காட்டாதே,
   // இல்லையெனில் அட்மினில் "மறை" செய்த பொருட்கள் சில நொடிகள் தெரியும். 10 நொடியில் வரவில்லை என்றால் உள்ளே உள்ள பட்டியல்.
   var wait = !cached;
@@ -69,8 +69,9 @@
     .then(function (j) {
       var v2 = !!(j && j.v >= 2);
       if (j && j.ok && Array.isArray(j.products) && (j.products.length || v2)) {
+        if (Array.isArray(j.banner)) window.HERO_LIST = j.banner;
         apply(j.products, v2); ok = true;
-        try { localStorage.setItem(KEY, JSON.stringify(v2 ? {v2: 1, p: j.products} : j.products)); } catch (e) {}
+        try { localStorage.setItem(KEY, JSON.stringify(v2 ? {v2: 1, p: j.products, b: Array.isArray(j.banner) ? j.banner : null} : j.products)); } catch (e) {}
       }
     })
     .catch(function () {})
