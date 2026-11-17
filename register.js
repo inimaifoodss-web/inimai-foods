@@ -26,8 +26,8 @@
     vNote: 'இதே மொபைல் எண்ணின் WhatsApp-லிருந்து அனுப்ப வேண்டும்.', vSent: '✓ WhatsApp-ல் Send அழுத்தியிருந்தால், இப்போது "தொடரவும்" அழுத்துங்கள்.',
     vMsg: 'வணக்கம் இனிமை பேக்ஹவுஸ்! கடை பதிவு உறுதி.\nகடை: {s}\nமொபைல்: {p}\nகுறியீடு: {c}',
     hello: 'வணக்கம்', helloSub: 'இன்றைய புதிய பொருட்களைப் பார்த்து ஆர்டர் செய்யுங்கள்.',
-    guestH: '👀 எங்கள் பொருட்களைப் பாருங்கள்', guestP: 'விலை பார்த்து ஆர்டர் செய்ய, உங்கள் கடையைப் பதிவு செய்யுங்கள் (கடைகள் & சூப்பர் மார்க்கெட்டுகளுக்கு மட்டும்).',
-    guestBtn: '🏪 கடை பதிவு செய்து ஆர்டர் செய்யுங்கள் →', guestBar: '🏪 பதிவு செய்து விலை பார்க்க', guestBarS: 'கடைகளுக்கான மொத்த விலை',
+    guestH: '👀 எங்கள் பொருட்களைப் பாருங்கள்', guestP: 'ஆர்டர் செய்ய, கீழே உள்ள பட்டனை அழுத்தி உங்கள் கடையைப் பதிவு செய்யுங்கள் (கடைகள் & சூப்பர் மார்க்கெட்டுகளுக்கு மட்டும்).',
+    guestBtn: '🏪 கடை பதிவு செய்து ஆர்டர் செய்யுங்கள் →', guestBar: '🏪 கடை பதிவு செய்யுங்கள்', guestBarS: 'கடைகள் & சூப்பர் மார்க்கெட்டுகளுக்கு மட்டும்',
     waitH: '⏳ அனுமதிக்காக காத்திருக்கிறது', waitP: 'உங்கள் கடை பதிவு எங்களுக்கு வந்துவிட்டது. நாங்கள் சரிபார்த்து அனுமதி கொடுத்ததும் விலையும் ஆர்டரும் தெரியும். அனுமதி கிடைத்ததும் WhatsApp-ல் தெரிவிப்போம்.',
     waitBar: '⏳ அனுமதிக்காக காத்திருக்கிறது', waitBarS: 'அனுமதி வந்ததா என்று பார்க்க அழுத்துங்கள்',
     waitDone: '✓ பதிவு முடிந்தது!', waitCheck: '↻ அனுமதி வந்ததா? சரிபார்', waitBrowse: 'பொருட்களைப் பாருங்கள் →', waitNo: 'இன்னும் அனுமதி வரவில்லை. சிறிது நேரம் கழித்து மீண்டும் பாருங்கள்.',
@@ -60,8 +60,8 @@
     vNote: 'Send it from the WhatsApp of this same mobile number.', vSent: '✓ If you tapped Send in WhatsApp, now tap "Continue".',
     vMsg: 'Hello Inimai Bakehouse! Shop registration verification.\nShop: {s}\nMobile: {p}\nCode: {c}',
     hello: 'Welcome', helloSub: 'See today\'s fresh products and place your order.',
-    guestH: '👀 Take a look at our products', guestP: 'To see prices and order, register your shop (for shops & supermarkets only).',
-    guestBtn: '🏪 Register your shop to order →', guestBar: '🏪 Register to see prices', guestBarS: 'Wholesale prices for shops',
+    guestH: '👀 Take a look at our products', guestP: 'To order, tap the button below and register your shop (for shops & supermarkets only).',
+    guestBtn: '🏪 Register your shop to order →', guestBar: '🏪 Register your shop', guestBarS: 'For shops & supermarkets only',
     waitH: '⏳ Waiting for approval', waitP: 'We have received your shop registration. Once we check and approve it, you will see prices and can order. We will tell you on WhatsApp when it is approved.',
     waitBar: '⏳ Waiting for approval', waitBarS: 'Tap to check if you are approved',
     waitDone: '✓ Registration complete!', waitCheck: '↻ Approved yet? Check', waitBrowse: 'Browse products →', waitNo: 'Not approved yet. Please check again a little later.',
@@ -118,8 +118,8 @@
     '.gfoot a{color:#FFE2A6;font-weight:700}',
     'body.gated{overflow:hidden}',
     // பதிவு / அனுமதி இல்லாதவர்கள்: பொருட்கள் மட்டும் தெரியும்; விலை, தள்ளுபடி, கார்ட், ஆர்டர் மறைவு
-    'body.guest .price,body.guest .off,body.guest #bnOff,body.guest .pdPrice,body.guest .mrp,body.guest .pdOff,body.guest .step,body.guest .pdGo,body.guest #fbar,body.guest #badge{display:none!important}',
-    'body.guest .card .name{margin-top:22px}',
+    'body.guest .price,body.guest .off,body.guest #bnOff,body.guest .pdPrice,body.guest .mrp,body.guest .pdOff,body.guest .step,body.guest .pdGo,body.guest #fbar,body.guest #badge,body.guest .card .add,body.guest .card .unit,body.guest .pdUnit,body.guest .pdAct{display:none!important}',
+    'body.guest .card .name{margin-top:8px}',
     '.gguest{margin:14px 16px 0;background:linear-gradient(135deg,#7A1532,#94203F);color:#fff;border-radius:18px;padding:14px 16px;display:grid;gap:8px;box-shadow:0 8px 20px rgba(122,21,50,.25)}',
     '.gguest b{font-family:"Baloo Thambi 2","Noto Sans Tamil",sans-serif;font-weight:800;font-size:19px;line-height:1.2}',
     '.gguest p{margin:0;font-size:14px;line-height:1.5;color:rgba(255,255,255,.9)}',
@@ -347,7 +347,7 @@
     x.className = 'gguest' + (st === 'pending' ? ' wait' : st === 'removed' ? ' rem' : '');
     x.appendChild(el('b', null, st === 'guest' ? t('guestH') : st === 'removed' ? t('remH') : (r.owner ? t('hello') + ', ' + r.owner + '! ' : '') + t('waitH')));
     x.appendChild(el('p', null, st === 'guest' ? t('guestP') : st === 'removed' ? t('remP') : t('waitP')));
-    if (st === 'guest') { var b = el('button', null, t('guestBtn'), {type: 'button'}); b.addEventListener('click', ask); x.appendChild(b); }
+    if (st === 'guest') { /* ஒரே பதிவு பட்டன்: கீழே உள்ள பட்டை */ }
     else if (st === 'pending') { var c = el('button', null, t('waitCheck'), {type: 'button'}); c.addEventListener('click', waiting); x.appendChild(c); }
     else x.appendChild(el('a', null, t('waitAsk'), {href: 'https://wa.me/' + ORDER_WHATSAPP, target: '_blank', rel: 'noopener'}));
   }
