@@ -17,26 +17,29 @@
   var REMOVED = { p2: 1, p12: 1, p13: 1, p29: 1, p30: 1, p34: 1 };
   // உரிமையாளர் மாற்றிய பெயர்கள் (Sheet-ல் பழைய பெயர் இருந்தாலும் இது காட்டப்படும்) – 16 Nov 2026: p9 பாவ் பன் → மினி பன்
   var RENAMED = { p9: { name: 'மினி பன்', en: 'Mini bun' } };
-  function apply(list) {
-    if (!Array.isArray(list) || !list.length) return;
+  // v2 (புதிய Apps Script): Products tab மட்டுமே உண்மை – அட்மினில் சேர் / காட்டு / மறை / நீக்கு அப்படியே இணையதளத்தில்.
+  // பழைய Apps Script (v இல்லை): முன்பு போல நீக்கியவை / பெயர் மாற்றம் / இணையதளத்தில் மட்டும் உள்ள கேக்குகள்.
+  function apply(list, v2) {
+    if (!Array.isArray(list) || (!list.length && !v2)) return;
     var next = [];
     list.forEach(function (r) {
-      if (!r || !r.id || !r.name || REMOVED[String(r.id)]) return;
+      if (!r || !r.id || !r.name || (!v2 && REMOVED[String(r.id)])) return;
       var price = (r.price === null || r.price === '' || isNaN(Number(r.price))) ? null : Number(r.price);
       var mrp = (r.mrp === null || r.mrp === '' || isNaN(Number(r.mrp))) ? null : Number(r.mrp);
       next.push({ id: String(r.id), cat: String(r.cat || ''), name: String(r.name), en: String(r.en || ''),
         unit: String(r.unit || ''), unitEn: String(r.unitEn || ''), price: price, mrp: mrp,
         img: null });
       var b = BUILTIN[r.id] || {}, cur = next[next.length - 1], im = String(r.img || '').trim();
-      if (RENAMED[cur.id]) { cur.name = RENAMED[cur.id].name; cur.en = RENAMED[cur.id].en; }
+      if (b.fit) cur.fit = b.fit;
+      if (!v2 && RENAMED[cur.id]) { cur.name = RENAMED[cur.id].name; cur.en = RENAMED[cur.id].en; }
       if (/^https:\/\//.test(im) || /^img\/products\/[\w.-]+$/.test(im)) cur.img = im;
       else if (b.img) { cur.img = b.img; if (b.fit) cur.fit = b.fit; }
       cur.desc = String(r.desc || b.desc || ''); cur.descEn = String(r.descEn || b.descEn || '');
     });
-    if (!next.length) return;
+    if (!next.length && !v2) return;
     // இணையதளத்தில் மட்டும் சேர்த்த புதிய பொருட்கள் (p36 முதல், எ.கா. கேக்குகள்) – Sheet-ல் இல்லையென்றாலும் காட்டு
     var have = {}; next.forEach(function (p) { have[p.id] = 1; });
-    Object.keys(BUILTIN).forEach(function (id) {
+    if (!v2) Object.keys(BUILTIN).forEach(function (id) {
       var n = Number(String(id).slice(1));
       if (have[id] || REMOVED[id] || !(n > 35)) return;
       var b = BUILTIN[id], at = -1;
@@ -50,7 +53,7 @@
   }
 
   var cached = null;
-  try { cached = JSON.parse(localStorage.getItem(KEY) || 'null'); if (cached) apply(cached); } catch (e) {}
+  try { cached = JSON.parse(localStorage.getItem(KEY) || 'null'); if (cached) apply(cached.p || cached, !!cached.v2); } catch (e) {}
   // முதல் முறை திறக்கும்போது (சேமித்த பட்டியல் இல்லை): Sheet பட்டியல் வரும் வரை பொருட்களைக் காட்டாதே,
   // இல்லையெனில் அட்மினில் "மறை" செய்த பொருட்கள் சில நொடிகள் தெரியும். 10 நொடியில் வரவில்லை என்றால் உள்ளே உள்ள பட்டியல்.
   var wait = !cached;
@@ -60,17 +63,30 @@
     document.head.appendChild(st); document.body.classList.add('pwait');
   }
   function ready() { document.body.classList.remove('pwait'); }
-  var tmo = setTimeout(ready, 10000);
+  var ok = false, tmo = setTimeout(ready, 15000);
   fetch(URL_ + '?api=products', { method: 'GET', redirect: 'follow', cache: 'no-store' })
     .then(function (r) { return r.json(); })
     .then(function (j) {
-      if (j && j.ok && j.products && j.products.length) {
-        apply(j.products);
-        try { localStorage.setItem(KEY, JSON.stringify(j.products)); } catch (e) {}
+      var v2 = !!(j && j.v >= 2);
+      if (j && j.ok && Array.isArray(j.products) && (j.products.length || v2)) {
+        apply(j.products, v2); ok = true;
+        try { localStorage.setItem(KEY, JSON.stringify(v2 ? {v2: 1, p: j.products} : j.products)); } catch (e) {}
       }
     })
     .catch(function () {})
-    .then(function () { clearTimeout(tmo); ready(); });
+    .then(function () {
+      clearTimeout(tmo); ready();
+      // முதல் முறை, Sheet பட்டியல் வரவில்லை: பழைய (உள்ளே உள்ள) பட்டியலைக் காட்டாமல் "மீண்டும் முயற்சி" செய்தி
+      if (!ok && wait) failNote();
+    });
+  function failNote() {
+    var g = document.getElementById('grid'); if (!g) return;
+    PRODUCTS.length = 0; try { changed(); } catch (e) {}
+    var d = document.createElement('div'); d.style.cssText = 'grid-column:1/-1;text-align:center;padding:24px 8px;color:#6B5446';
+    d.textContent = (typeof LANG !== 'undefined' && LANG === 'en') ? 'Could not load products. Check the internet and ' : 'பொருட்களை ஏற்ற முடியவில்லை. இணையத்தைச் சரிபார்த்து ';
+    var a = document.createElement('a'); a.href = location.pathname; a.textContent = (typeof LANG !== 'undefined' && LANG === 'en') ? 'try again' : 'மீண்டும் முயற்சிக்கவும்';
+    d.appendChild(a); g.innerHTML = ''; g.appendChild(d);
+  }
 
   // வரிசை ஆர்டர் எண்: இந்த போனில் ஒதுக்கப்பட்ட, இன்னும் அனுப்பாத எண் இருந்தால் அதையே மீண்டும் பயன்படுத்து
   var RKEY = 'inimai_reserved_id';
