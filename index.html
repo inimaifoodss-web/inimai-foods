@@ -253,6 +253,59 @@ div.amain{cursor:default}
 .brow.gt{border-top:1px dashed var(--line);padding-top:8px;margin-top:2px;font-size:16px}
 .savebox{margin-top:10px;background:#E6F0FF;color:#1C4E9A;border-radius:12px;padding:10px 12px;font-weight:700;font-size:14px}
 .cempty{text-align:center;padding:24px 0;display:grid;gap:8px;justify-items:center}.cempty .ce1{font-size:56px}.cempty p{margin:0;font-weight:700;font-size:17px}.cempty .btn{min-width:220px}
+
+/* ===== கணினி (Desktop) வடிவமைப்பு: 1024px-க்கு மேல் மட்டும். மொபைல்/ஆப் மாறாது ===== */
+@media (min-width:1024px){
+body{padding-bottom:0}
+body.hasbar[data-view=home]{padding-bottom:110px}
+.top{display:grid;grid-template-columns:auto minmax(260px,1fr) auto auto auto;grid-template-areas:"logo search nav lang loc" "cats cats cats cats cats";align-items:center;column-gap:20px;padding:12px max(32px,calc((100% - 1200px)/2)) 14px}
+.toprow{display:contents}
+.logo{grid-area:logo}.logo img{height:58px}
+.search{grid-area:search;margin-top:0}
+.lang{grid-area:lang;margin:0}
+.loc{grid-area:loc;max-width:220px}
+.cats{grid-area:cats;margin-top:12px}
+.cat:hover{background:rgba(255,255,255,.25)}.cat[aria-pressed=true]:hover{background:#fff}
+.top nav{grid-area:nav;position:static;display:flex;gap:4px;background:none;border:0;z-index:auto}
+.top nav a{flex-direction:row;height:44px;padding:0 14px;gap:8px;color:#fff;font-size:15px;font-weight:600;border-radius:999px;opacity:.9}
+.top nav a:hover{background:rgba(255,255,255,.14);opacity:1}
+.top nav a svg{width:22px;height:22px}
+.top nav a[aria-current=page]{color:var(--maroon);background:#fff;opacity:1}
+.top nav a[aria-current=page]::after{display:none}
+.top nav a[data-v=cats]{display:none}
+.top nav .badge{position:static;background:#FFD54F;color:var(--maroon);font-weight:800;margin-left:-2px}
+.top nav a[aria-current=page] .badge{background:var(--maroon);color:#fff}
+.wrap{max-width:1200px;padding:0 16px}
+.banner{height:420px;margin:20px 16px 0}
+.bnTop{padding:20px 22px 0}
+.bnBody{padding:0 32px 28px;max-width:980px}
+.banner h2{font-size:36px}
+.banner p{font-size:16px}
+.perks li{font-size:14px;padding:6px 12px}
+.heroCta{display:inline-block;padding:13px 40px}
+.heroCta:hover{background:#FFF3D6}
+.slides figcaption{top:22px;right:130px}
+.special h3{font-size:22px}
+.spRow{gap:14px}
+.spCard{flex-basis:180px;transition:transform .15s,box-shadow .15s}.spCard:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.spCard img{width:180px;height:150px}.spCard b{font-size:14px}
+.appcard{display:none!important}
+.secttl{font-size:26px;margin:28px 16px 14px}
+.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:28px 22px}
+.img{height:190px;transition:box-shadow .15s}.img:hover{box-shadow:0 8px 22px rgba(0,0,0,.12)}
+.name:hover{color:var(--maroon);text-decoration:underline}
+.add:hover{background:#E6F7EA}
+.btn:hover{filter:brightness(1.08)}
+.cbar{left:auto;right:max(24px,calc((100% - 1200px)/2));bottom:24px;width:420px;max-width:none;margin:0}
+#v-cart .panel{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:0 32px;align-items:start}
+#v-cart .cartR{position:sticky;top:190px}
+#v-cart form{margin-top:0}
+#v-profile .panel,#v-orders .panel,#v-done .panel{max-width:720px;margin:0 auto}
+#v-profile .secttl,#v-orders .secttl{max-width:720px;margin-left:auto;margin-right:auto;padding:0 16px}
+.sheetbg{align-items:center}
+.sheet{border-radius:18px;max-height:85vh;animation:none}
+.sitefoot{max-width:1168px;margin:40px auto 20px;font-size:14px}
+}
 </style>
 </head>
 <body>
@@ -287,10 +340,13 @@ div.amain{cursor:default}
   <section class="view" id="v-cart">
     <div class="secttl" data-i18n="yourOrder">உங்கள் ஆர்டர்</div>
     <div class="panel">
+      <div class="cartL">
       <div class="dbox" id="deliv" hidden></div>
       <div id="lines" class="clist"></div>
       <div class="bill" id="billBox" hidden><div class="billH" data-i18n="billDet">பில் விவரம்</div><div id="billRows"></div><div class="brow gt"><b data-i18n="grand">செலுத்த வேண்டியது</b><b id="total"></b></div></div>
       <div class="savebox" id="saveBox" hidden></div>
+      </div>
+      <div class="cartR">
       <form id="form" novalidate>
         <div id="acctBox"></div>
         <div hidden><input type="text" id="name" tabindex="-1"><input type="tel" id="phone" tabindex="-1"><textarea id="address" tabindex="-1"></textarea></div>
@@ -326,6 +382,7 @@ div.amain{cursor:default}
           <label><span data-i18n="utr">UTR / பரிவர்த்தனை எண் (விருப்பம்)</span><input type="text" id="utr" inputmode="numeric"></label>
         </div>
         <a class="btn" id="wa" href="#" target="_blank" rel="noopener" data-i18n="sendPaid" style="margin-top:12px">பணம் செலுத்தினேன் – WhatsApp-ல் அனுப்பு</a>
+      </div>
       </div>
     </div>
   </section>
@@ -747,6 +804,10 @@ function show(v){
   document.querySelectorAll('nav a').forEach(function(a){ if(a.dataset.v===v || (v==='orders' && a.dataset.v==='profile')) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
 }
 function route(){ var h=(location.hash||'#home').slice(1); show(['home','cats','cart','profile','orders'].indexOf(h)>-1 ? h : 'home'); }
+// கணினியில் கீழே உள்ள மெனுவை மேலே தலைப்புப் பகுதிக்கு நகர்த்து; மொபைலில் கீழேயே இருக்கும்
+(function(){ var nav=document.querySelector('nav'), top=document.querySelector('.top'), mq=window.matchMedia('(min-width:1024px)'), home=nav.parentNode, after=nav.nextSibling;
+  function place(){ if(mq.matches){ if(nav.parentNode!==top) top.appendChild(nav); } else if(nav.parentNode!==home){ home.insertBefore(nav, after); } }
+  place(); if(mq.addEventListener) mq.addEventListener('change',place); else mq.addListener(place); })();
 window.addEventListener('hashchange', route); window.addEventListener('popstate', route);
 $('heroCta').addEventListener('click', function(e){ e.preventDefault(); var g=$('gridTitle'), top=document.querySelector('.top'); window.scrollTo({top: g.getBoundingClientRect().top + window.scrollY - (top?top.offsetHeight:0) - 8, behavior:'smooth'}); });
 // Any in-page link (#cart, #home, #orders…) always switches view, even when the address bar already shows that hash
