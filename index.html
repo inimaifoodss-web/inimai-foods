@@ -55,10 +55,10 @@ body{font-family:'Noto Sans Tamil',sans-serif;background:#fff;color:var(--ink);l
 .slides img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.02)}
 .slides figure.on img{animation:kb 4.5s ease-out forwards}
 @keyframes kb{to{transform:scale(1.12)}}
-.slides figcaption{position:absolute;left:18px;right:18px;bottom:44px;font-family:"Baloo Thambi 2","Noto Sans Tamil",sans-serif;font-size:26px;font-weight:800;line-height:1.15;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.45);opacity:0;transform:translateY(10px);transition:opacity .7s .3s,transform .7s .3s}
+.slides figcaption{position:absolute;z-index:1;left:18px;right:18px;bottom:44px;font-family:"Baloo Thambi 2","Noto Sans Tamil",sans-serif;font-size:26px;font-weight:800;line-height:1.15;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.45);opacity:0;transform:translateY(10px);transition:opacity .7s .3s,transform .7s .3s}
 .slides figure.on figcaption{opacity:1;transform:none}
 .slides figcaption::before{content:"";display:block;width:36px;height:4px;border-radius:4px;background:#FFD54F;margin-bottom:8px}
-.banner::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(30,4,12,.30) 0%,rgba(30,4,12,0) 24%,rgba(30,4,12,0) 50%,rgba(30,4,12,.78) 100%)}
+.slides figure::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(30,4,12,.30) 0%,rgba(30,4,12,0) 24%,rgba(30,4,12,0) 50%,rgba(30,4,12,.78) 100%)}
 .bnTop{display:flex;justify-content:space-between;align-items:flex-start;padding:14px 14px 0}
 .bnBody{position:absolute;left:0;bottom:0;padding:0 18px 22px;pointer-events:none}
 .bannerLogo{width:78px;background:#fff;border-radius:14px;padding:5px 3px;box-shadow:0 4px 14px rgba(0,0,0,.3);display:flex;justify-content:center}
