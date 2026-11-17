@@ -49,8 +49,19 @@
     try { changed(); } catch (e) {}
   }
 
-  try { var cached = JSON.parse(localStorage.getItem(KEY) || 'null'); if (cached) apply(cached); } catch (e) {}
-  fetch(URL_ + '?api=products', { method: 'GET', redirect: 'follow' })
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(KEY) || 'null'); if (cached) apply(cached); } catch (e) {}
+  // முதல் முறை திறக்கும்போது (சேமித்த பட்டியல் இல்லை): Sheet பட்டியல் வரும் வரை பொருட்களைக் காட்டாதே,
+  // இல்லையெனில் அட்மினில் "மறை" செய்த பொருட்கள் சில நொடிகள் தெரியும். 10 நொடியில் வரவில்லை என்றால் உள்ளே உள்ள பட்டியல்.
+  var wait = !cached;
+  if (wait) {
+    var st = document.createElement('style'); st.id = 'pwait';
+    st.textContent = 'body.pwait #grid,body.pwait #spRow{visibility:hidden}body.pwait #gridTitle::after{content:" …";}';
+    document.head.appendChild(st); document.body.classList.add('pwait');
+  }
+  function ready() { document.body.classList.remove('pwait'); }
+  var tmo = setTimeout(ready, 10000);
+  fetch(URL_ + '?api=products', { method: 'GET', redirect: 'follow', cache: 'no-store' })
     .then(function (r) { return r.json(); })
     .then(function (j) {
       if (j && j.ok && j.products && j.products.length) {
@@ -58,7 +69,8 @@
         try { localStorage.setItem(KEY, JSON.stringify(j.products)); } catch (e) {}
       }
     })
-    .catch(function () {});
+    .catch(function () {})
+    .then(function () { clearTimeout(tmo); ready(); });
 
   // வரிசை ஆர்டர் எண்: இந்த போனில் ஒதுக்கப்பட்ட, இன்னும் அனுப்பாத எண் இருந்தால் அதையே மீண்டும் பயன்படுத்து
   var RKEY = 'inimai_reserved_id';
