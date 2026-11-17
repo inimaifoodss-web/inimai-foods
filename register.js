@@ -20,6 +20,10 @@
     kSuper: 'சூப்பர் மார்க்கெட்', kBakery: 'பேக்கரி', kGrocery: 'மளிகை கடை', kTea: 'டீ கடை / கேண்டீன்', kHotel: 'ஹோட்டல் / உணவகம்', kOther: 'மற்றவை',
     errShop: 'கடை பெயரை உள்ளிடவும்.', errKind: 'கடை வகையைத் தேர்ந்தெடுக்கவும்.', errOwner: 'உரிமையாளர் பெயரை உள்ளிடவும்.',
     errPin: 'சரியான 6 இலக்க பின்கோடு உள்ளிடவும்.', errGst: 'GST எண் 15 எழுத்து / எண் இருக்க வேண்டும்.',
+    vH: '📲 WhatsApp-ல் உறுதி செய்யுங்கள்', vP: 'உங்கள் மொபைல் {p} உங்களுடையது என்று உறுதி செய்ய, கீழே உள்ள பச்சை பட்டனை அழுத்துங்கள். WhatsApp-ல் செய்தி தயாராக இருக்கும் – அங்கே Send அழுத்துங்கள்.',
+    vCode: 'உங்கள் உறுதி குறியீடு', vSend: 'WhatsApp-ல் குறியீட்டை அனுப்பு', vGo: 'அனுப்பினேன் – தொடரவும் →', vBack: '← விவரங்களை மாற்று',
+    vNote: 'இதே மொபைல் எண்ணின் WhatsApp-லிருந்து அனுப்ப வேண்டும்.', vSent: '✓ WhatsApp-ல் Send அழுத்தியிருந்தால், இப்போது "தொடரவும்" அழுத்துங்கள்.',
+    vMsg: 'வணக்கம் இனிமை பேக்ஹவுஸ்! கடை பதிவு உறுதி.\nகடை: {s}\nமொபைல்: {p}\nகுறியீடு: {c}',
     hello: 'வணக்கம்', helloSub: 'இன்றைய புதிய பொருட்களைப் பார்த்து ஆர்டர் செய்யுங்கள்.',
     myShop: 'என் கடை', shopEdit: '🏪 கடை விவரத்தை மாற்று', welcome: '✓ பதிவு முடிந்தது! இனிமை பேக்ஹவுஸுக்கு வரவேற்கிறோம்.'
   });
@@ -41,6 +45,10 @@
     kSuper: 'Supermarket', kBakery: 'Bakery', kGrocery: 'Grocery store', kTea: 'Tea shop / canteen', kHotel: 'Hotel / restaurant', kOther: 'Other',
     errShop: 'Enter the shop name.', errKind: 'Choose the shop type.', errOwner: 'Enter the owner name.',
     errPin: 'Enter a valid 6-digit PIN code.', errGst: 'GST number must be 15 letters / digits.',
+    vH: '📲 Verify on WhatsApp', vP: 'To confirm that {p} is your number, tap the green button below. WhatsApp opens with a ready message – tap Send there.',
+    vCode: 'Your verification code', vSend: 'Send code on WhatsApp', vGo: 'I have sent it – continue →', vBack: '← Change details',
+    vNote: 'Send it from the WhatsApp of this same mobile number.', vSent: '✓ If you tapped Send in WhatsApp, now tap "Continue".',
+    vMsg: 'Hello Inimai Bakehouse! Shop registration verification.\nShop: {s}\nMobile: {p}\nCode: {c}',
     hello: 'Welcome', helloSub: 'See today\'s fresh products and place your order.',
     myShop: 'My shop', shopEdit: '🏪 Edit shop details', welcome: '✓ Registered! Welcome to Inimai Bakehouse.'
   });
@@ -94,6 +102,11 @@
     '.ghello .av{flex:none;width:44px;height:44px;border-radius:50%;background:#7A1532;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px}',
     '.ghello b{display:block;font-family:"Baloo Thambi 2","Noto Sans Tamil",sans-serif;font-weight:800;font-size:19px;color:#7A1532;line-height:1.2}',
     '.ghello small{display:block;color:#6B5446;font-size:13px}',
+    '.gcode{display:grid;justify-items:center;gap:2px;background:#FFF8EE;border:1.5px dashed #C8892B;border-radius:16px;padding:14px;margin:4px 0 14px}',
+    '.gcode small{font-size:13px;color:#6B5446;font-weight:600}.gcode b{font-size:38px;letter-spacing:.3em;color:#7A1532;font-family:"Baloo Thambi 2",sans-serif;font-weight:800;padding-left:.3em}',
+    '.gwa{display:flex;align-items:center;justify-content:center;gap:8px;min-height:56px;border-radius:14px;background:#1E9E4A;color:#fff;font-weight:800;font-size:17px;text-decoration:none;box-shadow:0 10px 22px rgba(30,158,74,.3)}',
+    '.gnote.ok{color:#1E7B34;font-weight:600}',
+    '.gback{font:inherit;font-size:14px;color:#7A1532;background:none;border:0;cursor:pointer;text-decoration:underline;justify-self:center}',
     '.gtoast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);z-index:1001;background:#1E7B34;color:#fff;border-radius:16px;padding:10px 18px;font-weight:700;font-size:14px;box-shadow:0 10px 24px rgba(0,0,0,.25);max-width:calc(100% - 32px);text-align:center}',
     '@media (min-width:900px){',
     ' .gwrap{grid-template-columns:1.1fr .9fr;grid-template-areas:"top top" "hero card" "ben card" "foot foot";grid-template-rows:auto auto 1fr auto;column-gap:56px;row-gap:22px;padding:36px 32px 40px}',
@@ -114,6 +127,7 @@
   var EDITING = false, kind = '', loc = null;
 
   function reg() { var c = acct(); return c && c.reg ? c.reg : null; }
+  function done() { var r = reg(); return !!(r && r.waOk); }
   function el(tag, cls, text, attrs) { return h(tag, cls, text, attrs); }
 
   function draw() {
@@ -217,17 +231,44 @@
       var areaTxt = R.area + (R.pin ? ' - ' + R.pin : ''), sa = c2.addrs.filter(function (x) { return x.shopReg; })[0];
       if (!sa) { sa = {id: newId(), label: 'shop', shopReg: true}; c2.addrs.unshift(sa); }
       sa.line = R.addr; sa.area = areaTxt; if (loc) { sa.lat = loc.lat; sa.lng = loc.lng; }
+      var old = c2.reg && c2.reg.waOk && was === ph ? c2.reg : null;
+      c2.reg.code = (c2.reg && c2.reg.code && was === ph) ? c2.reg.code : String(1000 + Math.floor(Math.random() * 9000));
+      c2.reg.waOk = !!old;
       c2.sel = sa.id; saveAccts(all); store('inimai_cur', ph);
       send();
-      var first = !EDITING; close();
-      if (first) toast(t('welcome'));
+      if (!c2.reg.waOk) { verify(); return; }
+      close();
     });
+  }
+
+  // WhatsApp உறுதி (இலவசம்): வாடிக்கையாளர் தன் WhatsApp-லிருந்து குறியீட்டுடன் கடைக்கு செய்தி அனுப்புவார்.
+  // செய்தி வந்த எண் = பதிவு செய்த எண் என்று உரிமையாளர் பார்த்து, Sheet-ல் "WhatsApp உறுதி" column-ல் ✓ போடலாம்.
+  function verify() {
+    var r = reg(), card = gate.querySelector('.gcard'); if (!r || !card) return;
+    card.innerHTML = '';
+    card.appendChild(el('h2', null, t('vH')));
+    card.appendChild(el('p', 'gsub', t('vP').replace('{p}', '+91 ' + curPhone())));
+    var box = el('div', 'gcode'); box.appendChild(el('small', null, t('vCode'))); box.appendChild(el('b', null, r.code)); card.appendChild(box);
+    var text = t('vMsg').replace('{s}', r.shop).replace('{p}', curPhone()).replace('{c}', r.code);
+    var wa = el('a', 'gwa', t('vSend'), {href: 'https://wa.me/' + ORDER_WHATSAPP + '?text=' + encodeURIComponent(text), target: '_blank', rel: 'noopener'});
+    var go = el('button', 'ggo', t('vGo'), {type: 'button'}); go.disabled = true;
+    var note = el('p', 'gnote', t('vNote'));
+    wa.addEventListener('click', function () { go.disabled = false; note.textContent = t('vSent'); note.className = 'gnote ok'; });
+    go.addEventListener('click', function () {
+      var all = accts(), ph = curPhone(); if (!all[ph] || !all[ph].reg) return;
+      var first = !all[ph].reg.waAt; all[ph].reg.waOk = true; all[ph].reg.waAt = Date.now(); saveAccts(all);
+      close(); if (first) toast(t('welcome'));
+    });
+    var back = el('button', 'gback', t('vBack'), {type: 'button'});
+    back.addEventListener('click', function () { draw(); });
+    var f = el('div', 'gf'); [wa, note, go, back].forEach(function (x) { f.appendChild(x); }); card.appendChild(f);
+    gate.scrollTop = 0; card.scrollIntoView({block: 'start'});
   }
 
   // முகப்பில் "வணக்கம், <பெயர்>" வரவேற்பு
   function hello() {
     var r = reg(), home = $('v-home'), x = $('ghello');
-    if (!r || !home) { if (x) x.remove(); return; }
+    if (!done() || !home) { if (x) x.remove(); return; }
     if (!x) { x = el('div', 'ghello', null, {id: 'ghello', role: 'status'}); home.insertBefore(x, home.firstChild); }
     x.innerHTML = '';
     x.appendChild(el('span', 'av', (r.owner || r.shop || '?').trim().charAt(0).toUpperCase(), {'aria-hidden': 'true'}));
@@ -240,7 +281,7 @@
   function send() {
     var u = (window.INIMAI_SHEET_URL || '').trim(), c = acct(), r = reg();
     if (!u || !r || r.synced) return;
-    var body = {type: 'register', shop: r.shop, kind: r.kind, owner: r.owner, phone: curPhone(), addr: r.addr, area: r.area, pin: r.pin, gst: r.gst,
+    var body = {type: 'register', code: r.code, shop: r.shop, kind: r.kind, owner: r.owner, phone: curPhone(), addr: r.addr, area: r.area, pin: r.pin, gst: r.gst,
       lat: r.lat, lng: r.lng, lang: LANG};
     var ph = curPhone();
     fetch(u, {method: 'POST', headers: {'Content-Type': 'text/plain;charset=utf-8'}, body: JSON.stringify(body)})
@@ -254,16 +295,16 @@
 
   function open(edit) { EDITING = !!edit; kind = ''; loc = null; draw(); gate.hidden = false; gate.scrollTop = 0; document.body.classList.add('gated'); }
   function close() {
-    if (!reg()) return;   // பதிவு செய்யாமல் மூட முடியாது
+    if (!done()) return;   // பதிவு + WhatsApp உறுதி செய்யாமல் மூட முடியாது
     gate.hidden = true; document.body.classList.remove('gated'); EDITING = false;
     try { syncFields(); renderAcctOrig(); } catch (e) {}
     profileShop(); hello();
   }
-  function check() { if (!reg()) { if (gate.hidden || EDITING) open(false); } else if (!gate.hidden && !EDITING) close(); }
+  function check() { if (!done()) { if (gate.hidden || EDITING) open(false); } else if (!gate.hidden && !EDITING) close(); }
 
   // Profile பக்கத்தில் "என் கடை" விவரமும் மாற்றும் பட்டனும்
   function profileShop() {
-    var pf = $('profBox'), r = reg(); if (!pf || !r) return;
+    var pf = $('profBox'), r = reg(); if (!pf || !r || !done()) return;
     var old = pf.querySelector('.shopbox'); if (old) old.remove();
     var b = el('div', 'shopbox', null, {style: 'margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--cream)'});
     var k = KINDS.filter(function (x) { return x[0] === r.kind; })[0];

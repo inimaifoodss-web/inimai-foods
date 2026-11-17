@@ -93,7 +93,7 @@
     var L = T[b.lang] || T.ta;
     var body = {
       id: b.id, lang: b.lang, name: b.name, phone: b.phone, addr: b.address, date: b.date, note: b.note,
-      pay: b.pay === 'upi' ? L.mPayUpi : L.mPayCod, utr: b.pay === 'upi' ? b.utr : '',
+      pay: b.pay === 'upi' ? L.mPayUpi : L.mPayCod, utr: b.pay === 'upi' ? b.utr : '', payer: b.pay === 'upi' ? (b.payer || '') : '',
       items: b.items.map(function (i) { return [i.n, i.u, i.q, i.pr]; }),
       goods: b.unknown ? 0 : b.sum - b.fee, fee: b.fee, total: b.sum
     };
