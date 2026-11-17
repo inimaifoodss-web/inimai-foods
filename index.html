@@ -48,17 +48,19 @@ body{font-family:'Noto Sans Tamil',sans-serif;background:#fff;color:var(--ink);l
 .cats::-webkit-scrollbar{display:none}
 .cat{flex:0 0 auto;display:flex;align-items:center;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.7);border-radius:999px;color:#fff;font:inherit;font-size:14px;font-weight:600;cursor:pointer;padding:0 16px;min-height:44px;white-space:nowrap}
 .cat[aria-pressed=true]{background:#fff;color:var(--maroon);border-color:#fff}
-.banner{margin:14px 16px 0;border-radius:22px;overflow:hidden;position:relative;height:440px;background:#5E0F28;color:#fff;box-shadow:0 10px 28px rgba(94,15,40,.3);isolation:isolate}
+.banner{margin:14px 16px 0;border-radius:22px;overflow:hidden;position:relative;height:380px;background:#5E0F28;color:#fff;box-shadow:0 10px 28px rgba(94,15,40,.3);isolation:isolate}
 .slides{position:absolute;inset:0;z-index:-2}
 .slides figure{position:absolute;inset:0;margin:0;opacity:0;transition:opacity 1s ease}
 .slides figure.on{opacity:1}
 .slides img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.02)}
 .slides figure.on img{animation:kb 4.5s ease-out forwards}
 @keyframes kb{to{transform:scale(1.12)}}
-.slides figcaption{position:absolute;right:14px;top:112px;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);font-size:12px;font-weight:700;border-radius:999px;padding:4px 10px}
-.banner::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(40,5,16,.35) 0%,rgba(40,5,16,0) 22%,rgba(94,15,40,0) 42%,rgba(94,15,40,.9) 68%,#5E0F28 100%)}
+.slides figcaption{position:absolute;z-index:1;left:18px;right:18px;bottom:44px;font-family:"Baloo Thambi 2","Noto Sans Tamil",sans-serif;font-size:26px;font-weight:800;line-height:1.15;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.45);opacity:0;transform:translateY(10px);transition:opacity .7s .3s,transform .7s .3s}
+.slides figure.on figcaption{opacity:1;transform:none}
+.slides figcaption::before{content:"";display:block;width:36px;height:4px;border-radius:4px;background:#FFD54F;margin-bottom:8px}
+.slides figure::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(30,4,12,.30) 0%,rgba(30,4,12,0) 24%,rgba(30,4,12,0) 50%,rgba(30,4,12,.78) 100%)}
 .bnTop{display:flex;justify-content:space-between;align-items:flex-start;padding:14px 14px 0}
-.bnBody{position:absolute;left:0;right:0;bottom:0;padding:0 18px 18px}
+.bnBody{position:absolute;left:0;bottom:0;padding:0 18px 22px;pointer-events:none}
 .bannerLogo{width:78px;background:#fff;border-radius:14px;padding:5px 3px;box-shadow:0 4px 14px rgba(0,0,0,.3);display:flex;justify-content:center}
 .bannerLogo img{width:70px;height:auto}
 .bnTag{display:inline-block;background:#FFD54F;color:#5E0F28;font-weight:800;font-size:12.5px;border-radius:999px;padding:5px 11px;box-shadow:0 3px 10px rgba(0,0,0,.25)}
@@ -67,7 +69,7 @@ body{font-family:'Noto Sans Tamil',sans-serif;background:#fff;color:var(--ink);l
 @keyframes pulse{50%{transform:scale(1.08)}}
 .banner h2{margin:0;font-size:27px;line-height:1.2;font-weight:800;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.35)}
 .banner p{margin:6px 0 0;font-size:14px;color:#FBE3EA;line-height:1.4}
-.dots{display:flex;gap:5px;margin-top:12px}.dots i{width:7px;height:7px;border-radius:99px;background:rgba(255,255,255,.45);transition:width .3s}.dots i.on{width:20px;background:#FFD54F}
+.dots{display:flex;gap:5px;margin-top:0}.dots i{width:7px;height:7px;border-radius:99px;background:rgba(255,255,255,.45);transition:width .3s}.dots i.on{width:20px;background:#FFD54F}
 .special{margin:18px 0 0}
 .special h3{margin:0 16px 8px;font-size:19px;color:var(--maroon);display:flex;align-items:center;gap:6px}
 .spRow{display:flex;gap:10px;overflow-x:auto;padding:2px 16px 8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}.spRow::-webkit-scrollbar{display:none}
@@ -277,15 +279,15 @@ body.hasbar[data-view=home]{padding-bottom:110px}
 .top nav .badge{position:static;background:#FFD54F;color:var(--maroon);font-weight:800;margin-left:-2px}
 .top nav a[aria-current=page] .badge{background:var(--maroon);color:#fff}
 .wrap{max-width:1200px;padding:0 16px}
-.banner{height:420px;margin:20px 16px 0}
+.banner{height:460px;margin:20px 16px 0}
 .bnTop{padding:20px 22px 0}
-.bnBody{padding:0 32px 28px;max-width:980px}
+.bnBody{padding:0 32px 30px}
 .banner h2{font-size:36px}
 .banner p{font-size:16px}
 .perks li{font-size:14px;padding:6px 12px}
 .heroCta{display:inline-block;padding:13px 40px}
 .heroCta:hover{background:#FFF3D6}
-.slides figcaption{top:22px;right:130px}
+.slides figcaption{left:32px;bottom:58px;font-size:40px}
 .special h3{font-size:22px}
 .spRow{gap:14px}
 .spCard{flex-basis:180px;transition:transform .15s,box-shadow .15s}.spCard:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.12)}
@@ -330,7 +332,7 @@ body.hasbar[data-view=home]{padding-bottom:110px}
     <div class="banner" id="hero">
       <div class="slides" id="slides" aria-hidden="true"></div>
       <div class="bnTop"><div><span class="bnTag" data-i18n="bnTag">🔥 தினமும் புதிதாகச் சுட்டது</span><br><span class="bnOff" id="bnOff" hidden></span></div><div class="bannerLogo"><img src="logo.png" alt="" width="120" height="92" class="logoTa"><div class="logoEn" aria-hidden="true"><svg viewBox="0 2 120 72" class="lt" aria-hidden="true"><path d="M60 70 C38 76 14 64 4 42 C26 38 48 50 60 70Z" fill="#F48FB1" stroke="#7A1532" stroke-width="1.6"/><path d="M60 70 C82 76 106 64 116 42 C94 38 72 50 60 70Z" fill="#F48FB1" stroke="#7A1532" stroke-width="1.6"/><path d="M60 68 C42 62 30 42 34 18 C50 28 58 46 60 68Z" fill="#EC407A" stroke="#7A1532" stroke-width="1.6"/><path d="M60 68 C78 62 90 42 86 18 C70 28 62 46 60 68Z" fill="#EC407A" stroke="#7A1532" stroke-width="1.6"/><path d="M60 4 C74 22 74 50 60 68 C46 50 46 22 60 4Z" fill="#C2185B" stroke="#7A1532" stroke-width="1.6"/><path d="M60 14 C65 28 65 46 60 58" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.2" stroke-linecap="round"/></svg><div class="lw">Inimai</div><svg viewBox="0 0 620 40" class="lf" aria-hidden="true"><path d="M10 6 Q310 50 610 6 Q310 26 10 6Z" fill="#2E7D32"/></svg><div class="ls">BAKEHOUSE</div><div class="lg">Freshness in Every Bite</div></div></div></div>
-      <div class="bnBody"><h2 data-i18n="bannerH">அடுப்பிலிருந்து நேராக உங்கள் கடைக்கு</h2><ul class="perks"><li data-i18n="hl1"></li><li data-i18n="hl2"></li><li data-i18n="hl3"></li></ul><a href="#grid" class="heroCta" id="heroCta" data-i18n="heroCta">இப்போதே ஆர்டர் செய்யுங்கள் ↓</a><div class="dots" id="dots"></div></div>
+      <div class="bnBody"><div class="dots" id="dots"></div></div>
     </div>
     <div class="special"><h3 data-i18n="special">⭐ இன்றைய ஸ்பெஷல் கேக்குகள்</h3><div class="spRow" id="spRow"></div></div>
     <div class="appcard" data-dismiss hidden><div class="appTop"><img src="icon-192-bh.png" alt="" width="52" height="52"><div><div class="appH"></div><p class="appP"></p></div></div><button type="button" class="appX" hidden>×</button><button type="button" class="btn appBtn"></button><div class="appHelp" hidden></div></div>
@@ -809,7 +811,7 @@ function route(){ var h=(location.hash||'#home').slice(1); show(['home','cats','
   function place(){ if(mq.matches){ if(nav.parentNode!==top) top.appendChild(nav); } else if(nav.parentNode!==home){ home.insertBefore(nav, after); } }
   place(); if(mq.addEventListener) mq.addEventListener('change',place); else mq.addListener(place); })();
 window.addEventListener('hashchange', route); window.addEventListener('popstate', route);
-$('heroCta').addEventListener('click', function(e){ e.preventDefault(); var g=$('gridTitle'), top=document.querySelector('.top'); window.scrollTo({top: g.getBoundingClientRect().top + window.scrollY - (top?top.offsetHeight:0) - 8, behavior:'smooth'}); });
+if ($('heroCta')) $('heroCta').addEventListener('click', function(e){ e.preventDefault(); var g=$('gridTitle'), top=document.querySelector('.top'); window.scrollTo({top: g.getBoundingClientRect().top + window.scrollY - (top?top.offsetHeight:0) - 8, behavior:'smooth'}); });
 // Any in-page link (#cart, #home, #orders…) always switches view, even when the address bar already shows that hash
 document.addEventListener('click', function(e){
   var a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a || a.id==='heroCta') return;
@@ -1187,7 +1189,7 @@ applyLang(); route();
 </script>
 <script>var INIMAI_SHEET_URL="https://script.google.com/macros/s/AKfycbyaF_V5V1rTAAw7ThcS2AA8eqnMxblwXB9lllKXRVU3UGpcupzZ93vZSIpg6hvz5PU_2g/exec"; // Google Sheet Web app URL (https://script.google.com/macros/s/…/exec)</script>
 <script src="sheet-connect.js?v=21"></script>
-<script src="register.js?v=3"></script>
+<script src="register.js?v=4"></script>
 <script src="pwa.js"></script>
 </body>
 </html>
