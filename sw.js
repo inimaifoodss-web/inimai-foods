@@ -1,10 +1,10 @@
-// Inimai Bakehouse – service worker.
+// Inimai Foods – service worker.
 // Files from this site: network first (menu/prices always fresh), saved copy only when offline.
 // Google Sheet / Apps Script calls and other sites are never intercepted or cached,
 // so orders and prices stay live.
-var CACHE = 'inimai-v29';
+var CACHE = 'inimai-v30';
 var CORE = ['./', 'index.html', 'sheet-connect.js', 'register.js', 'pwa.js', 'logo.png', 'qr.png',
-            'manifest.webmanifest', 'icon-192-bh.png', 'icon-512-bh.png', 'apple-touch-icon-bh.png'];
+            'manifest.webmanifest', 'icon-192-if.png', 'icon-512-if.png', 'apple-touch-icon-if.png'];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(CORE); }).then(function () { return self.skipWaiting(); }));
