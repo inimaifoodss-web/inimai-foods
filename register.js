@@ -1,4 +1,4 @@
-// இனிமை பேக்ஹவுஸ் – கடை பதிவு (கடைகள் / சூப்பர் மார்க்கெட்டுகளுக்கு மட்டும்)
+// இனிமை ஃபுட்ஸ் – கடை பதிவு (கடைகள் / சூப்பர் மார்க்கெட்டுகளுக்கு மட்டும்)
 // யார் வேண்டுமானாலும் பொருட்களைப் பார்க்கலாம் (விலை இல்லாமல்). விலை & ஆர்டர்:
 // கடை பதிவு + WhatsApp உறுதி + உரிமையாளர் அட்மின் ஆப்பில் "அனுமதி" கொடுத்த பிறகு மட்டும்.
 // விவரம் Google Sheet-ன் "Users" tab-க்கு அனுப்பப்படும் (இணையம் இல்லையெனில் அடுத்த முறை மீண்டும் அனுப்பும்).
@@ -24,7 +24,7 @@
     vH: '📲 WhatsApp-ல் உறுதி செய்யுங்கள்', vP: 'உங்கள் மொபைல் {p} உங்களுடையது என்று உறுதி செய்ய, கீழே உள்ள பச்சை பட்டனை அழுத்துங்கள். WhatsApp-ல் செய்தி தயாராக இருக்கும் – அங்கே Send அழுத்துங்கள்.',
     vCode: 'உங்கள் உறுதி குறியீடு', vSend: 'WhatsApp-ல் குறியீட்டை அனுப்பு', vGo: 'அனுப்பினேன் – தொடரவும் →', vBack: '← விவரங்களை மாற்று',
     vNote: 'இதே மொபைல் எண்ணின் WhatsApp-லிருந்து அனுப்ப வேண்டும்.', vSent: '✓ WhatsApp-ல் Send அழுத்தியிருந்தால், இப்போது "தொடரவும்" அழுத்துங்கள்.',
-    vMsg: 'வணக்கம் இனிமை பேக்ஹவுஸ்! கடை பதிவு உறுதி.\nகடை: {s}\nமொபைல்: {p}\nகுறியீடு: {c}',
+    vMsg: 'வணக்கம் இனிமை ஃபுட்ஸ்! கடை பதிவு உறுதி.\nகடை: {s}\nமொபைல்: {p}\nகுறியீடு: {c}',
     hello: 'வணக்கம்', helloSub: 'இன்றைய புதிய பொருட்களைப் பார்த்து ஆர்டர் செய்யுங்கள்.',
     guestH: '👀 எங்கள் பொருட்களைப் பாருங்கள்', guestP: 'ஆர்டர் செய்ய, கீழே உள்ள பட்டனை அழுத்தி உங்கள் கடையைப் பதிவு செய்யுங்கள்.',
     guestBtn: '🏪 கடை பதிவு செய்து ஆர்டர் செய்யுங்கள் →', guestBar: '🏪 கடை பதிவு செய்யுங்கள்', guestBarS: 'ஆர்டர் செய்ய இங்கே அழுத்துங்கள்',
@@ -58,7 +58,7 @@
     vH: '📲 Verify on WhatsApp', vP: 'To confirm that {p} is your number, tap the green button below. WhatsApp opens with a ready message – tap Send there.',
     vCode: 'Your verification code', vSend: 'Send code on WhatsApp', vGo: 'I have sent it – continue →', vBack: '← Change details',
     vNote: 'Send it from the WhatsApp of this same mobile number.', vSent: '✓ If you tapped Send in WhatsApp, now tap "Continue".',
-    vMsg: 'Hello Inimai Bakehouse! Shop registration verification.\nShop: {s}\nMobile: {p}\nCode: {c}',
+    vMsg: 'Hello Inimai Foods! Shop registration verification.\nShop: {s}\nMobile: {p}\nCode: {c}',
     hello: 'Welcome', helloSub: 'See today\'s fresh products and place your order.',
     guestH: '👀 Take a look at our products', guestP: 'To order, tap the button below and register your shop.',
     guestBtn: '🏪 Register your shop to order →', guestBar: '🏪 Register your shop', guestBarS: 'Tap here to order',
@@ -69,7 +69,7 @@
     remH: '🚫 Access for your shop has been stopped', remP: 'Please contact us on WhatsApp for details.', remBar: '🚫 No access – contact us',
     approved: '✓ Your shop is approved! You can now see prices and order.', myShopReg: 'Shop registration', myShopRegP: 'Register your shop to see prices and order.',
     stPending: '⏳ Waiting for approval', stApproved: '✓ Approved', stRemoved: '🚫 Access stopped',
-    myShop: 'My shop', shopEdit: '🏪 Edit shop details', welcome: '✓ Registered! Welcome to Inimai Bakehouse.'
+    myShop: 'My shop', shopEdit: '🏪 Edit shop details', welcome: '✓ Registered! Welcome to Inimai Foods.'
   });
   var KINDS = [['supermarket', '🛒', 'kSuper'], ['bakery', '🥐', 'kBakery'], ['grocery', '🏪', 'kGrocery'], ['tea', '☕', 'kTea'], ['hotel', '🍽️', 'kHotel'], ['other', '➕', 'kOther']];
 
